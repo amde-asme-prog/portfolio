@@ -15,12 +15,12 @@ import { VscCallIncoming } from "react-icons/vsc";
 const Home = () => {
 	const referenceIcons = [
 		{
-			href: "https://github.com/amdebirhanasmamaw",
+			href: "https://github.com/amde-asme-prog",
 			label: "GitHub",
 			icon: <FaGithub />,
 		},
 		{
-			href: "https://www.linkedin.com/in/amdebirhanasmamaw/",
+			href: "https://www.linkedin.com/in/amdebirhan-asmamaw",
 			label: "LinkedIn",
 			icon: <FaLinkedin />,
 		},
@@ -82,7 +82,7 @@ const Home = () => {
 			</div>
 			<div className="flex w-full lg:w-1/2 items-center justify-center bg-contain overflow-hidden">
 				<img
-					src="./../assets/coder.svg"
+					src="/assets/coder.svg"
 					alt="coding"
 					className="max-w-full h-auto  transition-transform scale-150"
 				/>

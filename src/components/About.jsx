@@ -31,7 +31,7 @@ const About = () => {
 						</h1>
 					</div>
 					<img
-						src="./../assets/Cinematic_Kino_To_create_a_persistence_image_you_should_utiliz_1.jpg"
+						src="/assets/Cinematic_Kino_To_create_a_persistence_image_you_should_utiliz_1.jpg"
 						className="w-full bg-cover rounded-2xl shadow-2xl"
 						alt="about"
 					/>
