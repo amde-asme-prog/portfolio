@@ -82,7 +82,7 @@ const Home = () => {
 			</div>
 			<div className="flex w-full lg:w-1/2 items-center justify-center bg-contain overflow-hidden">
 				<img
-					src="../../src/assets/coder.svg"
+					src="./../assets/coder.svg"
 					alt="coding"
 					className="max-w-full h-auto  transition-transform scale-150"
 				/>
