@@ -44,6 +44,7 @@ const Navbar = (props) => {
 			localStorage.setItem("color-theme", "light");
 			setDarkMode(false);
 		}
+		setShowMenu(false);
 	};
 
 	//! when the app mounts, checking if the user has a color-theme stored in local storage
@@ -68,7 +69,13 @@ const Navbar = (props) => {
 
 	useEffect(() => {
 		//! Adding scroll event listener
-		window.addEventListener("scroll", handleScroll);
+		["scroll", "ontouchmove", "ontouchstart", "onclick"].forEach((event) =>
+			window.addEventListener(event, handleScroll)
+		);
+		// window.addEventListener(
+		// 	["scroll", "ontouchmove", "ontouchstart"],
+		// 	handleScroll
+		// );
 		//! Cleaning up the event listener
 		return () => {
 			window.removeEventListener("scroll", handleScroll);

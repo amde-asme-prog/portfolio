@@ -4,7 +4,7 @@ export default function Experience() {
 	const experience = [
 		{
 			title: "Full Stack Developer Intern",
-			text: `XYZ Company
+			text: `ASTC
 					Jan 2024 - Jun 2024
 					- Developed and maintained web applications using React and Node.js.
 					- Collaborated with the UI/UX team to create responsive interfaces.

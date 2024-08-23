@@ -29,7 +29,7 @@ export default function Testimonials() {
 			{testimonials.map((testimonial, index) => (
 				<div
 					key={index}
-					className="bg-background_secondary w-44 shadow-md rounded-lg p-4 mb-6 text-center flex flex-col justify-around items-center ">
+					className="bg-background_secondary  w-44 shadow-md rounded-lg p-4 mb-6 text-center flex flex-col justify-around items-center ">
 					<img
 						src={testimonial.photo}
 						alt={testimonial.name}

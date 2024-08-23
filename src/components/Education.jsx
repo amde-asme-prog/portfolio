@@ -5,27 +5,31 @@ export default function Education() {
 		{
 			title: "Bachelors of  Computer Science",
 			institute: "Bahir Dar University",
-			startYear: "Sept 2018",
+			startYear: "Sept 2020",
 			endYear: "Jul 2024",
-			grade: "3.75/4.00",
 			courses:
 				"Data Structures, Algorithms, Web Development, Mobile App Development",
 		},
 		{
-			title: "High School Diploma",
-			institute: "ABC High School",
-			startYear: "Sept 2014",
-			endYear: "Jun 2018",
-			grade: "Graduated with Honors",
-			courses: "Mathematics, Physics, Computer Science",
+			title: "Preparatory",
+			institute: "Woldia Preparatory School",
+			startYear: "sept 2018",
+			endYear: "Jun 2019",
+			courses: "Mathematics, Physics, chemistry, biology...",
 		},
 		{
-			title: "Internship",
-			institute: "XYZ Company",
-			startYear: "Jan 2024",
-			endYear: "Jun 2024",
-			courses:
-				"Developed and maintained web applications using React and Node.js.",
+			title: "High School",
+			institute: "Woldia High School",
+			startYear: "Sept 2016",
+			endYear: "Jun 2017",
+			courses: "Mathematics, Physics, chemistry, biology...",
+		},
+		{
+			title: "Internship - Web Development",
+			institute: "ASTC",
+			startYear: "Jul 2023",
+			endYear: "Sep 2023",
+			courses: "Developed and maintained web applications using Next.js.",
 		},
 	];
 

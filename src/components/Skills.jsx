@@ -14,6 +14,8 @@ import {
 	SiCss3,
 	SiHtml5,
 	SiTailwindcss,
+	SiNativescript,
+	SiReact,
 } from "react-icons/si";
 import {
 	CircularProgressbar,
@@ -32,27 +34,32 @@ const Skills = () => {
 		},
 		{
 			name: "React",
-			level: 85,
+			level: 90,
+			icon: <FaReact />,
+		},
+		{
+			name: "React-native",
+			level: 80,
 			icon: <FaReact />,
 		},
 		{
 			name: "Next.js",
-			level: 75,
+			level: 80,
 			icon: <SiNextdotjs />,
 		},
 		{
 			name: "Flutter",
-			level: 70,
+			level: 80,
 			icon: <SiFlutter />,
 		},
 		{
 			name: "Node.js",
-			level: 85,
+			level: 60,
 			icon: <FaNodeJs />,
 		},
 		{
 			name: "TypeScript",
-			level: 70,
+			level: 60,
 			icon: <SiTypescript />,
 		},
 		{
@@ -67,7 +74,7 @@ const Skills = () => {
 		},
 		{
 			name: "TailwindCSS",
-			level: 80,
+			level: 95,
 			icon: <SiTailwindcss />,
 		},
 		{
@@ -77,7 +84,7 @@ const Skills = () => {
 		},
 		{
 			name: "Laravel",
-			level: 70,
+			level: 60,
 			icon: <FaLaravel />,
 		},
 	];
