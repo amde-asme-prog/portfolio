@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 const Projects = () => {
 	const projects = [
@@ -44,17 +44,41 @@ const Projects = () => {
 			className="text-center py-24 w-full bg-background_primary">
 			<h1 className="text-4xl font-bold mb-12 text-heading">Projects</h1>
 			<div className="flex flex-col justify-center w-full">
-				<div className="max-w-[90vw] min-h-fit self-center">
-					<div className="relative h-[37rem] flex justify-center items-center">
+				<div className="max-md:max-w-[90vw] w-fit min-h-fit self-center">
+					<div className="relative h-[37rem] flex justify-center items-center gap-4">
 						<button
 							onClick={prevProject}
-							className="absolute left-0 p-2 bg-gray-300 rounded-full">
+							className="absolute -left-6 p-2 bg-gray-300 rounded-full">
 							&lt;
 						</button>
 						<Project project={projects[currentIndex]} />
+						<div className="hidden md:inline-flex">
+							<Project
+								project={
+									currentIndex + 1 >= projects.length
+										? currentIndex > projects.length
+											? projects[1]
+											: projects[0]
+										: projects[currentIndex + 1]
+								}
+							/>
+						</div>
+						<div className="hidden  lg:inline-flex ">
+							<Project
+								project={
+									currentIndex + 2 >= projects.length
+										? currentIndex - projects.length == 2
+											? projects[2]
+											: currentIndex - projects.length == 1
+											? projects[1]
+											: projects[0]
+										: projects[currentIndex + 2]
+								}
+							/>
+						</div>
 						<button
 							onClick={nextProject}
-							className="absolute right-0 p-2 bg-gray-300 rounded-full">
+							className="absolute -right-6 p-2 bg-gray-300 rounded-full">
 							&gt;
 						</button>
 					</div>
@@ -68,7 +92,12 @@ const Project = ({ project }) => {
 	return (
 		<div className="self-center justify-center flex flex-col bg-background_secondary text-sub_heading border border-border_primary rounded-lg shadow-lg w-96 h-[32rem] text-left transition-transform duration-500 hover:shadow-xl">
 			<div className="flex items-center justify-between border-b-2 border-gray-200 w-full p-4">
-				<span className="text-sm font-bold italic text-blue-500 uppercase flex-1 text-center">
+				<div className="flex gap-x-2 align-center self-center">
+					<span className="w-3 h-3 bg-red-500 rounded-full"></span>
+					<span className="w-3 h/,-3 bg-yellow-500 rounded-full"></span>
+					<span className="w-3 h-3 bg-green-500 rounded-full"></span>
+				</div>
+				<span className="text-sm font-bold italic text-blue-500 uppercase text-center flex-1">
 					{project.name}
 				</span>
 			</div>
@@ -79,8 +108,8 @@ const Project = ({ project }) => {
 					&nbsp;&nbsp;<span className="text-blue-500">name</span>: &quot;
 					{project.name}&quot;,
 					<br />
-					&nbsp;&nbsp;<span className="text-blue-500">tools</span>: ["
-					{project.tools.join('", "')}"],
+					&nbsp;&nbsp;<span className="text-blue-500">tools</span>: [
+					<q>{project.tools.join('", "')}</q>],
 					<br />
 					&nbsp;&nbsp;<span className="text-blue-500">myRole</span>: &quot;
 					{project.myRole}&quot;,
