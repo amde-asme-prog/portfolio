@@ -102,20 +102,20 @@ const Project = ({ project }) => {
 				</span>
 			</div>
 			<div className="p-6 flex-1">
-				<code className="text-sm text-red-800">
+				<code className="text-sm text-text_tertiary">
 					<span className="text-pink-500">const</span> project = {"{"}
 					<br />
-					&nbsp;&nbsp;<span className="text-blue-500">name</span>: &quot;
-					{project.name}&quot;,
+					&nbsp;&nbsp;<span className="text-red-500">name</span>:{" "}
+					<q>{project.name}</q>,
 					<br />
-					&nbsp;&nbsp;<span className="text-blue-500">tools</span>: [
+					&nbsp;&nbsp;<span className="text-red-500">tools</span>: [
 					<q>{project.tools.join('", "')}</q>],
 					<br />
-					&nbsp;&nbsp;<span className="text-blue-500">myRole</span>: &quot;
-					{project.myRole}&quot;,
+					&nbsp;&nbsp;<span className="text-red-500">myRole</span>:{" "}
+					<q>{project.myRole}</q>,
 					<br />
-					&nbsp;&nbsp;<span className="text-blue-500">description</span>: &quot;
-					{project.description}&quot;
+					&nbsp;&nbsp;<span className="text-red-500">description</span>:{" "}
+					<q className="text-text_accent">{project.description}</q>
 					<br />
 					{"};"}
 				</code>
