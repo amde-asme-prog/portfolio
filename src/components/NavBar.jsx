@@ -158,14 +158,14 @@ const Navbar = (props) => {
 			<PiArrowCircleUpFill
 				size={50}
 				cursor={"pointer"}
-				color="blue-black"
+				color="blue"
 				onClick={() => {
 					animateScroll.scrollToTop();
 				}}
 				className={
 					activeLink === "home" || activeLink === ""
 						? "hidden"
-						: "animate-bounce fixed bottom-4 right-4 z-50 shadow-lg rounded-full overflow-hidden  backdrop-blur"
+						: " animate-bounce fixed bottom-4 right-4 z-50 shadow-lg rounded-full overflow-hidden  backdrop-blur"
 				}
 			/>
 		</header>
