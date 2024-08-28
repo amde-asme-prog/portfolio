@@ -76,7 +76,7 @@ const Home = () => {
 				<div className="flex flex-row justify-start gap-x-4 max-md:justify-center max-md:w-full items-center pt-4">
 					{/* <form method="get" action="/public/assets/amdebirhan_asmamaw-cv.pdf"> */}
 					<a
-						href="/public/assets/amdebirhan_asmamaw-cv.pdf"
+						href="/assets/amdebirhan_asmamaw-cv.pdf"
 						download="amdebirhan asmamaw cv.pdf"
 						className="flex flex-row items-center gap-3 uppercase text-button_primary bg-transparent text-lg rounded-3xl border-button_border border-2 px-5 py-3 transition-transform transform  hover:scale-105 animate-pulse">
 						resume
