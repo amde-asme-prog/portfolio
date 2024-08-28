@@ -1,16 +1,30 @@
 import { useState, useEffect } from "react";
-import { BiMenu } from "react-icons/bi";
-import { BsBrightnessHighFill, BsMoonFill } from "react-icons/bs";
+import {
+	BiAlignLeft,
+	BiAlignMiddle,
+	BiAlignRight,
+	BiMenu,
+} from "react-icons/bi";
+import {
+	BsAlignEnd,
+	BsAlignStart,
+	BsBrightnessHighFill,
+	BsMoonFill,
+} from "react-icons/bs";
 import {
 	FaHome,
 	FaUser,
 	FaProjectDiagram,
 	FaEnvelope,
 	FaTimes,
+	FaAlignLeft,
 } from "react-icons/fa";
+import { FaAlignRight } from "react-icons/fa6";
 
 import { GiSkills } from "react-icons/gi";
 import { GrServices } from "react-icons/gr";
+import { LuAlignLeft } from "react-icons/lu";
+import { MdOutlineFormatAlignRight } from "react-icons/md";
 import { PiArrowCircleUpFill } from "react-icons/pi";
 
 import { Link, animateScroll } from "react-scroll";
@@ -18,7 +32,7 @@ import { Link, animateScroll } from "react-scroll";
 const Navbar = (props) => {
 	const [showMenu, setShowMenu] = useState(false);
 	const [darkMode, setDarkMode] = useState(false);
-	const root = document.getElementById("#root");
+
 	//! toggling the dark mode
 	const toggleDarkMode = () => {
 		if (!darkMode) {
@@ -58,9 +72,7 @@ const Navbar = (props) => {
 
 	useEffect(() => {
 		//! Adding scroll event listener
-		["scroll", "ontouchmove", "ontouchstart", "onclick"].forEach((event) =>
-			window.addEventListener(event, handleScroll)
-		);
+		["scroll"].forEach((event) => window.addEventListener(event, handleScroll));
 		//! Cleaning up the event listener
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
@@ -102,11 +114,11 @@ const Navbar = (props) => {
 				{/* //! for mobile and tablet */}
 				<div className="lg:hidden flex items-center">
 					{!showMenu ? (
-						<BiMenu
+						<FaAlignRight
 							size={32}
-							color="gray-800"
 							cursor={"pointer"}
 							onClick={() => setShowMenu(!showMenu)}
+							className="text-text_subtle"
 						/>
 					) : (
 						<>

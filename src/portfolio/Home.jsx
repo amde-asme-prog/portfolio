@@ -35,9 +35,7 @@ const Home = () => {
 		},
 	];
 
-	const downloadCv = () => {
-		const cv = new File("/public/assets/amdebirhan_asmamaw-cv.pdf");
-	};
+	const downloadCv = () => {};
 
 	return (
 		<section

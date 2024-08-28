@@ -9,6 +9,7 @@ export default {
 
 				text_primary: "var(--text-primary)",
 				text_secondary: "var(--text-secondary)",
+				text_subtle: "var(--text-subtle)",
 				text_tertiary: "var(--text-tertiary)",
 				text_accent: "var(--text-accent)",
 
@@ -35,7 +36,7 @@ export default {
 				icon_color: "var(--icon-color)",
 
 				button_primary: "var(--button-background)",
-				button_secondary: "var(--button-background)",
+				button_secondary: "var(--button-background-secondary)",
 				button_hover: "var(--button-hover-background)",
 				button_hover_text: "var(--button-hover-text)",
 				button_hover_background: "var(--button-hover-background)",
