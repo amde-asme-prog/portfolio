@@ -1,19 +1,6 @@
 import { useState, useEffect } from "react";
-import {
-	BiArrowToTop,
-	BiBrightness,
-	BiMenu,
-	BiToggleLeft,
-} from "react-icons/bi";
-import {
-	BsBrightnessAltHighFill,
-	BsBrightnessHigh,
-	BsBrightnessHighFill,
-	BsMoonFill,
-	BsToggle2On,
-	BsToggleOff,
-	BsToggleOn,
-} from "react-icons/bs";
+import { BiMenu } from "react-icons/bi";
+import { BsBrightnessHighFill, BsMoonFill } from "react-icons/bs";
 import {
 	FaHome,
 	FaUser,
@@ -21,7 +8,7 @@ import {
 	FaEnvelope,
 	FaTimes,
 } from "react-icons/fa";
-import { FaToggleOn, FaToggleOff } from "react-icons/fa6";
+
 import { GiSkills } from "react-icons/gi";
 import { GrServices } from "react-icons/gr";
 import { PiArrowCircleUpFill } from "react-icons/pi";
@@ -31,7 +18,8 @@ import { Link, animateScroll } from "react-scroll";
 const Navbar = (props) => {
 	const [showMenu, setShowMenu] = useState(false);
 	const [darkMode, setDarkMode] = useState(false);
-
+	const root = document.getElementById("#root");
+	//! toggling the dark mode
 	const toggleDarkMode = () => {
 		if (!darkMode) {
 			document.body.classList.add("dark");
@@ -50,7 +38,7 @@ const Navbar = (props) => {
 	//! when the app mounts, checking if the user has a color-theme stored in local storage
 	useEffect(() => {
 		if (localStorage.getItem("color-theme")) {
-			console.log(localStorage.getItem("color-theme"));
+			//! checking if the user has a color-theme of light
 			if (localStorage.getItem("color-theme") === "light") {
 				if (document.body.classList.contains("dark")) {
 					document.body.classList.remove("dark");
@@ -58,6 +46,7 @@ const Navbar = (props) => {
 				document.body.classList.add("light");
 				setDarkMode(false);
 			} else if (localStorage.getItem("color-theme") === "dark") {
+				//! checking if the user has a color-theme of dark
 				if (document.body.classList.contains("light")) {
 					document.body.classList.remove("light");
 				}
@@ -72,10 +61,6 @@ const Navbar = (props) => {
 		["scroll", "ontouchmove", "ontouchstart", "onclick"].forEach((event) =>
 			window.addEventListener(event, handleScroll)
 		);
-		// window.addEventListener(
-		// 	["scroll", "ontouchmove", "ontouchstart"],
-		// 	handleScroll
-		// );
 		//! Cleaning up the event listener
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
@@ -131,7 +116,7 @@ const Navbar = (props) => {
 								cursor={"pointer"}
 								onClick={() => setShowMenu(!showMenu)}
 							/>
-							<nav className="lg:hidden flex flex-col gap-y-2 items-end fixed top-16 right-0 py-4 px-6 rounded-lg bg-background_primary  dark:border-gray-700 z-10 border-2 border-slate-200 shadow-md">
+							<nav className="lg:hidden flex flex-col gap-y-2 items-start fixed top-16 right-0 py-4 px-6 rounded-lg bg-background_primary  dark:border-gray-700 z-10 border-2 border-slate-200 shadow-md">
 								<NavItems
 									activeLink={activeLink}
 									handleLinkClick={handleLinkClickWithShowMenu}
@@ -158,7 +143,7 @@ const Navbar = (props) => {
 			<PiArrowCircleUpFill
 				size={50}
 				cursor={"pointer"}
-				color="blue"
+				color="grey"
 				onClick={() => {
 					animateScroll.scrollToTop();
 				}}

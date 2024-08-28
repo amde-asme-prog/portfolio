@@ -1,16 +1,20 @@
 import { useEffect, useState, useRef } from "react";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import Home from "./components/Home";
-import Contact from "./components/Contact";
-import Services from "./components/Services";
-import Projects from "./components/Projects";
-import About from "./components/About";
-import Skills from "./components/Skills";
-import Dashboard from "./components/dashboard/Dashboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./components/dashboard/Login";
-import Register from "./components/dashboard/Register";
+
+import NavBar from "./portfolio/NavBar";
+import Footer from "./portfolio/Footer";
+import Home from "./portfolio/Home";
+import Contact from "./portfolio/Contact";
+import Services from "./portfolio/Services";
+import Projects from "./portfolio/Projects";
+import About from "./portfolio/About";
+import Skills from "./portfolio/Skills";
+
+import Dashboard from "./dashboard/Dashboard";
+import Login from "./dashboard/Login";
+import Register from "./dashboard/Register";
+import Dashboard2 from "./dashboard/Dashboard2";
+import Table from "./components/Table";
 
 const App = () => {
 	const [theme, setTheme] = useState("dark");
@@ -18,10 +22,12 @@ const App = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<HomePage />} />
+				<Route path="/" element={<Layout />} />
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
+				<Route path="/dashboard2" element={<Dashboard2 />} />
+				<Route path="/table" element={<Table />} />
 			</Routes>
 		</BrowserRouter>
 	);
@@ -29,7 +35,8 @@ const App = () => {
 
 export default App;
 
-const HomePage = () => {
+const Layout = () => {
+	//FIXME move this functionality to custom hooks
 	const [activeLink, setActiveLink] = useState("");
 
 	const handleScroll = () => {
@@ -59,12 +66,12 @@ const HomePage = () => {
 		};
 	}, []);
 
-	useEffect(() => {
-		document.body.classList.add("light");
-	}, []);
+	// useEffect(() => {
+	// 	document.body.classList.add("light");
+	// }, []);
 
 	return (
-		<div className=" h-full scroll-smooth bg-background_secondary transition-colors duration-700 ">
+		<div className="h-full scroll-smooth bg-background_secondary transition-colors duration-700 ">
 			<NavBar activeLink={activeLink} setActiveLink={setActiveLink} />
 			<main className="flex flex-col justify-center items-center w-full gap-y-10 ">
 				<Home />

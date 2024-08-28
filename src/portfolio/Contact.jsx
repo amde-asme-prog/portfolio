@@ -1,17 +1,67 @@
+import { useState, useRef } from "react";
 import { BiPhone } from "react-icons/bi";
 import { GoLocation } from "react-icons/go";
 import { MdEmail } from "react-icons/md";
+import emailjs from "@emailjs/browser";
 
+const SERVICE_ID = "service_ecb503a";
+const TEMPLATE_ID = "template_iuajp3p";
+const PUBLIC_KEY = "CVBjB8BkVTJFPW0YT";
 const Contact = () => {
+	const [email, setEmail] = useState("");
+	const [phone, setPhone] = useState("");
+	const [message, setMessage] = useState("");
+	const form = useRef();
+
+	const sendEmail = (e) => {
+		e.preventDefault();
+		console.log(form.current);
+		emailjs
+			.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, {
+				publicKey: PUBLIC_KEY,
+			})
+			.then(
+				(response) => {
+					console.log(response);
+					console.log("SUCCESS!");
+				},
+				(error) => {
+					console.log("FAILED...", error.text);
+				}
+			);
+	};
+
+	const handleSubmit = async (e) => {
+		// e.preventDefault();
+		const formData = new FormData();
+		formData.append("email", email);
+		formData.append("phone", phone);
+		formData.append("message", message);
+		console.log(formData);
+		const response = await fetch(
+			"https://formsubmit.co/amdebrhanasmamaw93@gmail.com",
+			{
+				method: "POST",
+				body: formData,
+			}
+		);
+		console.log(response);
+		const data = await response.json();
+		console.log(data);
+		const reply =
+			"Hey {{user_name}}!Thank you for contacting us. We will reply to you soon. Best regards,The Awesome Team";
+	};
 	return (
 		<section
 			id="contact"
-			className="py-24 w-full bg-background_primary flex flex-wrap justify-center gap-x-20 items-start">
+			className="py-20 w-full bg-background_primary flex flex-wrap justify-center gap-x-20 items-start">
 			<div className="m-5 mb-4 w-full max-w-lg ">
 				<h1 className="text-4xl font-bold mb-6 text-heading text-center">
 					Let&rsquo;s Connect
 				</h1>
-				<form className="w-full flex flex-col justify-start gap-y-4 px-6 py-6 bg-background_secondary rounded-lg shadow-lg">
+				<form
+					ref={form}
+					className="w-full flex flex-col justify-start gap-y-4 px-6 py-6 bg-background_secondary rounded-lg shadow-lg">
 					<p className="italic text-text_accent">
 						If you want to know more about me or my work, or if you would just
 						like to say hello, send me a message. I'd love to hear from you.
@@ -26,7 +76,8 @@ const Contact = () => {
 						<input
 							type="text"
 							id="name"
-							className="bg-background_accent mt-1 block w-full px-4 py-2 border border-border_primary rounded-md shadow-sm focus:border-text_tertiary focus:ring "
+							name="username"
+							className="bg-background_accent text-text_secondary mt-1 block w-full px-4 py-2 border border-border_primary rounded-md shadow-sm focus:border-text_tertiary focus:ring "
 							placeholder="Your Name"
 						/>
 					</div>
@@ -39,7 +90,8 @@ const Contact = () => {
 						<input
 							type="email"
 							id="email"
-							className="bg-background_accent mt-1 block w-full px-4 py-2 border border-border_primary rounded-md shadow-sm focus:border-blue-500 focus:ring "
+							name="email"
+							className="bg-background_accent text-text_secondary mt-1 block w-full px-4 py-2 border border-border_primary rounded-md shadow-sm focus:border-blue-500 focus:ring "
 							placeholder="Your Email"
 						/>
 					</div>
@@ -51,12 +103,14 @@ const Contact = () => {
 						</label>
 						<textarea
 							id="message"
+							name="message"
 							rows="4"
-							className="bg-background_accent  mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring "
+							className="bg-background_accent text-text_secondary  mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring "
 							placeholder="Your Message"></textarea>
 					</div>
 					<button
 						type="submit"
+						onClick={sendEmail}
 						className="w-full bg-button_primary text-white px-4 py-2 rounded-md font-medium hover:bg-blue-600 transition-colors">
 						Send Message
 					</button>

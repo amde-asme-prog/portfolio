@@ -38,7 +38,7 @@ const About = () => {
 				</div>
 				<div className="self-start px-4 max-md:px-2 flex-1 gap-6 space-y-6">
 					<p className="font-roboto font-thin italic rounded-md shadow-md bg-background_primary bg-opacity-20  p-4">
-						Computer Science graduate skilled in web and mobile appdevelopment
+						Computer Science graduate skilled in web and mobile app development
 						using React, Flutter, and Next.js. Motivated, detail-oriented, and a
 						problem solver, eager to enhance tech projects and user experiences.
 						Passionate about technology, effective communicator, and dedicated
