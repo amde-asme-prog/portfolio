@@ -9,8 +9,7 @@ import {
 } from "react-icons/fa";
 
 import { TypeAnimation } from "react-type-animation";
-
-import { VscCallIncoming } from "react-icons/vsc";
+import { RiShakeHandsLine } from "react-icons/ri";
 
 const Home = () => {
 	const referenceIcons = [
@@ -35,6 +34,11 @@ const Home = () => {
 			icon: <FaDribbble />,
 		},
 	];
+
+	const downloadCv = () => {
+		const cv = new File("/public/assets/amdebirhan_asmamaw-cv.pdf");
+	};
+
 	return (
 		<section
 			id="home"
@@ -53,30 +57,38 @@ const Home = () => {
 					</div>
 					<TypeWriter />
 				</div>
-				<div className="flex flex-row gap-x-4 text-3xl sm:text-4xl md:text-5xl">
+				<div className="relative flex flex-row items-center justify-left text-center gap-x-2 text-3xl sm:text-4xl md:text-5xl">
 					{referenceIcons.map((item, index) => (
-						<a
-							key={index}
-							href={item.href}
-							target="_blank"
-							rel="noreferrer"
-							aria-label={item.label}
-							className="text-button_primary hover:text-button_hover transition-transform transform hover:scale-110">
-							{item.icon}
-						</a>
+						<>
+							{index > 0 && <div className="h-px w-4 bg-button_primary "></div>}
+							<a
+								key={index}
+								href={item.href}
+								target="_blank"
+								rel="noreferrer"
+								aria-label={item.label}
+								className="text-button_primary hover:text-button_hover transition-transform transform hover:scale-110">
+								{item.icon}
+							</a>
+						</>
 					))}
 				</div>
 				<div className="flex flex-row justify-start gap-x-4 max-md:justify-center max-md:w-full items-center pt-4">
-					<button className="flex flex-row items-center gap-3 uppercase text-button_primary bg-transparent text-lg rounded-3xl border-button_border border-2 px-5 py-3 transition-transform transform  hover:scale-105 animate-pulse">
-						contact me
-						<VscCallIncoming
-							size={24}
-							className="inline-flex  text-sm sm:text-base lg:text-lg"
-						/>
-					</button>
-					<button className="uppercase rounded-3xl bg-button_primary text-button_text px-5 py-3 flex flex-row items-center gap-3 text-lg   border-2 border-button_border transition-transform transform hover:animate-pulse hover:bg-button_primary hover:scale-105">
+					{/* <form method="get" action="/public/assets/amdebirhan_asmamaw-cv.pdf"> */}
+					<a
+						href="/public/assets/amdebirhan_asmamaw-cv.pdf"
+						download="amdebirhan asmamaw cv.pdf"
+						className="flex flex-row items-center gap-3 uppercase text-button_primary bg-transparent text-lg rounded-3xl border-button_border border-2 px-5 py-3 transition-transform transform  hover:scale-105 animate-pulse">
 						resume
 						<FaDownload className="inline-flex text-sm sm:text-base lg:text-lg" />
+					</a>
+					{/* </form> */}
+					<button className="uppercase rounded-3xl bg-button_primary text-button_text px-5 py-3 flex flex-row items-center gap-3 text-lg   border-2 border-button_border transition-transform transform hover:animate-pulse hover:bg-button_primary hover:scale-105">
+						hire me
+						<RiShakeHandsLine
+							size={24}
+							className="inline-flex text-sm sm:text-base lg:text-lg"
+						/>
 					</button>
 				</div>
 			</div>

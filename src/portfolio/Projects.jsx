@@ -90,8 +90,8 @@ const Projects = () => {
 
 const Project = ({ project }) => {
 	return (
-		<div className="self-center justify-center flex flex-col bg-background_secondary text-sub_heading border border-border_primary rounded-lg shadow-lg w-96 h-[32rem] text-left transition-transform duration-500 hover:shadow-xl">
-			<div className="flex items-center justify-between border-b-2 border-gray-200 w-full p-4">
+		<div className="self-center justify-center flex flex-col bg-background_secondary text-sub_heading border border-background_primary rounded-lg shadow-lg w-96 h-[32rem] text-left transition-transform duration-500 hover:shadow-xl">
+			<div className="flex items-center justify-between border-b-2 border-background_primary w-full p-4">
 				<div className="flex gap-x-2 align-center self-center">
 					<span className="w-3 h-3 bg-red-500 rounded-full"></span>
 					<span className="w-3 h/,-3 bg-yellow-500 rounded-full"></span>
