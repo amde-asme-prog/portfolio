@@ -15,6 +15,7 @@ import Login from "./dashboard/Login";
 import Register from "./dashboard/Register";
 import Dashboard2 from "./dashboard/Dashboard2";
 import Table from "./components/Table";
+import Projects2 from "./portfolio/Projects_modified";
 
 const App = () => {
 	const [theme, setTheme] = useState("dark");
@@ -73,7 +74,7 @@ const Layout = () => {
 	return (
 		<div className="h-full scroll-smooth bg-background_secondary transition-colors duration-700 ">
 			<NavBar activeLink={activeLink} setActiveLink={setActiveLink} />
-			<main className="flex flex-col justify-center items-center w-full gap-y-10 ">
+			<main className="flex flex-col justify-center items-center w-full gap-y-10 transition-colors duration-300">
 				<Home />
 				<About />
 				<Skills />

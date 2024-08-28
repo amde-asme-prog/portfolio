@@ -1,78 +1,85 @@
-import { BiCheckCircle } from "react-icons/bi";
+import { BiCheckCircle, BiCalendar, BiBook } from "react-icons/bi";
+import { motion } from "framer-motion";
 
 export default function Education() {
 	const education = [
 		{
-			title: "Bachelors of  Computer Science",
+			title: "Bachelors of Computer Science",
 			institute: "Bahir Dar University",
 			startYear: "Sept 2020",
 			endYear: "Jul 2024",
 			courses:
 				"Data Structures, Algorithms, Web Development, Mobile App Development",
+			achievements: "Dean's List for 3 consecutive semesters",
 		},
 		{
 			title: "Preparatory",
 			institute: "Woldia Preparatory School",
-			startYear: "sept 2018",
+			startYear: "Sept 2018",
 			endYear: "Jun 2019",
-			courses: "Mathematics, Physics, chemistry, biology...",
+			courses: "Mathematics, Physics, Chemistry, Biology",
+			achievements: "Top 5% of the class",
 		},
 		{
 			title: "High School",
 			institute: "Woldia High School",
 			startYear: "Sept 2016",
 			endYear: "Jun 2017",
-			courses: "Mathematics, Physics, chemistry, biology...",
+			courses: "Mathematics, Physics, Chemistry, Biology",
+			achievements: "School Science Fair Winner",
 		},
 		{
 			title: "Internship - Web Development",
 			institute: "ASTC",
 			startYear: "Jul 2023",
 			endYear: "Sep 2023",
-			courses: "Developed and maintained web applications using Next.js.",
+			courses: "Developed and maintained web applications using Next.js",
+			achievements: "Successfully completed 3 major projects",
 		},
 	];
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+		<div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-2 md:place-content-start">
 			{education.map((section, index) => (
-				<div
+				<motion.div
 					key={index}
-					className="card bg-background_secondary shadow-lg rounded-lg p-6 flex flex-col items-left">
-					<div className="w-full border-b-2 border-border_primary">
-						<h3 className="text-xl text-heading font-semibold font-roboto self-start">
-							{section.title}
-						</h3>
-						<p className="text-sub_heading font-roboto text-base italic">
-							{section.institute}
-						</p>
+					initial={{ opacity: 0, y: 50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, delay: index * 0.1 }}
+					className="card bg-background_card text-text_secondary shadow-lg rounded-lg overflow-hidden">
+					<div className="bg-button_primary text-white p-4">
+						<h3 className="text-xl font-bold">{section.title}</h3>
+						<p className="text-sm italic">{section.institute}</p>
 					</div>
-					<div className="flex flex-row justify-center items-center space-x-3 text-text_primary">
-						<BiCheckCircle className="text-green-600 text-lg" />
-						<div className="flex flex-col justify-start  items-start flex-1">
-							<small className=" text-lg font-roboto text-text_secondary">
-								year
-							</small>{" "}
-							<p className="text-sm text-text_tertiary font-thin italic font-roboto">
-								{" "}
+					<div className="p-6">
+						<div className="flex items-center mb-4 text-text_subtle">
+							<BiCalendar className="text-icon_color mr-2" />
+							<p className="text-sm">
 								{`${section.startYear} - ${section.endYear}`}
 							</p>
 						</div>
+						<div className="mb-4">
+							<details className="text-text_subtle">
+								<summary className="cursor-pointer font-semibold flex items-center">
+									<BiBook className="text-icon_color mr-2" />
+									Courses
+								</summary>
+								<p className="mt-2 text-sm text-text_subtle pl-6">
+									{section.courses}
+								</p>
+							</details>
+						</div>
+						<div className="flex items-start">
+							<BiCheckCircle className="text-green-600 mt-1 mr-2" />
+							<div>
+								<p className="font-semibold">Achievements</p>
+								<p className="text-sm text-text_subtle">
+									{section.achievements}
+								</p>
+							</div>
+						</div>
 					</div>
-
-					<div className="flex flex-row justify-start items-start space-x-3 ">
-						<BiCheckCircle className="text-green-600 text-lg" />
-
-						<details className="flex flex-col justify-start  items-start flex-1">
-							<summary className="px-2 cursor-pointer font-bold">
-								courses
-							</summary>
-							<small className="font-light italic text-text_tertiary font-roboto">
-								{section.courses}
-							</small>
-						</details>
-					</div>
-				</div>
+				</motion.div>
 			))}
 		</div>
 	);

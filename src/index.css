@@ -89,6 +89,7 @@
 	--text-primary: var(--gray800); /* gray 800 */
 	--text-secondary: var(--gray900); /* gray 900 */
 	--text-tertiary: var(--blue600); /* blue 600 */
+	--text-subtle: var(--gray700);
 	--text-accent: var(--slate700);
 	--text-link: var(--gray800);
 	--text-link-active: var(--blue600);
@@ -97,7 +98,7 @@
 	--bg-color-body: var(--gray50);
 	--bg-header: var(--gray100);
 	--bg-color-container: var(--gray300);
-	--bg-color-card: var(--gray100);
+	--bg-color-card: white;
 	--bg-accent: var(--gray200);
 	--bg-link: var(--gray200);
 	--bg-link-active: var(--gray200);
@@ -108,7 +109,8 @@
 
 	--icon-color: var(--blue500); /* (Gray 500) */
 
-	--button-background: var(--blue500); /* blue 500 */
+	--button-background: var(--blue600); /* blue 500 */
+	--button-background-secondary: transparent;
 	--button-border: var(--blue500); /* blue 500 */
 	--button-text: var(--slate300); /* slate 300 */
 	--button-hover: var(--blue700); /* blue 700 */
@@ -125,6 +127,7 @@
 
 	--text-primary: var(--gray200);
 	--text-secondary: var(--gray100);
+	--text-subtle: var(--gray300);
 	--text-accent: var(--slate500);
 	--text-tertiary: var(--blue600);
 	--text-link: var(--gray100);
@@ -145,7 +148,8 @@
 	--border-primary: var(--gray700);
 	--border-card: var(--slate700);
 
-	--button-background: var(--blue700);
+	--button-background: var(--blue600);
+	--button-background-secondary: transparent;
 	--button-border: var(--blue600);
 	--button-text: var(--slate300);
 	--button-hover: var(--blue700);

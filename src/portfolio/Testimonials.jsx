@@ -1,4 +1,5 @@
 import { FaQuoteLeft, FaQuoteRight, FaStar } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function Testimonials() {
 	const testimonials = [
@@ -28,18 +29,23 @@ export default function Testimonials() {
 	];
 
 	return (
-		<div className="flex flex-wrap justify-center sm:justify-start space-x-2 ">
+		<div className="flex flex-wrap justify-center  sm:justify-start sm:gap-x-4">
 			{testimonials.map((testimonial, index) => (
-				<div
+				<motion.div
 					key={index}
-					className="bg-background_secondary  w-96 shadow-md rounded-lg p-4 mb-6 text-center flex flex-col items-center space-y-4">
-					<p className="text-lg italic font-thin text-text_secondary text-wrap flex">
-						<span className="italic font-extralight text-2xl self-start justify-self-start">
-							<FaQuoteLeft className="text-text_secondary" />
+					initial={{ opacity: 0, y: 50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, delay: index * 0.1 }}
+					className="bg-background_secondary  w-80 sm:w-96 shadow-md rounded-lg p-2 sm:p-4 mb-6 text-center flex flex-col items-center space-y-6">
+					<p className="text-lg text-text_secondary text-wrap flex">
+						<span className="italic font-thin text-2xl self-start justify-self-start mr-1">
+							<FaQuoteLeft className="text-text_secondary font-thin italic" />
 						</span>
-						<span>{testimonial.comment}</span>
-						<span className="italic font-extralight text-2xl self-end justify-self-end">
-							<FaQuoteRight className="text-text_secondary" />
+						<span className="font-serif font-extralight italic text-base">
+							{testimonial.comment}
+						</span>
+						<span className="italic font-thin text-2xl self-end justify-self-end ml-1">
+							<FaQuoteRight className="text-text_secondary font-thin" />
 						</span>
 					</p>
 
@@ -74,7 +80,7 @@ export default function Testimonials() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</motion.div>
 			))}
 		</div>
 	);
