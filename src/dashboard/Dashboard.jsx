@@ -1,105 +1,156 @@
+import { useState } from "react";
 import {
-	FaAlignLeft,
-	FaChartPie,
-	FaRegSun,
-	FaSignOutAlt,
+  FaBars,
+  FaChartPie,
+  FaProjectDiagram,
+  FaRegSun,
+  FaSignOutAlt,
+  FaTimes,
+  FaTimesCircle,
 } from "react-icons/fa";
-import Table from "../components/Table";
+import { BsBrightnessHighFill, BsMoonFill } from "react-icons/bs";
+import { FcServices } from "react-icons/fc";
+import { BiMessage } from "react-icons/bi";
+import { GiClassicalKnowledge, GiSkills } from "react-icons/gi";
+import { GrUserExpert } from "react-icons/gr";
+import { VscFeedback } from "react-icons/vsc";
+
+import FeedbackTable from "./FeedbackTable";
+import EducationTable from "./EducationTable";
+import ExperienceTable from "./ExperienceTable";
+import ServicesTable from "./ServicesTable";
+import ProjectsTable from "./ProjectsTable";
+import SkillsTable from "./SkillsTable";
+import useTheme from "../hooks/useTheme";
 
 const Dashboard = () => {
-	return (
-		<main className="relative light w-full h-screen bg-background_container text-text_primary overflow-clip">
-			<nav className="fixed p-2 top-0 z-20 w-full flex flex-row justify-between bg-background_header border-b border-border_primary">
-				<div className="inline-flex flex-row self-start space-x-3">
-					<button
-						type="button"
-						className="p-2 text-sm text-text_primary rounded-lg sm:hidden hover:bg-opacity-50 focus:outline-none focus:ring-2 focus:ring-border_primary">
-						<span className="sr-only">Open sidebar</span>
-						<FaAlignLeft className="w-6 h-6" aria-hidden="true" />
-					</button>
-					<h1 className="text-2xl font-bold">Amdebirhan</h1>
-				</div>
+  const [selected, setSelected] = useState("education");
+  const [showSideBar, setShowSideBar] = useState(false);
 
-				<img
-					src="/assets/logo.jpg"
-					className="size-16 p-2 rounded-full bg-contain "
-				/>
+  const sideNavButtons = [
+    { icon: FaChartPie, name: "Dashboard", value: "dashboard" },
+    { icon: GiClassicalKnowledge, name: "Education", value: "education" },
+    { icon: GrUserExpert, name: "Experience", value: "experience" },
+    { icon: VscFeedback, name: "Feedback", value: "feedback" },
+    { icon: GiSkills, name: "Skills", value: "skills" },
+    { icon: FaProjectDiagram, name: "Projects", value: "projects" },
+    { icon: FcServices, name: "Services", value: "services" },
+    { icon: BiMessage, name: "Messages", value: "messages" },
+    { icon: FaRegSun, name: "Settings", value: "Settings" },
+    { icon: FaSignOutAlt, name: "Sign out", value: "SignOut" },
+  ];
+  //! toggling the dark mode
+  const { darkMode, toggleDarkMode } = useTheme();
 
-				<div className="fixed sm:hidden top-16 right-0 flex flex-col space-y-2 text-xl bg-inherit bg-opacity-10 px-4 pb-2 ">
-					<ul className="p-2 pb-0">
-						<li>username</li>
-						<li>email</li>
-					</ul>
-					<ul className="flex flex-col gap-y-2 w-full">
-						<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-							<FaChartPie />
-							<small>Dashboard</small>
-						</li>
-						<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-							<FaRegSun />
-							<small>Settings</small>
-						</li>
-						<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-							<FaSignOutAlt />
-							<small>sign out</small>
-						</li>
-					</ul>
-				</div>
-			</nav>
-			<aside className="max-sm:hidden fixed left-0 p-2 pt-24 z-10  text-xl bg-background_header h-full border-r border-border_primary ">
-				<ul className="flex flex-col gap-y-2 w-full">
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaChartPie />
-						<small>Dashboard</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaSignOutAlt />
-						<small>Education</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaSignOutAlt />
-						<small>Experience</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaSignOutAlt />
-						<small>Feedback</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaSignOutAlt />
-						<small>Skills</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaSignOutAlt />
-						<small>Projects</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaSignOutAlt />
-						<small>Services</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaSignOutAlt />
-						<small>Messages</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaRegSun />
-						<small>Settings</small>
-					</li>
-					<li className="flex gap-x-2 items-center hover:bg-background_link_hover w-full px-2">
-						<FaSignOutAlt />
-						<small>sign out</small>
-					</li>
-				</ul>
-			</aside>
+  function renderSection() {
+    if (selected === "skills") {
+      return <SkillsTable />;
+    } else if (selected === "education") {
+      return <EducationTable />;
+    } else if (selected === "experience") {
+      return <ExperienceTable />;
+    } else if (selected === "feedback") {
+      return <FeedbackTable />;
+    } else if (selected === "projects") {
+      return <ProjectsTable />;
+    } else if (selected === "services") {
+      return <ServicesTable />;
+    }
+    //  else if (selected === "messages") {
+    // 	return <Messages />;
+    // } else if (selected === "settings") {
+    // 	return <Settings />;
+    // } else if (selected === "signout") {
+    // 	return <SignOut />;
+    // }
+  }
+  return (
+    <main
+      className={`${""} relative w-full bg-background_container bg-cover text-text_primary`}
+    >
+      {/*//! configuring the background of these dashboard content  */}
+      <div className="w-full h-full bg-background_container fixed"></div>
 
-			<div className="absolute left-4 sm:left-40 right-4 top-24 h-96 border-2 rounded-lg border-border_primary border-dashed border-spacing-20 space-x-2 space-y-2">
-				<article className="m-4">
-					<div className="overflow-x-auto bg-gray-100 rounded-lg shadow">
-						<Table />
-					</div>
-				</article>
-			</div>
-		</main>
-	);
+      <header className="fixed top-0 z-20 w-full flex justify-between items-center p-4 bg-background_header border-b border-border_primary shadow-md">
+        <div className="flex items-center space-x-3">
+          <button
+            type="button"
+            onClick={() => setShowSideBar((prev) => !prev)}
+            className="p-2 text-sm text-text_primary rounded-lg md:hidden mr-8 hover:bg-background_link_hover focus:outline-none focus:ring-2 focus:ring-border_primary"
+          >
+            <span className="sr-only">Open sidebar</span>
+            <FaBars className="w-6 h-6" aria-hidden="true" />
+          </button>
+
+          <h1 className="text-2xl font-bold text-heading">Amdebirhan</h1>
+        </div>
+        <div className="sm:flex items-center space-x-4">
+          <div className="p-2 ml-2 text-text_secondary">
+            {darkMode ? (
+              <>
+                <BsBrightnessHighFill
+                  cursor="pointer"
+                  size={20}
+                  color="red"
+                  onClick={toggleDarkMode}
+                />
+              </>
+            ) : (
+              <BsMoonFill
+                cursor="pointer"
+                size={20}
+                onClick={toggleDarkMode}
+                color="blue"
+              />
+            )}
+          </div>
+          <img
+            src="/assets/logo.jpg"
+            alt="Logo"
+            className="size-8 max-sm:justify-self-end sm:size-12 rounded-full border-2 border-border_card"
+          />
+        </div>
+      </header>
+
+      <aside
+        className={`${
+          showSideBar
+            ? " inset-0 backdrop-sm translate-x-0"
+            : "-translate-x-[100%]"
+        } md:block md:translate-x-0 fixed left-0 top-0 h-full pt-24 w-64 bg-background_secondary border-r border-border_primary z-10 transition-transform ease-in-out duration-200`}
+      >
+        <ul className="flex flex-col space-y-2 p-4 py-2">
+          {sideNavButtons.map((item, index) => (
+            <button
+              key={index}
+              className={`flex items-center space-x-2 p-2 rounded-lg hover:bg-background_link_hover ${
+                item.value === selected ? "bg-background_link_active" : ""
+              }`}
+              onClick={() => setSelected(item.value)}
+            >
+              <item.icon className="text-icon_color" />
+              <span>{item.name}</span>
+            </button>
+          ))}
+          <FaTimes
+            size={28}
+            onClick={() => setShowSideBar(false)}
+            className="self-end"
+          />
+        </ul>
+      </aside>
+
+      <div
+        className={`${
+          showSideBar == true
+            ? "max-md:pointer-events-none max-md:opacity-50 max-md:blur-[1px] "
+            : ""
+        } absolute top-28  right-4 left-4 md:left-72 mb-10 border-2 border-dashed border-border_primary rounded-lg bg-background_card p-3 shadow-md transition-opacity`}
+      >
+        {renderSection()}
+      </div>
+    </main>
+  );
 };
 
 export default Dashboard;

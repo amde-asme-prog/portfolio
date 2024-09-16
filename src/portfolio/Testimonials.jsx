@@ -1,42 +1,20 @@
 import { FaQuoteLeft, FaQuoteRight, FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useContext } from "react";
+import FeedbackContext from "../context/FeedbackProvider";
 
 export default function Testimonials() {
-	const testimonials = [
-		{
-			name: "John Doe",
-			rating: 5,
-			job: "ceo",
-			photo: "https://via.placeholder.com/150",
-			comment:
-				"Amazing developer! Delivered the project on time and exceeded my expectations.",
-		},
-		{
-			name: "Jane Smith",
-			rating: 4,
-			photo: "https://via.placeholder.com/150",
-			job: "ceo",
-			comment:
-				"Very professional and easy to work with. The end result was exactly what I needed.",
-		},
-		{
-			name: "Mike Johnson",
-			rating: 4.5,
-			job: "ceo",
-			photo: "https://via.placeholder.com/150",
-			comment: "Great work! Would definitely recommend.",
-		},
-	];
+	const { feedbacks } = useContext(FeedbackContext);
 
 	return (
 		<div className="flex flex-wrap justify-center  sm:justify-start sm:gap-x-4">
-			{testimonials.map((testimonial, index) => (
+			{feedbacks.map((testimonial, index) => (
 				<motion.div
 					key={index}
 					initial={{ opacity: 0, y: 50 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5, delay: index * 0.1 }}
-					className="bg-background_secondary  w-80 sm:w-96 shadow-md rounded-lg p-2 sm:p-4 mb-6 text-center flex flex-col items-center space-y-6">
+					className="bg-background_card  w-80 sm:w-96 shadow-md rounded-lg p-2 sm:p-4 mb-6 text-center flex flex-col items-center space-y-6">
 					<p className="text-lg text-text_secondary text-wrap flex">
 						<span className="italic font-thin text-2xl self-start justify-self-start mr-1">
 							<FaQuoteLeft className="text-text_secondary font-thin italic" />
