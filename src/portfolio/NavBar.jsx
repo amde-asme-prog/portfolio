@@ -1,23 +1,12 @@
 import { useState, useEffect } from "react";
-import {
-	BiAlignLeft,
-	BiAlignMiddle,
-	BiAlignRight,
-	BiMenu,
-} from "react-icons/bi";
-import {
-	BsAlignEnd,
-	BsAlignStart,
-	BsBrightnessHighFill,
-	BsMoonFill,
-} from "react-icons/bs";
+
+import { BsBrightnessHighFill, BsMoonFill } from "react-icons/bs";
 import {
 	FaHome,
 	FaUser,
 	FaProjectDiagram,
 	FaEnvelope,
 	FaTimes,
-	FaAlignLeft,
 } from "react-icons/fa";
 import { FaAlignRight } from "react-icons/fa6";
 
@@ -28,47 +17,13 @@ import { MdOutlineFormatAlignRight } from "react-icons/md";
 import { PiArrowCircleUpFill } from "react-icons/pi";
 
 import { Link, animateScroll } from "react-scroll";
+import useTheme from "../hooks/useTheme";
 
 const Navbar = (props) => {
 	const [showMenu, setShowMenu] = useState(false);
-	const [darkMode, setDarkMode] = useState(false);
+	// const [darkMode, setDarkMode] = useState(false);
 
-	//! toggling the dark mode
-	const toggleDarkMode = () => {
-		if (!darkMode) {
-			document.body.classList.add("dark");
-			document.body.classList.remove("light");
-			localStorage.setItem("color-theme", "dark");
-			setDarkMode(true);
-		} else {
-			document.body.classList.add("light");
-			document.body.classList.remove("dark");
-			localStorage.setItem("color-theme", "light");
-			setDarkMode(false);
-		}
-		setShowMenu(false);
-	};
-
-	//! when the app mounts, checking if the user has a color-theme stored in local storage
-	useEffect(() => {
-		if (localStorage.getItem("color-theme")) {
-			//! checking if the user has a color-theme of light
-			if (localStorage.getItem("color-theme") === "light") {
-				if (document.body.classList.contains("dark")) {
-					document.body.classList.remove("dark");
-				}
-				document.body.classList.add("light");
-				setDarkMode(false);
-			} else if (localStorage.getItem("color-theme") === "dark") {
-				//! checking if the user has a color-theme of dark
-				if (document.body.classList.contains("light")) {
-					document.body.classList.remove("light");
-				}
-				document.body.classList.add("dark");
-				setDarkMode(true);
-			}
-		}
-	}, []);
+	const { darkMode, toggleDarkMode } = useTheme();
 
 	useEffect(() => {
 		//! Adding scroll event listener
@@ -227,7 +182,7 @@ const NavItems = ({
 						<BsBrightnessHighFill
 							cursor="pointer"
 							size={20}
-							color="blue"
+							color="red"
 							onClick={toggleDarkMode}
 						/>
 					</>
@@ -236,7 +191,7 @@ const NavItems = ({
 						cursor="pointer"
 						size={20}
 						onClick={toggleDarkMode}
-						color="red"
+						color="blue"
 					/>
 				)}
 			</div>

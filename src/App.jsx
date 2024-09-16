@@ -11,32 +11,37 @@ import About from "./portfolio/About";
 import Skills from "./portfolio/Skills";
 
 import Dashboard from "./dashboard/Dashboard";
-import Login from "./dashboard/Login";
-import Register from "./dashboard/Register";
-import Dashboard2 from "./dashboard/Dashboard2";
-import Table from "./components/Table";
-import Projects2 from "./portfolio/Projects_modified";
+import Login from "./dashboard/components/Login";
+import Register from "./dashboard/components/Register";
+import { ExperienceProvider } from "./context/ExperienceProvider";
+import { EducationProvider } from "./context/EducationProvider";
+import { FeedbackProvider } from "./context/FeedbackProvider";
+import { ProjectProvider } from "./context/ProjectsProvider";
 
 const App = () => {
-	const [theme, setTheme] = useState("dark");
-
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<Layout />} />
-				<Route path="/dashboard" element={<Dashboard />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Register />} />
-				<Route path="/dashboard2" element={<Dashboard2 />} />
-				<Route path="/table" element={<Table />} />
-			</Routes>
-		</BrowserRouter>
+		<ExperienceProvider>
+			<EducationProvider>
+				<FeedbackProvider>
+					<ProjectProvider>
+						<BrowserRouter>
+							<Routes>
+								<Route path="/" element={<Portfolio />} />
+								<Route path="/dashboard" element={<Dashboard />} />
+								<Route path="/login" element={<Login />} />
+								<Route path="/register" element={<Register />} />
+							</Routes>
+						</BrowserRouter>
+					</ProjectProvider>
+				</FeedbackProvider>
+			</EducationProvider>
+		</ExperienceProvider>
 	);
 };
 
 export default App;
 
-const Layout = () => {
+const Portfolio = () => {
 	//FIXME move this functionality to custom hooks
 	const [activeLink, setActiveLink] = useState("");
 
