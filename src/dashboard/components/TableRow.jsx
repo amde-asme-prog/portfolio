@@ -5,6 +5,7 @@ function TableRow({ item, handleDelete, handleEdit, children }) {
     <tr className="border-b border-border_primary hover:bg-background_link_hover">
       {children}
       <td className="w-20 sticky right-0 border-l border-background_link_hover  py-2 px-2 bg-background_card shadow-lg align-top text-center">
+        {/* TODO //?improve the buttons to tooltip buttons */}
         <button
           onClick={() => handleEdit(item)}
           className="p-1 text-green-800  border rounded-full border-transparent hover:border-border_primary"

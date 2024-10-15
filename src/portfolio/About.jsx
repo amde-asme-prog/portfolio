@@ -1,80 +1,119 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { BiCheckCircle } from "react-icons/bi";
-import { FaStar } from "react-icons/fa";
-import { FaCircle } from "react-icons/fa6";
-import Education from "./Education";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaBriefcase, FaQuoteRight } from "react-icons/fa";
+
 import Experience from "./Experience";
 import Testimonials from "./Testimonials";
 
 const About = () => {
-  const [activeSection, setActiveSection] = useState("education");
+  const [activeSection, setActiveSection] = useState("experience");
 
-  const renderContent = () => {
-    return (
-      <motion.div
-        key={activeSection}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.5 }}
-      >
-        {activeSection === "education" && <Education />}
-        {activeSection === "experience" && <Experience />}
-        {activeSection === "testimonials" && <Testimonials />}
-      </motion.div>
-    );
-  };
+  const sections = [
+    {
+      id: "experience",
+      title: "Experience",
+      component: Experience,
+      icon: FaBriefcase,
+    },
+
+    {
+      id: "testimonials",
+      title: "Testimonials",
+      component: Testimonials,
+      icon: FaQuoteRight,
+    },
+  ];
 
   return (
     <section
       id="about"
-      className="w-full pt-28 pb-20 bg-background_container text-text_primary"
+      className="w-full py-20 bg-gradient-to-br from-background_container to-background_card_accent"
     >
-      <div className="flex flex-col lg:flex-row justify-around gap-x-8 p-8 max-md:p-4 w-full">
-        <div className="self-start lg:w-1/3 w-full p-8 pt-0">
-          <h1 className="capitalize font-extrabold text-5xl text-center mb-8">
-            About Me
-          </h1>
-          <motion.img
-            src="/assets/amdebirhan_asmamaw.jpg"
-            className="w-full rounded-2xl shadow-lg transform hover:scale-105 transition-transform"
-            alt="Amdebirhan Asmamaw"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+      <div className="container mx-auto px-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-12 text-text_primary">
+          About Me
+        </h1>
+        <div className="flex flex-col lg:flex-row gap-12">
+          <motion.div
+            className="lg:w-1/3"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-          />
-        </div>
-        <div className="lg:w-2/3 w-full px-4 max-md:px-2 flex flex-col gap-6">
-          <p className="text-text_subtle font-light italic rounded-md shadow-md bg-background_card bg-opacity-20 p-6">
-            Computer Science graduate skilled in web and mobile app development
-            using React, Flutter, and Next.js. Motivated, detail-oriented, and a
-            problem solver, eager to enhance tech projects and user experiences.
-            Passionate about technology, effective communicator, and dedicated
-            to continuous learning.
-          </p>
-          <div className="flex justify-around gap-2 pt-4">
-            {["education", "experience", "testimonials"].map((item, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveSection(item)}
-                className={`capitalize text-sm sm:text-base px-3 sm:px-6 py-2 rounded-full transition-colors duration-300 border border-border_primary ${
-                  activeSection === item
-                    ? "bg-red-500 text-text_secondary"
-                    : "bg-background_card hover:bg-opacity-70"
-                }`}
+          >
+            <div className="relative w-64 h-64 mx-auto mb-8">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-xl"></div>
+              <img
+                src="/assets/amdebirhan_asmamaw.jpg"
+                className="absolute inset-2 w-60 h-60 object-cover rounded-full border-4 border-white"
+                alt="Amdebirhan Asmamaw"
+              />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                <div className="bg-black bg-opacity-70 p-4 rounded-lg max-w-[90%]">
+                  <h2 className="text-xl font-bold mb-2 text-white">
+                    Amdebirhan Asmamaw
+                  </h2>
+                  <p className="text-sm text-gray-200">
+                    Computer Science graduate skilled in web and mobile app
+                    development. Passionate about technology and continuous
+                    learning.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <motion.div
+              className="bg-background_container p-6 rounded-xl shadow-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <h2 className="text-2xl font-bold mb-4 text-text_primary">
+                Professional Summary
+              </h2>
+              <p className="text-text_subtle mb-4">
+                Skilled in React, Flutter, and Next.js for web and mobile app
+                development. Motivated problem-solver with a keen eye for
+                detail.
+              </p>
+              <p className="text-text_subtle">
+                Dedicated to enhancing tech projects and user experiences
+                through effective communication and continuous learning.
+              </p>
+            </motion.div>
+          </motion.div>
+          <div className="lg:w-2/3">
+            <div className="flex flex-wrap justify-center mb-8">
+              {sections.map((section) => (
+                <motion.button
+                  key={section.id}
+                  onClick={() => setActiveSection(section.id)}
+                  className={`px-6 py-3 m-2 rounded-full text-sm font-medium transition-all flex items-center ${
+                    activeSection === section.id
+                      ? "bg-blue-600 text-white shadow-lg"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <section.icon className="mr-2" />
+                  {section.title}
+                </motion.button>
+              ))}
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSection}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="bg-background_card_accent rounded-xl shadow-lg p-6"
               >
-                {item}
-              </button>
-            ))}
+                {sections
+                  .find((section) => section.id === activeSection)
+                  .component()}
+              </motion.div>
+            </AnimatePresence>
           </div>
-          {/* <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          > */}
-          {renderContent()}
-          {/* </motion.div> */}
         </div>
       </div>
     </section>

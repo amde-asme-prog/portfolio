@@ -37,39 +37,6 @@ const EducationProvider = ({ children }) => {
       courses: "Developed and maintained web applications using Next.js",
       achievements: "Successfully completed 3 major projects",
     },
-    {
-      title: "Bachelors of Computer Science",
-      institute: "Bahir Dar University",
-      startYear: "Sept 2020",
-      endYear: "Jul 2024",
-      courses:
-        "Data Structures, Algorithms, Web Development, Mobile App Development",
-      achievements: "Dean's List for 3 consecutive semesters",
-    },
-    {
-      title: "Preparatory",
-      institute: "Woldia Preparatory School",
-      startYear: "Sept 2018",
-      endYear: "Jun 2019",
-      courses: "Mathematics, Physics, Chemistry, Biology",
-      achievements: "Top 5% of the class",
-    },
-    {
-      title: "High School",
-      institute: "Woldia High School",
-      startYear: "Sept 2016",
-      endYear: "Jun 2017",
-      courses: "Mathematics, Physics, Chemistry, Biology",
-      achievements: "School Science Fair Winner",
-    },
-    {
-      title: "Internship - Web Development",
-      institute: "ASTC",
-      startYear: "Jul 2023",
-      endYear: "Sep 2023",
-      courses: "Developed and maintained web applications using Next.js",
-      achievements: "Successfully completed 3 major projects",
-    },
   ]);
 
   const [modalOpen, setModalOpen] = useState(false);
