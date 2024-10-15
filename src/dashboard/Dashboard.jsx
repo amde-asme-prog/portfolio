@@ -6,7 +6,6 @@ import {
   FaRegSun,
   FaSignOutAlt,
   FaTimes,
-  FaTimesCircle,
 } from "react-icons/fa";
 import { BsBrightnessHighFill, BsMoonFill } from "react-icons/bs";
 import { FcServices } from "react-icons/fc";
@@ -117,7 +116,7 @@ const Dashboard = () => {
           showSideBar
             ? " inset-0 backdrop-sm translate-x-0"
             : "-translate-x-[100%]"
-        } md:block md:translate-x-0 fixed left-0 top-0 h-full pt-24 w-64 bg-background_secondary border-r border-border_primary z-10 transition-transform ease-in-out duration-200`}
+        } md:block md:translate-x-0 fixed left-0 top-0 h-full pt-24 w-64 bg-background_container border-r border-border_primary z-10 transition-transform ease-in-out duration-200`}
       >
         <ul className="flex flex-col space-y-2 p-4 py-2">
           {sideNavButtons.map((item, index) => (
@@ -132,10 +131,11 @@ const Dashboard = () => {
               <span>{item.name}</span>
             </button>
           ))}
+          <div className="w-full h-px bg-border_primary"></div>
           <FaTimes
             size={28}
             onClick={() => setShowSideBar(false)}
-            className="self-end"
+            className="self-end size-fit cursor-pointer"
           />
         </ul>
       </aside>

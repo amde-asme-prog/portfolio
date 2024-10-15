@@ -67,7 +67,7 @@ const EducationModal = ({ isOpen, onClose, onSubmit, initialData }) => {
         <div>
           <label className="block text-sm font-medium">Start Year</label>
           <input
-            type="text"
+            type="date"
             value={startYear}
             onChange={(e) => setStartYear(e.target.value)}
             className="mt-1 block w-full border border-input_border_color rounded-md p-2 bg-input_background_color text-input_text_color"
@@ -76,7 +76,7 @@ const EducationModal = ({ isOpen, onClose, onSubmit, initialData }) => {
         <div>
           <label className="block text-sm font-medium">End Year</label>
           <input
-            type="text"
+            type="date"
             value={endYear}
             onChange={(e) => setEndYear(e.target.value)}
             className="mt-1 block w-full border border-input_border_color rounded-md p-2 bg-input_background_color text-input_text_color"

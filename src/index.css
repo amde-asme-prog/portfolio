@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  height: 100%;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 :root {
   /* Gray */
   --gray50: #f9fafb;
@@ -81,46 +103,50 @@
   --blue900: #1e3a8a;
   --blue950: #172554;
 }
-
 .light {
-  --heading: var(--gray950);
-  --sub-heading: var(--gray900);
+  /* Heading and Text Colors */
+  --heading: #2b2d42; /* Dark slate for headings */
+  --sub-heading: #4a4e69; /* Muted purple for subheadings */
 
-  --text-primary: var(--gray800); /* gray 800 */
-  --text-secondary: var(--gray900); /* gray 900 */
-  --text-tertiary: var(--blue600); /* blue 600 */
-  --text-subtle: var(--gray700);
-  --text-accent: var(--slate700);
-  --text-link: var(--gray800);
-  --text-link-active: var(--blue600);
-  --text-link-hover: var(--blue600);
+  --text-primary: #2b2d42; /* Dark slate for primary text */
+  --text-secondary: #3a3d5e; /* Slightly lighter slate for secondary text */
+  --text-tertiary: #5f6c82; /* Muted blue for tertiary text */
+  --text-subtle: #8d99ae; /* Light slate for subtle text */
+  --text-accent: #3a3d5e; /* Accent text using medium slate */
+  --text-link: #2b2d42; /* Dark slate for links */
+  --text-link-active: #3a86ff; /* Bright blue for active links */
+  --text-link-hover: #3a3d5e; /* Medium slate for hover state */
+  --text-header: #0b4734; /* emerald-600 */
+  /* Background Colors */
+  --bg-header: #8d99ae; /* Light slate grey for header */
+  --bg-color-container: var(--gray100); /* Crisp white for containers */
+  --bg-color-card: var(--gray200); /* Light grey for card background */
+  --bg-color-card-accent: var(--gray300); /* Light grey accent for cards */
+  --bg-header-button: #edf2f4; /* Soft light grey-blue for accents */
 
-  --bg-color-body: var(--gray50);
-  --bg-header: var(--gray100);
-  --bg-color-container: var(--gray200);
-  --bg-color-card: var(--gray100);
-  --bg-accent: var(--gray200);
-  --bg-link: var(--gray200);
-  --bg-link-active: var(--gray200);
-  --bg-link-hover: var(--gray200);
+  /* Border Colors */
+  --border-primary: #d3d3d3; /* Light grey for borders */
+  --border-card: #e0e0e0; /* Slightly darker grey for card borders */
 
-  --border-primary: var(--gray300); /* gray 900 */
-  --border-card: var(--slate200);
+  /* Button Colors */
+  --button-background: #3a86ff; /* Bright blue for primary buttons */
+  --button-background-secondary: #4a4e69; /* Muted purple for secondary buttons */
+  --button-border: #3a86ff; /* Bright blue for button borders */
+  --button-text: #ffffff; /* White text on buttons */
+  --button-hover: #265df2; /* Darker blue for hover state */
+  --button-hover-background: #265df2; /* Darker blue for hover background */
+  --button-hover-secondary: #4a4e69; /* Muted purple for secondary button hover */
+  --button-hover-text: #ffffff; /* White text on hover */
 
-  --icon-color: var(--blue500); /* (Gray 500) */
+  /* Input Colors */
+  --input-background-color: #f8f9fa; /* Light grey for input backgrounds */
+  --input-border-color: #e0e0e0; /* Light grey border for inputs */
+  --input-text-color: #2b2d42; /* Dark slate for input text */
 
-  --button-background: var(--blue600); /* blue 500 */
-  --button-background-secondary: transparent;
-  --button-border: var(--blue500); /* blue 500 */
-  --button-text: var(--slate300); /* slate 300 */
-  --button-hover: var(--blue700); /* blue 700 */
-  --button-hover-background: var(--blue700); /* blue 700 */
-  --button-hover-text: var(--slate300); /* slate 300 */
-
-  --input-background-color: var(--gray50);
-  --input-border-color: var(--gray200);
-  --input-text-color: var(--slate800);
+  /* Shadow Colors */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Soft, subtle shadow for depth */
 }
+
 .dark {
   --heading: var(--gray50);
   --sub-heading: var(--slate300);
@@ -133,64 +159,34 @@
   --text-link: var(--gray100);
   --text-link-active: var(--blue600);
   --text-link-hover: var(--blue600);
+  --text-header: #34d399; /* emerald-400  */
 
-  --bg-color-body: var(--gray950);
   --bg-header: var(--gray800);
   --bg-color-container: var(--gray900);
   --bg-color-card: var(--gray800);
-  --bg-accent: var(--gray600);
+  --bg-color-card-accent: var(--gray700);
+  --bg-header-button: var(--gray600);
   --bg-link: var(--gray800);
   --bg-link-active: var(--slate700);
   --bg-link-hover: var(--slate700);
 
   --icon-color: var(--gray500);
 
-  --border-primary: var(--gray700);
+  --border-primary: var(--gray600);
   --border-card: var(--slate700);
 
   --button-background: var(--blue600);
-  --button-background-secondary: transparent;
+  --button-background-secondary: var(--gray700);
   --button-border: var(--blue600);
   --button-text: var(--slate300);
   --button-hover: var(--blue700);
+  --button-secondary-hover: var(--gray600);
   --button-hover-background: var(--blue700);
   --button-hover-text-color: var(--gray100);
 
   --input-background-color: var(--gray600); /* Closest match to #495057 */
   --input-border-color: var(--gray500); /* Closest match to #666d74 */
   --input-text-color: var(--gray50);
-}
 
-.dark-alt {
-  --heading: #e2e8f0; /* Gray 200 */
-  --sub-heading: #a0aec0; /* Gray 400 */
-
-  --text-primary: #e2e8f0; /* Gray 200 */
-  --text-secondary: #edf2f7; /* Gray 50 */
-  --text-tertiary: #63b3ed; /* Blue 400 */
-  --text-subtle: #e2e8f0; /* Gray 200 */
-  --text-accent: #e2e8f0; /* Gray 200 */
-
-  --bg-color-body: #1a202c; /* Gray 900 */
-  --bg-header: #2d3748; /* Gray 800 */
-  --bg-color-container: #2d3748; /* Gray 800 */
-  --bg-color-card: #1a202c; /* Gray 900 */
-  --bg-accent: #2d3748; /* Gray 800 */
-
-  --border-primary: #4a5568; /* Gray 700 */
-  --border-card: #4a5568; /* Gray 700 */
-
-  --icon-color: #63b3ed; /* Blue 400 */
-
-  --button-background: #3182ce; /* Blue 600 */
-  --button-background-secondary: transparent;
-  --button-border: #3182ce; /* Blue 600 */
-  --button-text: #e2e8f0; /* Gray 200 */
-  --button-hover: #2b6cb0; /* Blue 700 */
-  --button-hover-background: #2b6cb0; /* Blue 700 */
-  --button-hover-text: #e2e8f0; /* Gray 200 */
-
-  --input-background-color: #2d3748; /* Gray 800 */
-  --input-border-color: #4a5568; /* Gray 700 */
-  --input-text-color: #e2e8f0; /* Gray 200 */
+  --shadow-color: var(--gray800);
 }
