@@ -1,38 +1,16 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  faHome,
-  faUser,
-  faProjectDiagram,
-  faEnvelope,
-  faTimes,
-  faBars,
-  faArrowUp,
-  faSun,
-  faMoon,
-  faCogs,
-  faTools,
-} from "@fortawesome/free-solid-svg-icons";
+
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+
 import { Link, animateScroll } from "react-scroll";
+import logo from "/public/logo.svg";
 
 import useTheme from "../hooks/useTheme";
 import useWindowScroll from "../hooks/useWindowsScroll";
 
-// Add icons to the library
-library.add(
-  faHome,
-  faUser,
-  faProjectDiagram,
-  faEnvelope,
-  faTimes,
-  faBars,
-  faArrowUp,
-  faSun,
-  faMoon,
-  faCogs,
-  faTools
-);
+library.add(fab, fas);
 
 const Header = () => {
   const { activeLink, setActiveLink, showMenu, setShowMenu } =
@@ -41,19 +19,9 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-opacity-30 backdrop-blur-md p-4 fixed top-0 w-full z-50 shadow-lg transition-colors duration-300">
+      <header className="bg-stone-300/30 backdrop-blur-md p-3 fixed top-0 w-full z-50 shadow-lg transition-colors duration-300">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center">
-            <img
-              src="/assets/"
-              alt="Logo"
-              className="h-12 w-12 mr-3 rounded-full border-2 border-emerald-600"
-            />
-            <span className="text-2xl font-bold text-text_header">
-              Amdebirhan Asmamaw
-            </span>
-          </div>
-
+          <img src={logo} alt="Logo" className="h-16" />
           <div className="lg:hidden text-text_primary text-4xl md:text-6xl">
             <FontAwesomeIcon
               icon={showMenu ? "times" : "bars"}
@@ -64,7 +32,7 @@ const Header = () => {
           <nav
             className={`${
               showMenu
-                ? "bg-background_card lg:bg-transparent  flex flex-col lg:flex-row gap-4 fixed top-20 right-4 py-4 px-8 rounded-lg bg-opacity-30 backdrop-blur-md shadow-xl transition-all duration-300 ease-linear"
+                ? "flex flex-col lg:flex-row gap-4 fixed top-20 right-4 py-4 px-8 rounded-lg bg-opacity-30 backdrop-blur-md shadow-xl transition-all duration-300 ease-linear"
                 : "hidden lg:flex lg:flex-row gap-4"
             }`}
           >
@@ -86,7 +54,7 @@ const Header = () => {
         className={`${
           activeLink === "home" || activeLink === ""
             ? "hidden"
-            : "  cursor-pointer fixed bottom-10 right-4 z-50 grid place-content-center shadow-xl size-10 rounded-full overflow-hidden backdrop-blur-md bg-opacity-30 text-text_primary hover:bg-opacity-50 border border-border_primary transition-colors duration-300"
+            : "  cursor-pointer fixed bottom-10 right-4 z-50 grid place-content-center shadow-xl size-10 rounded-full overflow-hidden backdrop-blur-md bg-opacity-30 text-stone-100 hover:bg-opacity-50 border transition-colors duration-300"
         }`}
       >
         <FontAwesomeIcon
@@ -124,9 +92,9 @@ const NavItems = ({ activeLink }) => {
           duration={500}
           className={`${
             activeLink === label.toLowerCase()
-              ? "bg-opacity-50 bg-emerald-800"
-              : "hover:bg-opacity-30 hover:bg-emerald-500"
-          } text-text_header cursor-pointer flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 backdrop-blur-md`}
+              ? "bg-opacity-80 bg-blue-700"
+              : ""
+          } hover:bg-opacity-60 hover:bg-blue-400 text-stone-800 dark:text-stone-100 cursor-pointer flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 backdrop-blur-md overflow-hidden`}
         >
           <FontAwesomeIcon icon={icon} className="mr-2" />
           <span>{label}</span>

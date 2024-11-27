@@ -1,0 +1,125 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 800 300"
+  width="800"
+  height="300"
+>
+  <!-- Gradient Definitions -->
+  <defs>
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4A90E2" />
+      <stop offset="50%" stop-color="#8E44AD" />
+      <stop offset="100%" stop-color="#e0d426" />
+    </linearGradient>
+    <radialGradient id="highlightGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4A90E2" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background Glow Effect -->
+  <circle cx="250" cy="150" r="100" fill="url(#highlightGradient)" />
+
+  <!-- Title -->
+  <text
+    x="50"
+    y="120"
+    font-family="'Poppins', sans-serif"
+    font-size="56"
+    font-weight="700"
+    fill="url(#mainGradient)"
+    letter-spacing="3"
+  >
+    AMDEBIRHAN
+  </text>
+
+  <!-- Profession -->
+  <text
+    x="50"
+    y="180"
+    font-family="'Poppins', sans-serif"
+    font-size="32"
+    fill="#b4e432"
+    font-weight="500"
+  >
+    SOFTWARE DEVELOPER
+  </text>
+
+  <!-- Separator Line -->
+  <line
+    x1="50"
+    y1="200"
+    x2="350"
+    y2="200"
+    stroke="url(#mainGradient)"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <!-- Icon Area -->
+  <g transform="translate(500, 80)">
+    <!-- Tech-Inspired Hexagon -->
+    <polygon
+      points="50,0 100,25 100,75 50,100 0,75 0,25"
+      fill="#2C3E50"
+      stroke="url(#mainGradient)"
+      stroke-width="3"
+    />
+    <!-- Circuit Pattern Inside -->
+    <circle cx="50" cy="50" r="8" fill="#4A90E2" />
+    <line x1="50" y1="8" x2="50" y2="0" stroke="#8E44AD" stroke-width="2" />
+    <line x1="92" y1="50" x2="100" y2="50" stroke="#8E44AD" stroke-width="2" />
+    <line x1="8" y1="50" x2="0" y2="50" stroke="#8E44AD" stroke-width="2" />
+    <line x1="50" y1="92" x2="50" y2="100" stroke="#8E44AD" stroke-width="2" />
+  </g>
+
+  <!-- Dynamic Sparkles -->
+  <g>
+    <circle cx="300" cy="40" r="4" fill="#4A90E2">
+      <animate
+        attributeName="opacity"
+        values="0;1;0"
+        dur="2s"
+        repeatCount="indefinite"
+      />
+    </circle>
+    <circle cx="200" cy="240" r="5" fill="#8E44AD">
+      <animate
+        attributeName="opacity"
+        values="0;1;0"
+        dur="2.5s"
+        repeatCount="indefinite"
+      />
+    </circle>
+    <circle cx="600" cy="70" r="5" fill="#4A90E2">
+      <animate
+        attributeName="opacity"
+        values="0;1;0"
+        dur="3s"
+        repeatCount="indefinite"
+      />
+    </circle>
+    <circle cx="700" cy="200" r="6" fill="#8E44AD">
+      <animate
+        attributeName="opacity"
+        values="0;1;0"
+        dur="3.5s"
+        repeatCount="indefinite"
+      />
+    </circle>
+  </g>
+
+  <!-- Subtle Glow Around Text -->
+  <text
+    x="50"
+    y="120"
+    font-family="'Poppins', sans-serif"
+    font-size="56"
+    font-weight="700"
+    fill="url(#mainGradient)"
+    letter-spacing="3"
+    filter="url(#glow)"
+  >
+    AMDEBIRHAN
+  </text>
+</svg>

@@ -4,41 +4,93 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import Experience from "./Experience";
-import Testimonials from "./Testimonials";
+import {
+  ErrorMessage,
+  LoadingSpinner,
+  OfflineMessage,
+} from "./reusables/ErrorResponses";
 
 library.add(fab, fas);
 
 const About = () => {
-  const [activeSection, setActiveSection] = useState("experience");
+  const [activeSection, setActiveSection] = useState("values");
 
   const sections = [
     {
-      id: "experience",
-      title: "Experience",
-      component: <Experience />,
-      icon: "briefcase",
+      id: "values",
+      title: "Core Values",
+      content: (
+        <div>
+          <h3 className="text-2xl font-bold mb-4 text-purple-700 dark:text-purple-400">
+            My Principles
+          </h3>
+          <p className="mb-6 text-gray-700 dark:text-gray-300">
+            These values define how I approach my work and life:
+          </p>
+          <ul className="list-disc pl-6 space-y-3 text-gray-600 dark:text-gray-400">
+            <li>
+              <strong>Integrity:</strong> Upholding honesty and quality in all I
+              do.
+            </li>
+            <li>
+              <strong>Innovation:</strong> Embracing creativity and staying
+              ahead of the curve.
+            </li>
+            <li>
+              <strong>Collaboration:</strong> Building meaningful partnerships
+              for success.
+            </li>
+            <li>
+              <strong>Passion:</strong> Pursuing technology with enthusiasm and
+              a growth mindset.
+            </li>
+          </ul>
+        </div>
+      ),
+      icon: "heart",
     },
     {
-      id: "testimonials",
-      title: "Testimonials",
-      component: <Testimonials />,
-      icon: "quote-right",
+      id: "interests",
+      title: "Interests",
+      content: (
+        <div>
+          <h3 className="text-2xl font-bold mb-4 text-green-700 dark:text-green-400">
+            What Sparks My Curiosity
+          </h3>
+          <p className="text-gray-700 dark:text-gray-300 mb-6">
+            Beyond coding, I find joy and inspiration in:
+          </p>
+          <ul className="list-disc pl-6 space-y-3 text-gray-600 dark:text-gray-400">
+            <li>Exploring the latest tech trends and breakthroughs.</li>
+            <li>
+              Building interactive projects and open-source contributions.
+            </li>
+            <li>Diving into UI/UX design and optimizing user experiences.</li>
+            <li>
+              Participating in hackathons and tech meetups to share ideas.
+            </li>
+            <li>
+              Staying connected with nature through hiking and photography.
+            </li>
+          </ul>
+        </div>
+      ),
+      icon: "compass",
     },
   ];
 
+  // if (isLoading) return <LoadingSpinner />;
+  // if (fetchStatus === "paused") return <OfflineMessage />;
+  // if (error) return <ErrorMessage status={error.response?.status} />;
   return (
-    <section className="min-h-screen w-full py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container  px-4 max-w-7xl">
-        <motion.h1
-          className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          About Me
-        </motion.h1>
-
+    <section
+      id="about"
+      className="min-h-screen w-full py-20 bg-gray-100 dark:bg-stone-900 mb-5"
+    >
+      <p className="text-center text-4xl font-bold text-stone-800 dark:text-stone-400 py-10 pb-20">
+        About Me
+      </p>
+      <div className="container px-4">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Profile Image Section */}
           <motion.div
@@ -86,15 +138,11 @@ const About = () => {
                 <motion.button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`
-                    px-8 py-4 rounded-xl text-sm font-semibold transition-all duration-300
-                    flex items-center gap-3 backdrop-blur-sm
-                    ${
-                      activeSection === section.id
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25"
-                        : "bg-white/80 text-gray-700 hover:bg-stone-300 hover:text-stone-800 hover:shadow-md dark:bg-gray-800/80 dark:text-gray-200"
-                    }
-                  `}
+                  className={`px-8 py-4 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-3 backdrop-blur-sm ${
+                    activeSection === section.id
+                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25"
+                      : "bg-white/80 text-gray-700 hover:bg-stone-300 hover:text-stone-800 hover:shadow-md dark:bg-gray-800/80 dark:text-gray-200"
+                  }`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -116,7 +164,7 @@ const About = () => {
               >
                 {
                   sections.find((section) => section.id === activeSection)
-                    .component
+                    .content
                 }
               </motion.div>
             </AnimatePresence>

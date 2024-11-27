@@ -4,6 +4,12 @@ import { useDownloadCv, useLandingContent } from "../hooks/landingContentQuery";
 import { Fragment, useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 
+import {
+  ErrorMessage,
+  LoadingSpinner,
+  OfflineMessage,
+} from "./reusables/ErrorResponses";
+
 const Home = () => {
   const { data: content, isLoading, error, fetchStatus } = useLandingContent();
   const { refetch: downloadCv } = useDownloadCv();
@@ -40,7 +46,7 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="flex flex-col lg:flex-row w-full pt-28 bg-gray-100 dark:bg-gray-800 pb-20"
+      className=" flex flex-col lg:flex-row w-full pt-28  bg-stone-800 pb-20 mb-5"
     >
       <motion.div
         className="flex flex-col gap-y-6 w-full lg:w-2/3 px-3 sm:px-4 md:px-8 lg:px-10 py-5 lg:py-6 overflow-visible"
@@ -49,10 +55,10 @@ const Home = () => {
         whileInView={{ opacity: 1, scale: 1 }}
       >
         <div className="flex flex-col gap-y-8">
-          <div className="text-6xl max-sm:text-3xl max-md:text-4xl font-extrabold text-gray-900 dark:text-gray-100">
+          <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-stone-300">
             {introText.greeting},
           </div>
-          <div className="text-6xl max-sm:text-3xl max-md:text-4xl font-bold text-gray-900 dark:text-gray-100">
+          <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-stone-300">
             {introText.introduction}{" "}
             <span className="text-blue-600 dark:text-blue-400 font-roboto font-bold">
               {introText.name},
@@ -76,44 +82,14 @@ const Home = () => {
   );
 };
 
-const LoadingSpinner = () => (
-  <div className="flex justify-center items-center w-full bg-gray-100 dark:bg-gray-800 h-screen">
-    <div className="animate-spin rounded-full size-12 border-t-2 border-b-2 border-indigo-600"></div>
-  </div>
-);
-
-const ErrorMessage = ({ status }) => {
-  if (status >= 500) {
-    return (
-      <div className="text-center py-8 text-red-600 dark:text-red-400">
-        Error fetching data. Please try again later.
-      </div>
-    );
-  }
-  if (status === 404) {
-    return (
-      <div className="text-center py-12 text-gray-600 dark:text-gray-400">
-        No content found. Add some content on your dashboard!
-      </div>
-    );
-  }
-  return null;
-};
-
-const OfflineMessage = () => (
-  <div className="text-center py-8 text-red-600 dark:text-red-400">
-    It seems you're offline. Please check your internet connection.
-  </div>
-);
-
 const ActionButtons = ({ cv, downloadCv }) => (
-  <div className="flex flex-row justify-start gap-x-4 max-md:justify-center max-md:w-full items-center pt-4">
+  <div className="flex flex-row justify-start gap-x-4 max-md:justify-center max-md:w-full items-center pt-6">
     <motion.a
       href={cv}
       download="amdebirhan asmamaw cv.pdf"
       onClick={downloadCv}
       target="_blank"
-      className="flex flex-row items-center gap-3 uppercase text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700 text-lg rounded-xl border-gray-300 dark:border-gray-600 border-2 px-5 py-3 shadow-md hover:shadow-blue-300"
+      className="flex flex-row items-center gap-3 uppercase text-stone-900  bg-gray-300 text-lg rounded-xl px-5 py-3 shadow-md hover:shadow-blue-300"
       whileHover={{ scale: 1.05 }}
       transition={{ type: "spring", stiffness: 300 }}
     >
@@ -125,7 +101,7 @@ const ActionButtons = ({ cv, downloadCv }) => (
     </motion.a>
     <motion.a
       href="#contact"
-      className="uppercase rounded-xl bg-blue-600 dark:bg-blue-700 text-white px-5 py-3 flex flex-row items-center gap-3 text-lg border-2 border-gray-300 dark:border-gray-600 hover:shadow-md hover:shadow-blue-300"
+      className="uppercase rounded-xl text-lg px-5 py-3 bg-blue-500 text-stone-200 flex gap-4 items-center "
       whileHover={{ scale: 1.05 }}
       transition={{ type: "spring", stiffness: 300 }}
     >
@@ -171,7 +147,7 @@ const TypeWriter = ({ typewriterTexts }) => {
       wrapper="span"
       speed={70}
       repeat={Infinity}
-      className="text-6xl font-roboto font-bold max-sm:text-3xl max-md:text-4xl text-gray-900 dark:text-gray-100 mb-3"
+      className="text-3xl md:text-4xl lg:text-5xl font-roboto text-red-700 font-bold mb-3"
     />
   );
 };

@@ -2,198 +2,169 @@ import { useState, useRef } from "react";
 import { BiPhone } from "react-icons/bi";
 import { GoLocation } from "react-icons/go";
 import { MdEmail } from "react-icons/md";
-import emailjs from "@emailjs/browser";
 import { RiShakeHandsLine } from "react-icons/ri";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
-const SERVICE_ID = "service_ecb503a";
-const TEMPLATE_ID = "template_iuajp3p";
-const PUBLIC_KEY = "CVBjB8BkVTJFPW0YT";
 const Contact = () => {
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useRef();
 
-  const sendEmail = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form.current);
-    emailjs
-      .sendForm(SERVICE_ID, TEMPLATE_ID, form.current, {
-        publicKey: PUBLIC_KEY,
-      })
-      .then(
-        (response) => {
-          console.log(response);
-          console.log("SUCCESS!");
-        },
-        (error) => {
-          console.log("FAILED...", error.text);
+    setIsSubmitting(true);
+
+    try {
+      const formData = new FormData(form.current);
+      const response = await fetch(
+        "https://formsubmit.co/amdebrhanasmamaw93@gmail.com",
+        {
+          method: "POST",
+          body: formData,
         }
       );
+
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+        form.current.reset();
+      } else {
+        toast.error("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleSubmit = async (e) => {
-    // e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("message", message);
-    console.log(formData);
-    const response = await fetch(
-      "https://formsubmit.co/amdebrhanasmamaw93@gmail.com",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    console.log(response);
-    const data = await response.json();
-    console.log(data);
-    const reply =
-      "Hey {{user_name}}!Thank you for contacting us. We will reply to you soon. Best regards,The Awesome Team";
-  };
   return (
     <section
       id="contact"
-      className="py-20 w-full bg-gradient-to-br from-background_container to-background_card_accent flex flex-wrap justify-center gap-x-20 items-start"
+      className="w-full py-24 bg-gradient-to-b bg-gray-100 dark:bg-stone-900 10"
     >
-      <div className="m-5 mb-4 w-full max-w-lg ">
-        <h1 className="text-4xl font-bold mb-6 text-heading text-center">
-          Let&rsquo;s Connect
-        </h1>
-        <form
-          ref={form}
-          className="w-full flex flex-col justify-start gap-y-4 px-6 py-6 bg-background_card rounded-lg shadow-lg"
-        >
-          <p className="italic text-text_accent">
-            If you want to know more about me or my work, or if you would just
-            like to say hello, send me a message. I'd love to hear from you.
-          </p>
-          <div className="mb-6">
-            <label
-              htmlFor="name"
-              className="block text-lg font-medium text-text_secondary"
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
+          {/* Form Section */}
+          <div className="w-full lg:w-3/5">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
             >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="username"
-              className="bg-background_card_accent text-text_secondary mt-1 block w-full px-4 py-2 border border-border_primary rounded-md shadow-sm focus:border-text_tertiary  "
-              placeholder="Your Name"
-            />
+              <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+                Let's Connect
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-8">
+                I'd love to hear from you. Send me a message and I'll respond as
+                soon as possible.
+              </p>
+
+              <form ref={form} onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    rows="5"
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 transition-all"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-all disabled:opacity-70"
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </button>
+              </form>
+            </motion.div>
           </div>
-          <div className="mb-6">
-            <label
-              htmlFor="email"
-              className="block text-lg font-medium text-text_secondary"
+
+          {/* Contact Info Section */}
+          <div className="w-full lg:w-2/5">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
             >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="bg-background_card_accent text-text_secondary mt-1 block w-full px-4 py-2 border border-border_primary rounded-md shadow-sm focus:border-text_tertiary  "
-              placeholder="Your Email"
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="message"
-              className="block text-lg font-medium text-text_secondary"
-            >
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              className="bg-background_card_accent text-text_secondary mt-1 block w-full px-4 py-2 border border-border_primary rounded-md shadow-sm focus:border-text_tertiary  "
-              placeholder="Your Message"
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            onClick={sendEmail}
-            className="w-full bg-button_primary text-white px-4 py-2 rounded-md font-medium hover:bg-blue-600 transition-colors"
-          >
-            Send Message
-          </button>
-        </form>
-      </div>
-      <div className="mt-8 text-3xl flex flex-col gap-5 h-full self-center flex-wrap max-sm:mx-4">
-        <div className="flex flex-col gap-y-4 mt-8">
-          <div className="flex items-center gap-x-2">
-            <div className="rounded-md shadow-lg p-2 bg-background_card">
-              <MdEmail
-                size={24}
-                cursor={"pointer"}
-                className="text-text_secondary"
-                onClick={() => {
-                  console.log("Amdebrhanasmamaw93@gmail.com".valueOf());
-                }}
-              />
-            </div>
-            <div className="not-italic text-lg text-text_secondary ml-2">
-              <span className="capitalize">email</span>
-              <address className="font-bold text-base lg:text-lg  text-text_accent text-wrap overflow-ellipsis">
-                Amdebrhanasmamaw93@gmail.com
-              </address>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-2">
-            <div className="rounded-md shadow-lg p-2 bg-background_card">
-              <BiPhone
-                size={24}
-                cursor={"pointer"}
-                className="text-text_secondary"
-                onClick={() => {
-                  console.log("(+251) 921-975-184".valueOf());
-                }}
-              />
-            </div>
-            <div className="flex flex-col justify-start text-lg text-text_secondary ml-2">
-              <span className="capitalize">phone</span>
-              <address className="font-bold text-base lg:text-lg  text-text_accent text-wrap overflow-ellipsis">
-                (+251) 921-975-184
-              </address>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-2 ">
-            <div className="rounded-md shadow-lg p-2 bg-background_card ">
-              <GoLocation
-                size={24}
-                color="background_card"
-                cursor={"pointer"}
-                className="text-text_secondary"
-              />
-            </div>
-            <div className="flex flex-col justify-start text-lg text-text_secondary ml-2">
-              <span className="capitalize">location</span>
-              <address className="font-bold text-base lg:text-lg  text-text_accent text-wrap overflow-ellipsis">
-                Addis ababa, Ethiopia
-              </address>
-            </div>
+              <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                Contact Information
+              </h3>
+
+              <div className="space-y-6">
+                <ContactItem
+                  icon={<MdEmail className="w-6 h-6" />}
+                  title="Email"
+                  value="Amdebrhanasmamaw93@gmail.com"
+                />
+                <ContactItem
+                  icon={<BiPhone className="w-6 h-6" />}
+                  title="Phone"
+                  value="(+251) 921-975-184"
+                />
+                <ContactItem
+                  icon={<GoLocation className="w-6 h-6" />}
+                  title="Location"
+                  value="Addis Ababa, Ethiopia"
+                />
+              </div>
+
+              <motion.a
+                href="#contact"
+                className="mt-8 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Hire Me
+                <RiShakeHandsLine className="w-5 h-5" />
+              </motion.a>
+            </motion.div>
           </div>
         </div>
-        <motion.a
-          href="#contact"
-          className=" w-fit uppercase rounded-xl bg-blue-600 text-white px-5 py-3 flex flex-row items-center gap-3 text-lg border-2 border-border_primary "
-          whileHover={{ scale: 1.05, rotate: 5 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
-          hire me
-          <RiShakeHandsLine
-            size={24}
-            className="inline-flex text-sm sm:text-base lg:text-lg"
-          />
-        </motion.a>
       </div>
     </section>
   );
 };
+
+const ContactItem = ({ icon, title, value }) => (
+  <div className="flex items-start gap-4">
+    <div className="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">{icon}</div>
+    <div>
+      <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400">
+        {title}
+      </h4>
+      <p className="text-gray-900 dark:text-white font-medium">{value}</p>
+    </div>
+  </div>
+);
 
 export default Contact;

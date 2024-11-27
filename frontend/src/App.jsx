@@ -10,7 +10,7 @@ import { Toaster } from "sonner";
 
 const Portfolio = () => {
   return (
-    <div className="h-full scroll-smooth bg-background_body transition-all duration-700 ">
+    <div className="h-full scroll-smooth bg-white dark:bg-black transition-all duration-700 ">
       <Toaster position="top-center" invert richColors />
 
       <Header />
