@@ -24,16 +24,21 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
     title: "",
     tools: "",
     role: "",
+    image: "", // Add image error handling
   });
 
   // Handle initial data when the modal is opened
   useEffect(() => {
     if (initialData) {
-      setTitle(initialData.title);
-      setTools(JSON.parse(initialData.tools) || []); // Ensure tools are an array
+      setTitle(initialData.title || "");
+      setTools(
+        Array.isArray(initialData.tools)
+          ? initialData.tools
+          : JSON.parse(initialData.tools) || []
+      );
       setRole(initialData.role || "");
       setDescription(initialData.description || "");
-      setDemoLink(initialData.demo_link || ""); // Using demo_link
+      setDemoLink(initialData.demo_link || "");
       setGithubLink(initialData.github_link || "");
       setImage(initialData.image_path || null); // Set the image path if available
       setStatus(initialData.status || false); // Set the project status
@@ -58,7 +63,7 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
 
       const formData = {
         title,
-        tools: tools,
+        tools,
         role,
         description,
         image_path: image,
@@ -83,7 +88,6 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
             },
           }
         );
-        // Update project
       } else {
         addProject(formData, {
           onSuccess: () => {
@@ -123,10 +127,10 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
     <Dialog
       open={isOpen}
       onClose={onClose}
-      className="fixed content-center inset-0 bg-black/35 backdrop-blur-sm transition-colors duration-200 overflow-y-scroll mt-10 mb-4"
+      className="fixed inset-0 bg-black/35 backdrop-blur-sm transition-colors duration-200 overflow-y-scroll mt-10 mb-4"
     >
       <Toaster position="top-center" invert richColors />
-      <DialogPanel className="place-self-center relative top-24 bg-background_card  text-text_primary p-6 rounded-lg shadow-lg w-11/12 mx-auto  md:w-96">
+      <DialogPanel className="place-self-center relative top-24 bg-background_card text-text_primary p-6 rounded-lg shadow-lg w-11/12 mx-auto md:w-96">
         <DialogTitle className="text-xl font-bold mb-4">
           {initialData ? "Edit Project" : "Add Project"}
         </DialogTitle>
@@ -225,16 +229,12 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
           </div>
 
           {/* Image Upload */}
-
           <div className="space-y-4">
-            <label className="block text-sm font-medium">Project Image</label>
+            <label className="block text-sm font-medium">Project Image *</label>
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => {
-                console.log(e.target.files[0]);
-                setImage(e.target.files[0]);
-              }}
+              onChange={(e) => setImage(e.target.files[0])}
               className="block w-full text-sm text-gray-500 dark:text-gray-400
         file:mr-4 file:py-2 file:px-4
         file:rounded-full file:border-0
@@ -244,6 +244,9 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
         hover:file:bg-blue-100 dark:hover:file:bg-blue-900/40
         transition-colors cursor-pointer"
             />
+            {errors.image && (
+              <p className="text-red-500 text-xs mt-1">{errors.image}</p>
+            )}
             {image && (
               <img
                 src={

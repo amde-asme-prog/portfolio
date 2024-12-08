@@ -74,14 +74,6 @@ const ExperienceTable = () => {
             </div>
           )}
 
-          {fetchStatus === "paused" ||
-            (fetchStatus === "idle" && (
-              <div className="text-center py-8 text-red-500 dark:text-red-400">
-                It seems you&apos;re offline. Please check your internet
-                connection.
-              </div>
-            ))}
-
           {error?.response?.status >= 500 && (
             <div className="text-center py-8 text-red-500 dark:text-red-400">
               Error fetching data. Please try again later.

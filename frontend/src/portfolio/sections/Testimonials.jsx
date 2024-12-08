@@ -1,7 +1,7 @@
 // Feedback.js
 import { FaQuoteLeft, FaStar, FaUser } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useFeedbacksQuery } from "../hooks/feedbackQuery";
+import { useFeedbacksQuery } from "../../hooks/feedbackQuery";
 import { useEffect, useState } from "react";
 
 export default function Feedback() {

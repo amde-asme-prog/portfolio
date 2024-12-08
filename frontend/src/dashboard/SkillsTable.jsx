@@ -4,6 +4,12 @@ import TableHead from "./components/TableHead";
 import TableRow from "./components/TableRow";
 import { useDeleteSkillMutation, useSkillsQuery } from "../hooks/skillsQuery";
 import { Toaster } from "sonner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+library.add(fab, fab);
 
 const SkillsTable = () => {
   const [skills, setSkills] = useState([]);
@@ -22,10 +28,10 @@ const SkillsTable = () => {
     deleteSkill(id);
   };
 
-  const columns = ["name", "Group", "Type", "Proficiency", "Status"];
+  const columns = ["name", "Type", "Proficiency", "Icon"];
 
   return (
-    <div className="p-6 mx-auto bg-white dark:bg-gray-900 min-h-screen">
+    <div className="p-6 mx-auto bg-gray-50 dark:bg-gray-900 min-h-screen">
       <Toaster position="top-center" invert richColors />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -33,7 +39,7 @@ const SkillsTable = () => {
         </h1>
         <button
           onClick={() => setModalOpen(true)}
-          className="bg-indigo-600 text-white py-2.5 px-6 rounded-lg hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          className="bg-indigo-600 text-white py-2.5 px-6 rounded-lg hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 dark:bg-indigo-500 dark:hover:bg-indigo-600"
         >
           + Add Skill
         </button>
@@ -43,7 +49,7 @@ const SkillsTable = () => {
         <div className="overflow-x-auto">
           {isLoading && (
             <div className="flex justify-center items-center h-40">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 dark:border-indigo-400"></div>
             </div>
           )}
 
@@ -60,7 +66,7 @@ const SkillsTable = () => {
           )}
 
           {!isLoading && !error && skills && skills.length > 0 && (
-            <table className="w-full text-sm text-text_secondary">
+            <table className="w-full text-sm text-gray-700 dark:text-gray-200">
               <TableHead columnsData={columns} />
               <tbody>
                 {skills.map((skill) => (
@@ -74,10 +80,14 @@ const SkillsTable = () => {
                     }}
                   >
                     <td className="py-2 px-4">{skill.name}</td>
-                    <td className="py-2 px-4">{skill.group}</td>
                     <td className="py-2 px-4">{skill.type}</td>
                     <td className="py-2 px-4">{skill.proficiency}</td>
-                    <td className="py-2 px-4">{skill.status}</td>
+                    <td className="py-2 px-4">
+                      <FontAwesomeIcon
+                        icon={["fab", skill.icon]}
+                        className="text-lg"
+                      />
+                    </td>
                   </TableRow>
                 ))}
               </tbody>
@@ -89,7 +99,10 @@ const SkillsTable = () => {
       {modalOpen && (
         <SkillModal
           isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
+          onClose={() => {
+            setEditingSkill(null);
+            setModalOpen(false);
+          }}
           initialData={editingSkill}
         />
       )}

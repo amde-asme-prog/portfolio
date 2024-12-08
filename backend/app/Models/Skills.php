@@ -10,7 +10,6 @@ class Skills extends Model
     use HasFactory;
     protected $fillable=[
         'name',
-        'group',
         'type',
         'proficiency',
         'icon',

@@ -6,7 +6,6 @@ export const fetchFeedbacks = async () => {
 };
 
 export const addFeedback = async (feedback) => {
-  console.log("adding feedback axios ", feedback);
   const response = await axiosInstance.post("feedbacks", feedback, {
     headers: {
       "Content-Type": "application/json",

@@ -5,10 +5,10 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 
 import { Link, animateScroll } from "react-scroll";
-import logo from "/public/logo.svg";
+import logo from "/logo.svg";
 
-import useTheme from "../hooks/useTheme";
-import useWindowScroll from "../hooks/useWindowsScroll";
+import useTheme from "../../hooks/useTheme";
+import useWindowScroll from "../../hooks/useWindowsScroll";
 
 library.add(fab, fas);
 
@@ -19,7 +19,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-stone-300/30 backdrop-blur-md p-3 fixed top-0 w-full z-50 shadow-lg transition-colors duration-300">
+      <header className="px-12 py-3 bg-blue-300/10 text-stone-800 dark:text-white backdrop-blur-md fixed top-0 w-full z-50 shadow-lg transition-colors duration-300">
         <div className="container mx-auto flex justify-between items-center">
           <img src={logo} alt="Logo" className="h-16" />
           <div className="lg:hidden text-text_primary text-4xl md:text-6xl">
@@ -32,7 +32,7 @@ const Header = () => {
           <nav
             className={`${
               showMenu
-                ? "flex flex-col lg:flex-row gap-4 fixed top-20 right-4 py-4 px-8 rounded-lg bg-opacity-30 backdrop-blur-md shadow-xl transition-all duration-300 ease-linear"
+                ? "flex flex-col max-sm:bg-white dark:max-sm:bg-gray-800  lg:flex-row gap-4 fixed top-20 right-0 py-4 px-8 rounded-lg bg-opacity-30 backdrop-blur-md shadow-xl transition-all duration-300 ease-linear"
                 : "hidden lg:flex lg:flex-row gap-4"
             }`}
           >

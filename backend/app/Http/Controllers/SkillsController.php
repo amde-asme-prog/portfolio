@@ -23,7 +23,6 @@ class SkillsController extends Controller
     {
         $data = $request->only([
             'name',
-            'group',
             'type',
             'proficiency',
             'icon',
@@ -31,7 +30,6 @@ class SkillsController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'group' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'proficiency' => 'required|string|max:255',
             'icon' => 'required|string|max:255',
@@ -51,7 +49,6 @@ class SkillsController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'group' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'proficiency' => 'required|string|max:255',
             'icon' => 'required|string|max:255',

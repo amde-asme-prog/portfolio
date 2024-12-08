@@ -1,29 +1,62 @@
-import Footer from "./portfolio/Footer";
-import Home from "./portfolio/Home";
-import Contact from "./portfolio/Contact";
-import Services from "./portfolio/Services";
-import Projects from "./portfolio/Projects";
-import About from "./portfolio/About";
-import Skills from "./portfolio/Skills";
-import Header from "./portfolio/Header";
-import { Toaster } from "sonner";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Dashboard from "./dashboard/Dashboard.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ErrorBoundary from "./common/ErrorBoundary.jsx";
+import Portfolio from "./portfolio/Portfolio.jsx";
+import Login from "./auth/Login.jsx";
+import Register from "./auth/Register.jsx";
+import AuthProvider from "./auth/AuthProvider.jsx";
+import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 
-const Portfolio = () => {
+const routes = createBrowserRouter([
+  {
+    path: "/",
+    element: <Portfolio />,
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+]);
+
+const App = () => {
   return (
-    <div className="h-full scroll-smooth bg-white dark:bg-black transition-all duration-700 ">
-      <Toaster position="top-center" invert richColors />
-
-      <Header />
-      <main className="flex flex-col justify-center items-center w-full transition-colors duration-300">
-        <Home />
-        <About />
-        <Skills />
-        <Projects />
-        <Services />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <QueryClientProvider
+      client={
+        new QueryClient({
+          defaultOptions: {
+            queries: {
+              retry: 1,
+              staleTime: 1000 * 60 * 5,
+              cacheTime: 1000 * 60 * 60,
+            },
+            mutations: {
+              retry: 1,
+              staleTime: 1000 * 60 * 5,
+              cacheTime: 1000 * 60 * 60,
+            },
+          },
+        })
+      }
+    >
+      <ErrorBoundary>
+        <AuthProvider>
+          <RouterProvider router={routes} />
+        </AuthProvider>
+      </ErrorBoundary>
+    </QueryClientProvider>
   );
 };
-export default Portfolio;
+export default App;

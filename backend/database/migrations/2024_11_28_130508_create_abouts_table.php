@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('abouts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->json('tools')->nullable();
-            $table->string('role');
-            $table->text('description')->nullable();
-            $table->string('demo_link')->nullable();
-            $table->string('github_link')->nullable();
+            $table->string('about_me');
             $table->string('image_path')->nullable();
+            $table->string('core_title');
+            $table->json('core_lists');
+            $table->string('core_subtitle');
+            $table->string('interest_title');
+            $table->string('interest_subtitle');
+            $table->json('interests_lists');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('abouts');
     }
 };

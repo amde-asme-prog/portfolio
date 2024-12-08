@@ -40,7 +40,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="w-full py-24 bg-gradient-to-b bg-gray-100 dark:bg-stone-900 10"
+      className="w-full px-12 py-24 bg-gradient-to-b bg-gray-100 dark:bg-stone-900 10"
     >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex flex-col lg:flex-row gap-12 items-start">

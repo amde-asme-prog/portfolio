@@ -16,19 +16,15 @@ export const fetchProjects = async () => {
 };
 
 export const addProject = async (project) => {
-  console.log("project", project);
   const response = await axiosInstance.post("projects", project);
   return response.data;
 };
 
 export const updateProject = async ({ id, updatedProject }) => {
-  console.log("updatedProject", updatedProject);
   const response = await axiosInstance.put(`projects/${id}`, updatedProject, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "multipart/form-data" },
+    validateStatus: (status) => status === 200 || status === 201,
   });
-  console.log("response", response);
   return response.data;
 };
 

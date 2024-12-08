@@ -10,12 +10,9 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 const SkillModal = ({ isOpen, onClose, initialData }) => {
   const [formData, setFormData] = useState({
     name: "",
-    type: "Technical", // Ensures type is either "Technical" or "Professional"
     proficiency: 0,
-    group: "None", // Default to "None", options are "Frontend", "Backend", "Mobile", "None"
-    category: "",
+    type: "None", // Default to "None", options are "Frontend", "Backend", "Mobile", "None"
     status: "active", // Default status is "active"
-    description: "",
     icon: "", // Assuming you may add an icon input later
   });
 
@@ -25,9 +22,6 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
   const [errors, setErrors] = useState({
     name: "",
     proficiency: "",
-    group: "",
-    category: "",
-    description: "",
     icon: "",
   });
 
@@ -53,10 +47,6 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
     if (!formData.icon) newErrors.icon = "Skill icon is required.";
     if (formData.proficiency < 0 || formData.proficiency > 100)
       newErrors.proficiency = "Proficiency should be between 0 and 100.";
-    if (!formData.group) newErrors.group = "Skill group is required.";
-    if (!formData.category) newErrors.category = "Category is required.";
-    if (!formData.description)
-      newErrors.description = "Description is required.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -65,8 +55,7 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
   // Handle form submission
   const handleSubmit = async () => {
     // if (validateForm()) return;
-    console.log(formData);
-    console.log(initialData);
+
     if (initialData) {
       updateSkill(
         { id: initialData.id, updatedSkill: formData },
@@ -141,33 +130,21 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
 
           <div className="flex gap-8">
             <div className="mb-4">
-              <label className="block rounded-lg text-sm mb-2">Group *</label>
-              <select
-                name="group"
-                value={formData.group}
-                onChange={handleChange}
-                className="w-30 rounded-md px-3 py-2 border border-border_primary focus:outline-none focus:ring-2 focus:ring-button_hover bg-input_background_color text-input_text_color"
-              >
-                <option value="None">None</option>
-                <option value="Frontend">Frontend</option>
-                <option value="Backend">Backend</option>
-                <option value="Mobile">Mobile</option>
-              </select>
-              {errors.group && (
-                <p className="text-red-500 text-xs mt-1">{errors.group}</p>
-              )}
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm mb-2">Skill Type</label>
+              <label className="block rounded-lg text-sm mb-2">Type *</label>
               <select
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="w-30 px-3 py-2 border border-border_primary rounded focus:outline-none focus:ring-2 focus:ring-button_hover bg-input_background_color text-input_text_color"
+                className="w-30 rounded-md px-3 py-2 border border-border_primary focus:outline-none focus:ring-2 focus:ring-button_hover bg-input_background_color text-input_text_color"
               >
-                <option value="Technical">Technical</option>
-                <option value="Professional">Professional</option>
+                <option value="None">None</option>
+                <option value="front-end">Frontend</option>
+                <option value="back-end">Backend</option>
+                <option value="mobile-app">Mobile</option>
               </select>
+              {errors.type && (
+                <p className="text-red-500 text-xs mt-1">{errors.type}</p>
+              )}
             </div>
           </div>
 

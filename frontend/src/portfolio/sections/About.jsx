@@ -1,91 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import {
-  ErrorMessage,
-  LoadingSpinner,
-  OfflineMessage,
-} from "./reusables/ErrorResponses";
 
 library.add(fab, fas);
 
-const About = () => {
-  const [activeSection, setActiveSection] = useState("values");
+const About = ({ about }) => {
+  const [activeSection, setActiveSection] = useState("core");
+  const [aboutData, setAboutData] = useState(null);
+  // const { data: aboutData, isLoading, isError } = useAboutQuery();
+  const [core, setCore] = useState(null);
+  const [interests, setInterests] = useState(null);
+  const [sections, setSections] = useState([]);
+  useEffect(() => {
+    if (about) {
+      setAboutData(about);
+      setSections([
+        {
+          id: "core",
+          title: about.core_title,
+          subtitle: about.core_subtitle,
+          list: JSON.parse(about.core_lists),
+          icon: "heart",
+        },
+        {
+          id: "interests",
+          title: about.interest_title,
+          subtitle: about.interest_subtitle,
+          list: JSON.parse(about.interests_lists),
+          icon: "compass",
+        },
+      ]);
+    }
+  }, [about]);
 
-  const sections = [
-    {
-      id: "values",
-      title: "Core Values",
-      content: (
-        <div>
-          <h3 className="text-2xl font-bold mb-4 text-purple-700 dark:text-purple-400">
-            My Principles
-          </h3>
-          <p className="mb-6 text-gray-700 dark:text-gray-300">
-            These values define how I approach my work and life:
-          </p>
-          <ul className="list-disc pl-6 space-y-3 text-gray-600 dark:text-gray-400">
-            <li>
-              <strong>Integrity:</strong> Upholding honesty and quality in all I
-              do.
-            </li>
-            <li>
-              <strong>Innovation:</strong> Embracing creativity and staying
-              ahead of the curve.
-            </li>
-            <li>
-              <strong>Collaboration:</strong> Building meaningful partnerships
-              for success.
-            </li>
-            <li>
-              <strong>Passion:</strong> Pursuing technology with enthusiasm and
-              a growth mindset.
-            </li>
-          </ul>
-        </div>
-      ),
-      icon: "heart",
-    },
-    {
-      id: "interests",
-      title: "Interests",
-      content: (
-        <div>
-          <h3 className="text-2xl font-bold mb-4 text-green-700 dark:text-green-400">
-            What Sparks My Curiosity
-          </h3>
-          <p className="text-gray-700 dark:text-gray-300 mb-6">
-            Beyond coding, I find joy and inspiration in:
-          </p>
-          <ul className="list-disc pl-6 space-y-3 text-gray-600 dark:text-gray-400">
-            <li>Exploring the latest tech trends and breakthroughs.</li>
-            <li>
-              Building interactive projects and open-source contributions.
-            </li>
-            <li>Diving into UI/UX design and optimizing user experiences.</li>
-            <li>
-              Participating in hackathons and tech meetups to share ideas.
-            </li>
-            <li>
-              Staying connected with nature through hiking and photography.
-            </li>
-          </ul>
-        </div>
-      ),
-      icon: "compass",
-    },
-  ];
-
-  // if (isLoading) return <LoadingSpinner />;
-  // if (fetchStatus === "paused") return <OfflineMessage />;
-  // if (error) return <ErrorMessage status={error.response?.status} />;
   return (
     <section
       id="about"
-      className="min-h-screen w-full py-20 bg-gray-100 dark:bg-stone-900 mb-5"
+      className="px-12 min-h-screen w-full py-20 bg-gray-100 dark:bg-stone-900 mb-5"
     >
       <p className="text-center text-4xl font-bold text-stone-800 dark:text-stone-400 py-10 pb-20">
         About Me
@@ -104,7 +58,7 @@ const About = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient-x"></div>
 
                 <img
-                  src="/assets/amdebirhan_asmamaw.jpg"
+                  src={aboutData?.image_path}
                   className="absolute inset-[3px] w-[calc(100%-6px)] h-[calc(100%-6px)] object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
                   alt="Amdebirhan Asmamaw"
                 />
@@ -116,9 +70,7 @@ const About = () => {
                       Amdebirhan Asmamaw
                     </h2>
                     <p className="text-sm text-gray-200">
-                      Computer Science graduate skilled in web and mobile app
-                      development. Passionate about technology and continuous
-                      learning.
+                      {aboutData?.about_me}
                     </p>
                   </div>
                 </div>
@@ -137,7 +89,11 @@ const About = () => {
               {sections.map((section) => (
                 <motion.button
                   key={section.id}
-                  onClick={() => setActiveSection(section.id)}
+                  onClick={() =>
+                    setActiveSection((prev) =>
+                      prev == "core" ? "interests" : "core"
+                    )
+                  }
                   className={`px-8 py-4 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-3 backdrop-blur-sm ${
                     activeSection === section.id
                       ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25"
@@ -153,21 +109,11 @@ const About = () => {
             </div>
 
             {/* Content Display */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeSection}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 backdrop-blur-sm"
-              >
-                {
-                  sections.find((section) => section.id === activeSection)
-                    .content
-                }
-              </motion.div>
-            </AnimatePresence>
+            {
+              <ContentDisplay
+                {...sections.find((section) => section.id === activeSection)}
+              />
+            }
           </div>
         </div>
       </div>
@@ -175,4 +121,38 @@ const About = () => {
   );
 };
 
+const ContentDisplay = ({ title, subtitle, list, icon }) => {
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 backdrop-blur-sm"
+      >
+        <div>
+          <h3 className="text-2xl font-bold mb-4 text-purple-700 dark:text-purple-400">
+            {title}
+          </h3>
+          <p className="mb-6 text-gray-700 dark:text-gray-300">{subtitle}</p>
+          <ul className="list-disc pl-6 space-y-3 text-gray-600 dark:text-gray-400">
+            {list &&
+              list.map((item, index) => (
+                <li key={index}>
+                  {item.title ? (
+                    <>
+                      <strong>{item.title}:</strong> {item.description}
+                    </>
+                  ) : (
+                    item
+                  )}
+                </li>
+              ))}
+          </ul>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
 export default About;

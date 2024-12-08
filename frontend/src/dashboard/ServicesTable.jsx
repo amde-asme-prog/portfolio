@@ -20,9 +20,6 @@ export default function ServicesTable() {
   const { data: servicesData, isLoading, error, status } = useServicesQuery();
 
   useEffect(() => {
-    console.log(error?.response?.status);
-    console.log(status);
-    console.log(servicesData);
     if (servicesData) {
       setServices(servicesData);
     }
@@ -33,7 +30,7 @@ export default function ServicesTable() {
   };
 
   return (
-    <div className="p-6 mx-auto bg-white dark:bg-gray-900 min-h-screen">
+    <div className="p-6 mx-auto bg-gray-50 dark:bg-gray-900 min-h-screen">
       <Toaster position="top-center" invert richColors />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -41,7 +38,7 @@ export default function ServicesTable() {
         </h1>
         <button
           onClick={() => setModalOpen(true)}
-          className="bg-indigo-600 text-white py-2.5 px-6 rounded-lg hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          className="bg-indigo-600 text-white py-2.5 px-6 rounded-lg hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 dark:bg-indigo-500 dark:hover:bg-indigo-600"
         >
           + Add Service
         </button>
@@ -51,7 +48,7 @@ export default function ServicesTable() {
         <div className="overflow-x-auto">
           {isLoading && (
             <div className="flex justify-center items-center h-40">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 dark:border-indigo-400"></div>
             </div>
           )}
 
@@ -68,25 +65,24 @@ export default function ServicesTable() {
           )}
 
           {!isLoading && !error && services && services.length > 0 && (
-            <table className="min-w-full bg-background_card shadow-lg rounded-lg">
+            <table className="min-w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg">
               <TableHead columnsData={["Icon", "Title", "Description"]} />
-              <tbody className="text-text_secondary text-sm font-light">
-                {services.length > 0 &&
-                  services.map((service) => (
-                    <TableRow
-                      key={service.id}
-                      item={service}
-                      handleDelete={handleDelete}
-                      handleEdit={(service) => {
-                        setEditingService(service);
-                        setModalOpen(true);
-                      }}
-                    >
-                      <td className="py-2 px-4">{service.icon}</td>
-                      <td className="py-2 px-4">{service.title}</td>
-                      <td className="py-2 px-4">{service.description}</td>
-                    </TableRow>
-                  ))}
+              <tbody className="text-gray-700 dark:text-gray-300 text-sm font-light">
+                {services.map((service) => (
+                  <TableRow
+                    key={service.id}
+                    item={service}
+                    handleDelete={handleDelete}
+                    handleEdit={(service) => {
+                      setEditingService(service);
+                      setModalOpen(true);
+                    }}
+                  >
+                    <td className="py-2 px-4">{service.icon}</td>
+                    <td className="py-2 px-4">{service.title}</td>
+                    <td className="py-2 px-4">{service.description}</td>
+                  </TableRow>
+                ))}
               </tbody>
             </table>
           )}
@@ -156,40 +152,40 @@ function ModalForm({ initialData, onClose, isOpen }) {
     <Dialog
       open={isOpen}
       onClose={onClose}
-      className="fixed  inset-0 bg-black/35  backdrop-blur-sm transition-colors duration-200 overflow-y-scroll content-center"
+      className="fixed inset-0 bg-black/35 backdrop-blur-sm transition-colors duration-200 overflow-y-scroll content-center"
     >
-      <DialogPanel className="place-self-center  bg-background_card text-text_primary p-6 rounded-lg  shadow-lg mx-4 md:w-96 ">
+      <DialogPanel className="place-self-center bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg mx-4 md:w-96">
         <h2 className="text-xl font-bold mb-4">
           {initialData ? "Edit Service" : "Add New Service"}
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium ">Icon</label>
+            <label className="block text-sm font-medium">Icon</label>
             <input
               type="text"
               name="icon"
               value={formData.icon}
               onChange={handleChange}
-              className="mt-1 bg-input_background_color block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+              className="mt-1 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium ">Title</label>
+            <label className="block text-sm font-medium">Title</label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="mt-1 bg-input_background_color block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+              className="mt-1 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium ">Description</label>
+            <label className="block text-sm font-medium">Description</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="mt-1 bg-input_background_color block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+              className="mt-1 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
             />
           </div>
         </form>
@@ -197,14 +193,14 @@ function ModalForm({ initialData, onClose, isOpen }) {
           <button
             type="button"
             onClick={onClose}
-            className="bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition"
+            className="bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition dark:bg-gray-600 dark:hover:bg-gray-700"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={handleSubmit}
-            className="bg-button_primary text-white px-6 py-3 rounded-lg hover:bg-button_hover transition"
+            className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition dark:bg-indigo-500 dark:hover:bg-indigo-600"
           >
             Save
           </button>

@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Projects;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use \App\Models\ProjectData;
 
-class ProjectsController extends Controller
+class ProjectDataController extends Controller
 {
-    /**
-     * Display a listing of the projects.
-     */
     public function index()
     {
-        $projects = Projects::all();
+        $projects = ProjectData::all();
         if (!$projects) {
             return response()->json(['message' => 'No project found'], 404);
         }
@@ -62,7 +58,7 @@ class ProjectsController extends Controller
             $data['tools'] = json_encode($request->tools);
         }
 
-        $project = Projects::create($data);
+        $project = ProjectData::create($data);
         return response()->json($project, 201);
     }
 
@@ -71,7 +67,7 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        $project = Projects::findOrFail($id);
+        $project = ProjectData::findOrFail($id);
         return response()->json($project);
     }
 
@@ -81,7 +77,7 @@ class ProjectsController extends Controller
     public function update(Request $request, $id)
     {
         \Log::info($request);
-        $project = Projects::findOrFail($id);
+        $project = ProjectData::findOrFail($id);
 
         $data = $request->only([
             'title',
@@ -139,13 +135,9 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $project = Projects::findOrFail($id);
+        $project = ProjectData::findOrFail($id);
         $project->delete();
 
         return response()->json(['message' => 'Project deleted successfully']);
     }
 }
-
-
-
-

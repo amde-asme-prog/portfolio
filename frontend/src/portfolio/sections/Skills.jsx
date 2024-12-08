@@ -1,35 +1,23 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
 import { motion } from "framer-motion";
-import { useSkillsQuery } from "../hooks/skillsQuery";
-import {
-  ErrorMessage,
-  LoadingSpinner,
-  OfflineMessage,
-} from "./reusables/ErrorResponses";
 
-library.add(fab, fas);
+library.add(fas, fab);
 
-const Skills = () => {
-  const { data: skillsData, isLoading, error, fetchStatus } = useSkillsQuery();
-
-  if (isLoading) return <LoadingSpinner />;
-  if (fetchStatus === "paused") return <OfflineMessage />;
-  if (error) return <ErrorMessage status={error.response?.status} />;
-
-  const technicalSkills = skillsData.filter(
-    (skill) => skill.group === "technical"
-  );
-
+const Skills = ({ skills }) => {
+  const [technicalSkills, setTechnicalSkills] = useState([]);
+  useEffect(() => {
+    setTechnicalSkills(skills);
+  }, [skills]);
   return (
     <section
       id="skills"
-      className="text-start w-full min-h-screen py-24 bg-gray-100 dark:bg-stone-900 text-stone-900 dark:text-stone-100 mb-5 "
+      className="px-12 text-start w-full min-h-screen py-24 bg-gray-100 dark:bg-stone-900 text-stone-900 dark:text-stone-100 mb-5 "
     >
-      <div className="mx-auto px-10">
+      <div className="">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -45,7 +33,7 @@ const Skills = () => {
           </p>
         </motion.div>
 
-        <TechnicalSkills technicalSkills={technicalSkills} />
+        <TechnicalSkills technicalSkills={technicalSkills || []} />
       </div>
     </section>
   );
@@ -55,7 +43,7 @@ const TechnicalSkills = ({ technicalSkills }) => {
   const categories = ["front-end", "back-end", "mobile-app"];
 
   return (
-    <div className="space-y-20">
+    <div className="px-10 flex flex-wrap gap-12 w-full">
       {categories.map((category, index) => (
         <motion.div
           key={index}
@@ -81,7 +69,7 @@ const TechnicalSkills = ({ technicalSkills }) => {
               category.slice(1).replace("-", " ")}{" "}
             Development
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="flex flex-wrap gap-6">
             {technicalSkills
               .filter((skill) => skill.type === category)
               .map((skill, skillIndex) => (
@@ -96,13 +84,13 @@ const TechnicalSkills = ({ technicalSkills }) => {
 
 const Skill = ({ skill }) => (
   <motion.div
-    className="group relative shadow-sm bg-gray-50 dark:bg-slate-800 rounded-2xl p-6 hover:shadow-md transition-all duration-300"
+    className="min-w-40 h-fit group relative shadow-sm bg-gray-50 dark:bg-slate-800 rounded-2xl p-6 hover:shadow-md transition-all duration-300"
     whileHover={{ y: -5 }}
   >
     <div className="flex flex-col items-center gap-4">
       <div className="relative">
         <div className="size-16 flex items-center justify-center bg-gray-200 shadow-md dark:bg-slate-700 rounded-xl text-3xl text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300">
-          <FontAwesomeIcon icon={["fab", skill.icon]} />
+          <FontAwesomeIcon icon={["fab", skill.icon]} className="text-white" />
         </div>
         <div className="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs font-medium px-2 py-1 rounded-lg">
           {skill.proficiency}%

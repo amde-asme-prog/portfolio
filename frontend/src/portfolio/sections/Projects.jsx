@@ -1,41 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useProjectsQuery } from "../hooks/projectsQuery";
-import { motion } from "framer-motion";
-import { FaExternalLinkAlt, FaGithub, FaClock, FaTools } from "react-icons/fa";
-import {
-  ErrorMessage,
-  LoadingSpinner,
-  OfflineMessage,
-} from "./reusables/ErrorResponses";
-
-const Projects = () => {
-  const [projects, setProjects] = useState([]);
-  const {
-    data: projectsData,
-    isLoading,
-    error,
-    fetchStatus,
-  } = useProjectsQuery();
-
-  useEffect(() => {
-    if (projectsData) {
-      setProjects(projectsData);
-    }
-  }, [projectsData]);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return <ErrorMessage status={error.response?.status} />;
-  }
-  if (fetchStatus === "paused") return <OfflineMessage />;
-
+const Projects = ({ projects }) => {
   return (
     <section
       id="projects"
-      className="w-full p-10 py-16 bg-gray-100 dark:bg-stone-900 mb-5
+      className="px-12w-full p-10 py-16 bg-gray-100 dark:bg-stone-900 mb-5
       "
     >
       <div className="text-center mb-16">

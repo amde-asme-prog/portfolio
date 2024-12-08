@@ -10,7 +10,7 @@ import {
   FaCode,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { useExperiencesQuery } from "../hooks/experienceQuery";
+import { useExperiencesQuery } from "../../hooks/experienceQuery";
 
 export default function Experience() {
   const [experience, setExperience] = useState([]);

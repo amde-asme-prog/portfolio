@@ -24,14 +24,12 @@ class ServicesController extends Controller
         $data = $request->only([
             'title',
             'description',
-            'image_path',
             'icon',
         ]);
 
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'image_path' => 'required|string|max:255',
             'icon' => 'required|string|max:255',
         ]);
 
@@ -44,14 +42,12 @@ class ServicesController extends Controller
         $data = $request->only([
             'title',
             'description',
-            'image_path',
             'icon',
         ]);
 
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'image_path' => 'required|string|max:255',
             'icon' => 'required|string|max:255',
         ]);
 

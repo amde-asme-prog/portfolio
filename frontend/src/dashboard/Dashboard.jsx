@@ -1,4 +1,4 @@
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { icon, library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
@@ -12,6 +12,7 @@ import ServicesTable from "./ServicesTable";
 import ProjectsTable from "./ProjectsTable";
 import SkillsTable from "./SkillsTable";
 import { useOnlineStatus } from "../hooks/useOnlineStatus";
+import { AboutContent } from "./AboutContent";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 library.add(fas, fab);
@@ -24,8 +25,8 @@ const Dashboard = () => {
   function renderSection() {
     const components = {
       landing: <LandingPage />,
+      about: <AboutContent />,
       skills: <SkillsTable />,
-      // education: <EducationTable />,
       experience: <ExperienceTable />,
       feedback: <FeedbackTable />,
       projects: <ProjectsTable />,
@@ -35,20 +36,6 @@ const Dashboard = () => {
   }
 
   return (
-    // <QueryClientProvider
-    //   client={
-    //     new QueryClient({
-    //       defaultOptions: {
-    //         queries: {
-    //           enabled: isOnline,
-    //           retry: 1,
-    //           staleTime: 1000 * 60 * 5,
-    //           cacheTime: 1000 * 60 * 60,
-    //         },
-    //       },
-    //     })
-    //   }
-    // >
     <div className="flex h-screen bg-gray-100 dark:bg-gray-800">
       <SideBar
         selected={selected}
@@ -98,13 +85,13 @@ const Dashboard = () => {
         </main>
       </div>
     </div>
-    // </QueryClientProvider>
   );
 };
 
 function SideBar({ selected, setSelected, showSideBar, setShowSideBar }) {
   const sideNavButtons = [
     { icon: "chart-pie", text: "Home", value: "landing" },
+    { icon: "person", text: "About", value: "about" },
     // { icon: "user-graduate", text: "Education", value: "education" },
     { icon: "briefcase", text: "Experience", value: "experience" },
     { icon: "clipboard-list", text: "Feedback", value: "feedback" },
