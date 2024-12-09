@@ -1,20 +1,35 @@
-FROM richarvey/nginx-php-fpm:latest
 
+# Use an official PHP image from Docker Hub
+FROM php:8.1-cli
+
+# Install required PHP extensions and tools
+RUN apt-get update && apt-get install -y \
+    php-mbstring \
+    php-xml \
+    php-bcmath \
+    php-curl \
+    unzip \
+    git && \
+    docker-php-ext-install bcmath
+
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy project files into the container
 COPY . .
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+# Install dependencies and optimize Laravel
+RUN composer install --optimize-autoloader --no-dev && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache && \
+    php artisan storage:link
 
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+# Expose port 8000 for the application
+EXPOSE 8000
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-CMD ["/start.sh"]
+# Command to run the Laravel app
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
