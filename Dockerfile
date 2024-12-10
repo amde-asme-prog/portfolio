@@ -1,41 +1,41 @@
-FROM docker/whalesay:latest
-LABEL Name=portfolio Version=0.0.1
-RUN apt-get -y update && apt-get install -y fortunes
-CMD ["sh", "-c", "/usr/games/fortune -a | cowsay"]
-# Use an official PHP image with necessary extensions
-FROM php:8.1-fpm
+# Use an official PHP image
+FROM php:8.1-cli
+
+# Set working directory
+WORKDIR /var/www/html
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    git \
+    curl \
     libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
     zip \
     unzip \
-    git \
-    curl
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql gd mbstring bcmath
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
 
-# Set the working directory
-WORKDIR /var/www
-
-# Copy application code
+# Copy existing application files
 COPY . .
 
-# Run Laravel optimization commands
-RUN composer install --optimize-autoloader --no-dev && \
-    php artisan config:cache && \
+# Set file permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Run composer install
+RUN composer install --optimize-autoloader --no-dev
+
+# Cache Laravel configuration
+RUN php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \
     php artisan storage:link
 
-# Expose port 80
-EXPOSE 80
+# Expose port
+EXPOSE 8000
 
-# Start the PHP server
-CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
+# Start the application
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
