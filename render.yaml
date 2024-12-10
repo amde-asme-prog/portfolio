@@ -4,6 +4,8 @@ services:
     env: docker
     dockerfilePath: ./Dockerfile
     buildCommand: |
+      apt-get update
+      apt-get install -y php-cli php-mbstring php-xml php-bcmath php-curl unzip && 
       curl -sS https://getcomposer.org/installer | php
       mv composer.phar /usr/local/bin/composer
       composer install --optimize-autoloader --no-dev
