@@ -29,7 +29,7 @@ const About = ({ about }) => {
           id: "interests",
           title: about.interest_title,
           subtitle: about.interest_subtitle,
-          list: JSON.parse(about.interests_lists),
+          list: about.interests_lists && JSON.parse(about.interests_lists),
           icon: "compass",
         },
       ]);
