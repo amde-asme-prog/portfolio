@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: laravel-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    buildCommand: |
+      curl -sS https://getcomposer.org/installer | php
+      mv composer.phar /usr/local/bin/composer
+      composer install --optimize-autoloader --no-dev
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+      php artisan storage:link
+    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: base64:Dhmzs3/sfl9kwyF4zhfmTWWjJMZjai6f6B+XevFLimk=
+      - key: DB_HOST
+        value: db.dpg-ctb9jll2ng1s73dqr0hg-a.render.com
+      - key: DB_DATABASE
+        value: portfolio
+      - key: DB_USERNAME
+        value: amde
