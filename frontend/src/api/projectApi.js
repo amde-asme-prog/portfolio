@@ -1,15 +1,5 @@
 import axiosInstance from "./baseAPI";
 
-// export const fetchCSRFToken = async () => {
-//   try {
-//     await axiosInstance.get("sanctum/csrf-cookie", {
-//       withCredentials: true,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching CSRF token", error);
-//   }
-// };
-
 export const fetchProjects = async () => {
   const response = await axiosInstance.get("projects");
   return response.data;

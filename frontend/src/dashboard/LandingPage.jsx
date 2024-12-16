@@ -32,15 +32,20 @@ const Landing = () => {
         name: content.name || "",
         additional_text: content.additional_text || "",
       });
-      setTypewriterTexts(JSON.parse(content.typewriter_texts) || []);
-      setReferenceIcons(JSON.parse(content.reference_icons) || []);
-      setImage(content.image_path || null);
+      setTypewriterTexts(
+        (content.typewriter_texts && JSON.parse(content.typewriter_texts)) || []
+      );
+      setReferenceIcons(
+        (content.reference_icons && JSON.parse(content.reference_icons)) || []
+      );
+      setImage(import.meta.env.VITE_API_URL + content.image_path || null);
+      setPreviewUrl(import.meta.env.VITE_API_URL + content.image_path || null);
       setCv(content.cv_path || null);
     }
   }, [content]);
 
   const handleSave = () => {
-    if (!introText.greeting || !introText.name || !typewriterTexts.length) {
+    if (!introText.greeting || !introText.name) {
       handleToast(400, "Please fill in all required fields.");
       return;
     }
@@ -63,11 +68,16 @@ const Landing = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && file.size < 5 * 1024 * 1024) {
       setImage(file);
       setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      handleToast(400, "Please upload an image smaller than 5MB.");
     }
   };
+
+  console.log(image);
+  console.log(typewriterTexts);
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900">
@@ -253,13 +263,14 @@ const FileUpload = ({
   preview,
   previewType,
   currentFile,
-}) => (
-  <div className="space-y-4">
-    <input
-      type="file"
-      accept={accept}
-      onChange={onChange}
-      className="block w-full text-sm text-gray-500 dark:text-gray-400
+}) => {
+  return (
+    <div className="space-y-4">
+      <input
+        type="file"
+        accept={accept}
+        onChange={onChange}
+        className="block w-full text-sm text-gray-500 dark:text-gray-400
         file:mr-4 file:py-2 file:px-4
         file:rounded-full file:border-0
         file:text-sm file:font-semibold
@@ -267,21 +278,22 @@ const FileUpload = ({
         dark:file:bg-blue-900/30 dark:file:text-blue-400
         hover:file:bg-blue-100 dark:hover:file:bg-blue-900/40
         transition-colors cursor-pointer"
-    />
-    {previewType === "image" && preview && (
-      <img
-        src={preview}
-        alt="Preview"
-        className="max-w-xs rounded-lg shadow-md dark:shadow-gray-900/50"
       />
-    )}
-    {currentFile && (
-      <p className="text-sm text-gray-600 dark:text-gray-400">
-        Current file: {currentFile}
-      </p>
-    )}
-  </div>
-);
+      {preview && (
+        <img
+          src={preview.replace("public/", "")}
+          alt="Preview"
+          className="max-w-xs rounded-lg shadow-md dark:shadow-gray-900/50"
+        />
+      )}
+      {currentFile && (
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Current file: {currentFile}
+        </p>
+      )}
+    </div>
+  );
+};
 
 const SaveButton = ({ onClick, isLoading }) => (
   <button

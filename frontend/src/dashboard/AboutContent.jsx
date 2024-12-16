@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useAboutQuery, useUpdateAboutQuery } from "../hooks/aboutQuery";
 import { handleToast } from "../common/handleToast";
+import { Toaster } from "sonner";
 
 export const AboutContent = () => {
   const [aboutMe, setAboutMe] = useState("");
@@ -20,13 +21,13 @@ export const AboutContent = () => {
   useEffect(() => {
     if (aboutData) {
       setAboutMe(aboutData.about_me);
-      setImage(aboutData.image_path);
+      setImage(import.meta.env.VITE_API_URL + aboutData.image_path);
       setCoreTitle(aboutData.core_title);
       setCoreSubtitle(aboutData.core_subtitle);
-      setCoreValues(JSON.parse(aboutData.core_lists));
+      setCoreValues(aboutData.core_lists);
       setInterestTitle(aboutData.interest_title);
       setInterestSubtitle(aboutData.interest_subtitle);
-      setInterestsValues(JSON.parse(aboutData.interests_lists));
+      setInterestsValues(aboutData.interests_lists);
     }
   }, [aboutData]);
 
@@ -56,16 +57,19 @@ export const AboutContent = () => {
 
     updateAboutData(formData, {
       onSuccess: () => {
-        handleToast.success(200, "About me content updated successfully!");
+        handleToast(200, "About me content updated successfully!");
       },
       onError: (error) => {
-        handleToast.error(400, error.response.data.message);
+        handleToast(400, error.response.data.message);
       },
     });
   };
 
+  console.log(image);
+
   return (
     <div className="m-5 p-5  text-stone-900 dark:text-stone-100">
+      <Toaster position="top-center" invert richColors />
       <header className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           About me Content
@@ -109,7 +113,9 @@ export const AboutContent = () => {
           {image && (
             <img
               src={
-                typeof image === "string" ? image : URL.createObjectURL(image)
+                typeof image === "string"
+                  ? image.replace("public/", "")
+                  : URL.createObjectURL(image).replace("public/", "")
               }
               alt="Preview"
               className="max-w-xs rounded-lg shadow-md dark:shadow-gray-900/50"

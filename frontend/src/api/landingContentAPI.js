@@ -17,7 +17,10 @@ export const fetchLandingContent = async () => {
 
 export const updateLandingContent = async (data) => {
   const response = await axiosInstance.post(`landing`, data, {
-    headers: { "Content-Type": "multipart/form-data" },
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "application/json",
+    },
     validateStatus: (status) => status === 200 || status === 201,
   });
   return response.data;

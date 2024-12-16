@@ -109,7 +109,7 @@ const ProjectsTable = () => {
                   </p>
                   <div className="relative">
                     <div className="flex gap-2 flex-wrap">
-                      {JSON.parse(project.tools).map((tool, idx) => (
+                      {project.tools.map((tool, idx) => (
                         <span
                           key={idx}
                           className="text-xs bg-opacity-80 bg-gray-200 py-1 px-3 rounded-full transition-colors duration-300 hover:bg-gray-300"
