@@ -25,8 +25,12 @@ const Home = ({ content }) => {
         name: content.name || "",
         additional_text: content.additional_text || "",
       });
-      setTypewriterTexts(JSON.parse(content.typewriter_texts) || []);
-      setReferenceIcons(JSON.parse(content.reference_icons) || []);
+      setTypewriterTexts(
+        (content.typewriter_texts && JSON.parse(content.typewriter_texts)) || []
+      );
+      setReferenceIcons(
+        (content.reference_icons && JSON.parse(content.reference_icons)) || []
+      );
       setImage(content.image_path || null);
       setCv(content.cv_path || null);
     }
@@ -170,28 +174,32 @@ const ActionButtons = ({ cv, downloadCv }) => (
   </div>
 );
 
-const SocialIcons = ({ referenceIcons }) => (
-  <div className="flex items-center gap-6">
-    {referenceIcons.map((item, index) => (
-      <Fragment key={index}>
-        <motion.a
-          href={item.href}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={item.label}
-          className="text-blue-400 hover:text-blue-300 transition-colors duration-300"
-          whileHover={{ scale: 1.15, rotate: 5 }}
-          transition={{ type: "spring", stiffness: 400 }}
-        >
-          <FontAwesomeIcon
-            icon={["fab", item.icon]}
-            className="text-3xl md:text-4xl"
-          />
-        </motion.a>
-      </Fragment>
-    ))}
-  </div>
-);
+const SocialIcons = ({ referenceIcons }) => {
+  console.log(referenceIcons);
+  return (
+    <div className="flex items-center gap-6">
+      {referenceIcons &&
+        referenceIcons.map((item, index) => (
+          <Fragment key={index}>
+            <motion.a
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={item.label}
+              className="text-blue-400 hover:text-blue-300 transition-colors duration-300"
+              whileHover={{ scale: 1.15, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 400 }}
+            >
+              <FontAwesomeIcon
+                icon={["fab", item.icon]}
+                className="text-3xl md:text-4xl"
+              />
+            </motion.a>
+          </Fragment>
+        ))}
+    </div>
+  );
+};
 
 const TypeWriter = ({ typewriterTexts }) => {
   if (!typewriterTexts?.length) return null;

@@ -34,26 +34,25 @@ const ProjectsTable = () => {
   }, [error]);
 
   const handleDelete = (id) => {
-    console.log("deleting", id);
     deleteProject(id);
   };
 
   return (
-    <div className="p-6 mx-auto bg-white dark:bg-gray-900 min-h-screen">
+    <div className="p-6 mx-auto bg-gray-50 dark:bg-gray-900 min-h-screen">
       <Toaster position="top-center" invert richColors />
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+        <h1 className="text-4xl font-extrabold text-gray-800 dark:text-gray-100">
           Projects
         </h1>
         <button
           onClick={() => setModalOpen(true)}
-          className="bg-indigo-600 text-white py-2.5 px-6 rounded-lg hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          className="bg-indigo-600 text-white py-2.5 px-6 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
         >
           + Add Project
         </button>
       </div>
 
-      <div className="border border-gray-300 dark:border-gray-700 p-1 bg-white dark:bg-gray-800 rounded-md shadow-lg">
+      <div className="rounded-lg shadow-md bg-white dark:bg-gray-800">
         <div className="overflow-x-auto">
           {isLoading && (
             <div className="flex justify-center items-center h-40">
@@ -69,23 +68,22 @@ const ProjectsTable = () => {
               </div>
             ))}
 
-          {error?.response?.status == 404 && (
+          {error?.response?.status === 404 && (
             <div className="text-center py-12 text-gray-500 dark:text-gray-300">
-              No projects found. Add your first service!
+              No projects found. Add your first project!
             </div>
           )}
 
-          <div className="flex flex-wrap gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
             {!isLoading &&
               !error &&
-              projects &&
-              projects.length > 0 &&
+              projects?.length > 0 &&
               projects.map((project) => (
                 <div
                   key={project.id}
-                  className="box project-card w-96 bg-white rounded-lg shadow-lg px-4 py-8 relative group cursor-pointer transition-all duration-300 hover:shadow-xl"
+                  className="relative bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-lg group transition-transform transform hover:scale-105"
                 >
-                  <div className="card-gradient absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-lg" />
                   <img
                     onClick={() => {
                       setEditingProject(project);
@@ -98,38 +96,34 @@ const ProjectsTable = () => {
                         : null
                     }
                     alt={project.title}
-                    className="w-full h-48 object-cover rounded-md mb-4 transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-48 object-cover rounded-md mb-4 transition-transform duration-300 group-hover:scale-110"
                   />
-                  <div className="my-5 h-[2px] w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                  <h3 className="text-xl font-bold text-primary mb-2 relative">
+                  <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
                     {project.title}
                   </h3>
-                  <p className="text-xl text-text_secondary mb-4 relative">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
                     {project.description}
                   </p>
-                  <div className="relative">
-                    <div className="flex gap-2 flex-wrap">
-                      {project.tools.map((tool, idx) => (
-                        <span
-                          key={idx}
-                          className="text-xs bg-opacity-80 bg-gray-200 py-1 px-3 rounded-full transition-colors duration-300 hover:bg-gray-300"
-                        >
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tools.map((tool, idx) => (
+                      <span
+                        key={idx}
+                        className="text-sm bg-gray-200 dark:bg-gray-600 py-1 px-3 rounded-full text-gray-700 dark:text-gray-300"
+                      >
+                        {tool}
+                      </span>
+                    ))}
                   </div>
-
-                  <div className="self-end flex justify-between mt-4 relative">
-                    <p className="text-sm text-text_secondary mb-2">
-                      As a {project.role}
+                  <div className="flex justify-between items-center">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Role: {project.role}
                     </p>
-                    <div className="flex justify-between gap-5">
+                    <div className="flex gap-3">
                       <a
                         href={project.github_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-blue-500 hover:text-blue-700 transition-colors duration-300"
+                        className="text-indigo-600 dark:text-indigo-400 hover:underline"
                         onClick={(e) => e.stopPropagation()}
                       >
                         GitHub
@@ -138,12 +132,15 @@ const ProjectsTable = () => {
                         href={project.demo_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-blue-500 hover:text-blue-700 transition-colors duration-300"
+                        className="text-indigo-600 dark:text-indigo-400 hover:underline"
                         onClick={(e) => e.stopPropagation()}
                       >
                         Demo
                       </a>
-                      <button onClick={() => deleteProject(project.id)}>
+                      <button
+                        onClick={() => handleDelete(project.id)}
+                        className="text-red-500 hover:text-red-700 transition-colors"
+                      >
                         Delete
                       </button>
                     </div>
@@ -163,23 +160,6 @@ const ProjectsTable = () => {
             initialData={editingProject}
           />
         )}
-
-        <style jsx="true">{`
-          .box {
-            /* width: 100%;
-  height: 100%; */
-            background-size: 200% 100%;
-            background-image: linear-gradient(to right, #3b82f6, #9333ea);
-            -webkit-transition: background-position 1s;
-            -moz-transition: background-position 1s;
-            transition: background-position 1s;
-          }
-
-          .box:hover {
-            color: white;
-            background-position: -100% 0;
-          }
-        `}</style>
       </div>
     </div>
   );

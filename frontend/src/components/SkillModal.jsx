@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { handleToast } from "../common/handleToast"; // Optional, if you're using a toast library for notifications
+import { handleToast } from "../common/handleToast";
 import { Toaster } from "sonner";
 import {
   useAddSkillMutation,
@@ -11,9 +11,9 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
   const [formData, setFormData] = useState({
     name: "",
     proficiency: 0,
-    type: "None", // Default to "None", options are "Frontend", "Backend", "Mobile", "None"
-    status: "active", // Default status is "active"
-    icon: "", // Assuming you may add an icon input later
+    type: "None",
+    status: "active",
+    icon: "",
   });
 
   const { mutate: addSkill } = useAddSkillMutation();
@@ -25,14 +25,12 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
     icon: "",
   });
 
-  // Handle initial data when modal is opened
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
     }
   }, [initialData]);
 
-  // Handle form field changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -40,7 +38,6 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
     });
   };
 
-  // Form validation
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name) newErrors.name = "Skill name is required.";
@@ -52,10 +49,7 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
   const handleSubmit = async () => {
-    // if (validateForm()) return;
-
     if (initialData) {
       updateSkill(
         { id: initialData.id, updatedSkill: formData },
@@ -92,15 +86,14 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
     <Dialog
       open={isOpen}
       onClose={onClose}
-      className="pb-20 fixed inset-0 bg-black/35 backdrop-blur-sm transition-colors duration-200 overflow-y-scroll"
+      className="fixed inset-0 bg-black/35 dark:bg-black/50 backdrop-blur-sm transition-colors duration-200 overflow-y-scroll pb-20"
     >
-      <DialogPanel className="place-self-center relative top-24 bg-background_card  text-text_primary p-6 rounded-lg shadow-lg w-11/12 mx-auto  md:w-96">
+      <DialogPanel className="place-self-center relative top-24 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg w-11/12 mx-auto md:w-96">
         <Toaster position="top-center" invert richColors />
         <h2 className="text-xl font-bold mb-4">
           {initialData ? "Edit Skill" : "Add New Skill"}
         </h2>
         <form>
-          {/* Skill Name */}
           <div className="mb-4">
             <label className="block text-sm mb-2">Skill Name *</label>
             <input
@@ -108,10 +101,12 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-border_primary rounded focus:outline-none focus:ring-2 focus:ring-button_hover bg-input_background_color text-input_text_color"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
             {errors.name && (
-              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+              <p className="text-red-500 dark:text-red-400 text-xs mt-1">
+                {errors.name}
+              </p>
             )}
           </div>
           <div className="mb-4">
@@ -121,10 +116,12 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
               name="icon"
               value={formData.icon}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-border_primary rounded focus:outline-none focus:ring-2 focus:ring-button_hover bg-input_background_color text-input_text_color"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
             {errors.icon && (
-              <p className="text-red-500 text-xs mt-1">{errors.icon}</p>
+              <p className="text-red-500 dark:text-red-400 text-xs mt-1">
+                {errors.icon}
+              </p>
             )}
           </div>
 
@@ -135,7 +132,7 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="w-30 rounded-md px-3 py-2 border border-border_primary focus:outline-none focus:ring-2 focus:ring-button_hover bg-input_background_color text-input_text_color"
+                className="w-30 rounded-md px-3 py-2 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               >
                 <option value="None">None</option>
                 <option value="front-end">Frontend</option>
@@ -143,26 +140,28 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
                 <option value="mobile-app">Mobile</option>
               </select>
               {errors.type && (
-                <p className="text-red-500 text-xs mt-1">{errors.type}</p>
+                <p className="text-red-500 dark:text-red-400 text-xs mt-1">
+                  {errors.type}
+                </p>
               )}
             </div>
           </div>
 
-          {/* Description */}
           <div className="mb-4">
             <label className="block text-sm mb-2">Description *</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-border_primary rounded focus:outline-none focus:ring-2 focus:ring-button_hover bg-input_background_color text-input_text_color"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
             {errors.description && (
-              <p className="text-red-500 text-xs mt-1">{errors.description}</p>
+              <p className="text-red-500 dark:text-red-400 text-xs mt-1">
+                {errors.description}
+              </p>
             )}
           </div>
 
-          {/* Proficiency */}
           <div className="mb-4">
             <label className="block text-sm mb-2">
               Proficiency : {formData.proficiency}
@@ -174,33 +173,32 @@ const SkillModal = ({ isOpen, onClose, initialData }) => {
               onChange={handleChange}
               min={0}
               max={100}
-              className="w-full px-3 py-2 border border-border_primary rounded focus:outline-none focus:ring-2 focus:ring-button_hover bg-input_background_color text-input_text_color"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700"
             />
             {errors.proficiency && (
-              <p className="text-red-500 text-xs mt-1">{errors.proficiency}</p>
+              <p className="text-red-500 dark:text-red-400 text-xs mt-1">
+                {errors.proficiency}
+              </p>
             )}
           </div>
-
-          {/* Skill Type */}
 
           <div className="flex gap-8 justify-end">
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition"
+              className="bg-gray-400 dark:bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={handleSubmit}
-              className="py-2 px-4 bg-button_primary text-button_text rounded hover:bg-button_hover transition"
+              className="py-2 px-4 bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-700 transition"
             >
               {initialData ? "Save Changes" : "Add Skill"}
             </button>
           </div>
         </form>
-        <div className="flex justify-end space-x-4 mt-6"></div>
       </DialogPanel>
     </Dialog>
   );

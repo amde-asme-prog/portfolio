@@ -22,14 +22,14 @@ const About = ({ about }) => {
           id: "core",
           title: about.core_title,
           subtitle: about.core_subtitle,
-          list: JSON.parse(about.core_lists),
+          list: about.core_lists,
           icon: "heart",
         },
         {
           id: "interests",
           title: about.interest_title,
           subtitle: about.interest_subtitle,
-          list: about.interests_lists && JSON.parse(about.interests_lists),
+          list: about.interests_lists,
           icon: "compass",
         },
       ]);

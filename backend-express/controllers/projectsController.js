@@ -5,7 +5,7 @@ const path = require("path");
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads/projects"));
+    cb(null, path.join(__dirname, "../public/uploads/projects"));
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -57,42 +57,53 @@ exports.addProject = async (req, res) => {
 
 // Update an Existing Project
 exports.updateProject = async (req, res) => {
+  const {
+    title,
+    role,
+    tools,
+    description,
+    github_link,
+    demo_link,
+    image_path,
+  } = req.body;
+  const imageFile = req.file;
   try {
-    const { id } = req.params;
-    const { title, role, tools, description, github_link, demo_link } =
-      req.body;
-    const image_path = req.file
-      ? `/uploads/projects/${req.file.filename}`
-      : undefined;
+    let existingProject = await Project.findOne({
+      where: { id: req.params.id },
+    });
 
-    const updatedFields = {
+    // Delete the old file if a new image is uploaded
+    const deleteOldFile = async (filePath) => {
+      if (
+        filePath &&
+        fsSync.existsSync(path.resolve(__dirname, `../public/${filePath}`))
+      ) {
+        await fs.unlink(path.resolve(__dirname, `../public/${filePath}`));
+      }
+    };
+
+    if (existingProject && imageFile) {
+      await deleteOldFile(existingProject.image_path);
+    }
+
+    const dataToUpdate = {
       title,
       role,
       tools,
       description,
-      image_path,
+      image_path: imageFile
+        ? `uploads/projects/${imageFile.filename}`
+        : existingProject?.image_path,
       github_link,
       demo_link,
     };
 
-    // Remove undefined fields
-    Object.keys(updatedFields).forEach(
-      (key) => updatedFields[key] === undefined && delete updatedFields[key]
-    );
-
-    const [affectedRows, [updatedProject]] = await Project.update(
-      updatedFields,
-      {
-        where: { id },
-        returning: true,
-      }
-    );
-
-    if (!affectedRows) {
+    if (!existingProject) {
       return res.status(404).json({ error: "Project not found." });
+    } else {
+      await existingProject.update(dataToUpdate);
+      return res.status(200).json(existingProject);
     }
-
-    res.status(200).json(updatedProject);
   } catch (error) {
     console.error("Error updating project:", error);
     res
@@ -105,8 +116,17 @@ exports.updateProject = async (req, res) => {
 exports.deleteProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await Project.destroy({ where: { id } });
+    const filePath = await Project.findOne({ where: { id } }).then(
+      (project) => project.image_path
+    );
 
+    if (
+      filePath &&
+      fsSync.existsSync(path.resolve(__dirname, `../public/${filePath}`))
+    ) {
+      await fs.unlink(path.resolve(__dirname, `../public/${filePath}`));
+    }
+    const deleted = await Project.destroy({ where: { id } });
     if (!deleted) {
       return res.status(404).json({ error: "Project not found." });
     }

@@ -75,7 +75,7 @@ const Header = ({ showSideBar, setShowSideBar }) => {
   });
 
   return (
-    <header className="sticky top-0 z-20 bg-white dark:bg-gray-800 shadow-lg backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+    <header className="sticky top-0 bg-white dark:bg-gray-800 shadow-lg backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
       <div className="flex items-center justify-between h-16 px-4">
         <button
           onClick={() => setShowSideBar(!showSideBar)}

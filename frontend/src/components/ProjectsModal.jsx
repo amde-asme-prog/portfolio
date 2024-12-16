@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { handleToast } from "../common/handleToast"; // Optional, if you're using a toast library for notifications.
-import { Toaster } from "sonner"; // Optional, if you're using a toast library.
+import { handleToast } from "../common/handleToast";
+import { Toaster } from "sonner";
 import {
   useAddProjectMutation,
   useUpdateProjectMutation,
@@ -9,13 +9,13 @@ import {
 
 const ProjectModal = ({ isOpen, onClose, initialData }) => {
   const [title, setTitle] = useState("");
-  const [tools, setTools] = useState([]); // Now handling tools as an array directly
+  const [tools, setTools] = useState([]);
   const [role, setRole] = useState("");
   const [description, setDescription] = useState("");
   const [demoLink, setDemoLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
-  const [image, setImage] = useState(null); // To handle image file
-  const [status, setStatus] = useState(false); // To handle project status
+  const [image, setImage] = useState(null);
+  const [status, setStatus] = useState(false);
 
   const { mutate: updateProject } = useUpdateProjectMutation();
   const { mutate: addProject } = useAddProjectMutation();
@@ -24,10 +24,9 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
     title: "",
     tools: "",
     role: "",
-    image: "", // Add image error handling
+    image: "",
   });
 
-  // Handle initial data when the modal is opened
   useEffect(() => {
     if (initialData) {
       setTitle(initialData.title || "");
@@ -40,27 +39,22 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
       setDescription(initialData.description || "");
       setDemoLink(initialData.demo_link || "");
       setGithubLink(initialData.github_link || "");
-      setImage(initialData.image_path || null); // Set the image path if available
-      setStatus(initialData.status || false); // Set the project status
+      setImage(initialData.image_path || null);
+      setStatus(initialData.status || false);
     }
   }, [initialData]);
 
-  // Validate form data
   const validateForm = () => {
     const newErrors = {};
     if (!title) newErrors.title = "Project title is required.";
     if (tools.length === 0) newErrors.tools = "At least one tool is required.";
     if (!role) newErrors.role = "Role is required.";
-
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // if no errors, return true
+    return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
   const handleSubmit = async () => {
     if (validateForm()) {
-      console.log("Submitting form with image:", image);
-
       const formData = {
         title,
         tools,
@@ -105,35 +99,28 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
     }
   };
 
-  // Add a tool to the tools array
-  const addTool = () => {
-    setTools((prevTools) => [...prevTools, ""]); // Adds an empty string to the tools list
-  };
+  const addTool = () => setTools((prevTools) => [...prevTools, ""]);
 
-  // Update a specific tool
   const handleToolChange = (index, value) => {
     const updatedTools = [...tools];
-    updatedTools[index] = value; // Update tool at specific index
+    updatedTools[index] = value;
     setTools(updatedTools);
   };
 
-  // Remove a tool
-  const removeTool = (index) => {
-    const updatedTools = tools.filter((_, i) => i !== index);
-    setTools(updatedTools);
-  };
+  const removeTool = (index) => setTools(tools.filter((_, i) => i !== index));
 
   return (
     <Dialog
       open={isOpen}
       onClose={onClose}
-      className="fixed inset-0 bg-black/35 backdrop-blur-sm transition-colors duration-200 overflow-y-scroll mt-10 mb-4"
+      className="fixed inset-0 bg-black/40 dark:bg-black/70 backdrop-blur-sm overflow-y-auto transition-colors duration-200"
     >
       <Toaster position="top-center" invert richColors />
-      <DialogPanel className="place-self-center relative top-24 bg-background_card text-text_primary p-6 rounded-lg shadow-lg w-11/12 mx-auto md:w-96">
-        <DialogTitle className="text-xl font-bold mb-4">
+      <DialogPanel className="relative mx-auto mt-20 w-11/12 max-w-md p-6 rounded-lg bg-white text-gray-900 shadow-lg dark:bg-gray-800 dark:text-gray-200">
+        <DialogTitle className="text-xl font-semibold mb-4">
           {initialData ? "Edit Project" : "Add Project"}
         </DialogTitle>
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Project Title *</label>
@@ -141,39 +128,37 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 block w-full border border-input_border_color rounded-md p-2 bg-input_background_color text-input_text_color"
+              className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
             />
             {errors.title && (
               <p className="text-red-500 text-xs mt-1">{errors.title}</p>
             )}
           </div>
 
-          {/* Tools */}
           <div>
             <label className="block text-sm font-medium">Tools *</label>
-            {tools &&
-              tools.map((tool, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <input
-                    type="text"
-                    value={tool}
-                    onChange={(e) => handleToolChange(index, e.target.value)}
-                    className="mt-1 block w-full border border-input_border_color rounded-md p-2 bg-input_background_color text-input_text_color"
-                    placeholder={`Tool #${index + 1}`}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeTool(index)}
-                    className="text-red-500"
-                  >
-                    &times;
-                  </button>
-                </div>
-              ))}
+            {tools.map((tool, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  value={tool}
+                  onChange={(e) => handleToolChange(index, e.target.value)}
+                  className="mt-1 flex-1 rounded-md border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                  placeholder={`Tool #${index + 1}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeTool(index)}
+                  className="text-red-500 hover:text-red-700 transition"
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
             <button
               type="button"
               onClick={addTool}
-              className="text-blue-500 mt-2"
+              className="mt-2 text-blue-500 dark:text-blue-400 hover:underline"
             >
               Add Tool
             </button>
@@ -182,60 +167,59 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
             )}
           </div>
 
-          {/* Role */}
           <div>
             <label className="block text-sm font-medium">Role *</label>
             <input
               type="text"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="mt-1 block w-full border border-input_border_color rounded-md p-2 bg-input_background_color text-input_text_color"
+              className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
             />
             {errors.role && (
               <p className="text-red-500 text-xs mt-1">{errors.role}</p>
             )}
           </div>
+        </div>
 
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium">Description</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="mt-1 block w-full border border-input_border_color rounded-md p-2 bg-input_background_color text-input_text_color"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium">Description</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+          />
+        </div>
 
-          {/* Demo Link */}
-          <div>
-            <label className="block text-sm font-medium">Demo Link</label>
-            <input
-              type="text"
-              value={demoLink}
-              onChange={(e) => setDemoLink(e.target.value)}
-              className="mt-1 block w-full border border-input_border_color rounded-md p-2 bg-input_background_color text-input_text_color"
-              placeholder="Enter project demo link"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Github Link</label>
-            <input
-              type="text"
-              value={githubLink}
-              onChange={(e) => setGithubLink(e.target.value)}
-              className="mt-1 block w-full border border-input_border_color rounded-md p-2 bg-input_background_color text-input_text_color"
-              placeholder="Enter project github link"
-            />
-          </div>
+        {/* Demo Link */}
+        <div>
+          <label className="block text-sm font-medium">Demo Link</label>
+          <input
+            type="text"
+            value={demoLink}
+            onChange={(e) => setDemoLink(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+            placeholder="Enter project demo link"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Github Link</label>
+          <input
+            type="text"
+            value={githubLink}
+            onChange={(e) => setGithubLink(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+            placeholder="Enter project github link"
+          />
+        </div>
 
-          {/* Image Upload */}
-          <div className="space-y-4">
-            <label className="block text-sm font-medium">Project Image *</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImage(e.target.files[0])}
-              className="block w-full text-sm text-gray-500 dark:text-gray-400
+        {/* Image Upload */}
+        <div className="space-y-4">
+          <label className="block text-sm font-medium">Project Image *</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+            className="block w-full text-sm text-gray-500 dark:text-gray-400
         file:mr-4 file:py-2 file:px-4
         file:rounded-full file:border-0
         file:text-sm file:font-semibold
@@ -243,46 +227,33 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
         dark:file:bg-blue-900/30 dark:file:text-blue-400
         hover:file:bg-blue-100 dark:hover:file:bg-blue-900/40
         transition-colors cursor-pointer"
+          />
+          {errors.image && (
+            <p className="text-red-500 text-xs mt-1">{errors.image}</p>
+          )}
+          {image && (
+            <img
+              src={
+                typeof image === "string" ? image : URL.createObjectURL(image)
+              }
+              alt="Preview"
+              className="max-w-xs rounded-lg shadow-md dark:shadow-gray-900/50"
             />
-            {errors.image && (
-              <p className="text-red-500 text-xs mt-1">{errors.image}</p>
-            )}
-            {image && (
-              <img
-                src={
-                  typeof image === "string" ? image : URL.createObjectURL(image)
-                }
-                alt="Preview"
-                className="max-w-xs rounded-lg shadow-md dark:shadow-gray-900/50"
-              />
-            )}
-          </div>
-
-          {/* Status */}
-          <div>
-            <label className="block text-sm font-medium">Status</label>
-            <input
-              type="checkbox"
-              checked={status}
-              onChange={(e) => setStatus(e.target.checked)}
-              className="mt-1"
-            />
-            <span className="ml-2">Active</span>
-          </div>
+          )}
         </div>
 
         <div className="flex justify-end space-x-4 mt-6">
           <button
             type="button"
             onClick={onClose}
-            className="bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition"
+            className="px-6 py-3 rounded-lg bg-gray-300 text-gray-900 hover:bg-gray-400 transition dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={handleSubmit}
-            className="bg-button_primary text-white px-6 py-3 rounded-lg hover:bg-button_hover transition"
+            className="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition dark:bg-blue-500 dark:hover:bg-blue-600"
           >
             Save
           </button>
