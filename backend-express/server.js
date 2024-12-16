@@ -13,7 +13,7 @@ const app = express();
 
 // Middleware
 var corsOptions = {
-  origin: "http://localhost:5173", // Frontend URL
+  origin: process.env.ALLOWED_ORIGIN, // Frontend URL
 };
 app.use(cors(corsOptions));
 app.use(bodyParser.json()); // Parse incoming JSON
