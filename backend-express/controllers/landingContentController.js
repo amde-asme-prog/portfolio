@@ -33,7 +33,7 @@ const fileFilter = (req, file, cb) => {
       return cb(new Error("Please upload a valid document file"));
     }
   } else if (file.fieldname === "image_path") {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif|svg)$/)) {
       return cb(new Error("Please upload a valid image file"));
     }
   }

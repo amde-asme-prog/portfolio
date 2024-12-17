@@ -64,7 +64,7 @@ const About = ({ about }) => {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient-x"></div>
 
                 <img
-                  src={aboutData?.image_path}
+                  src={import.meta.env.VITE_API_URL + aboutData?.image_path}
                   className="absolute inset-[3px] w-[calc(100%-6px)] h-[calc(100%-6px)] object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
                   alt="Amdebirhan Asmamaw"
                 />

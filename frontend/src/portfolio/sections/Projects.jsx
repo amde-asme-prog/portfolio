@@ -40,7 +40,7 @@ const ProjectCard = ({ project }) => {
     <div className="relative group h-[400px] overflow-hidden rounded-xl shadow-lg bg-gray-200 dark:bg-gray-800 hover:shadow-2xl transition-shadow duration-300">
       {/* Image */}
       <img
-        src={image_path}
+        src={import.meta.env.VITE_API_URL + image_path}
         alt={title}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
       />

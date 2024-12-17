@@ -35,7 +35,7 @@ const Home = ({ content }) => {
           ? JSON.parse(content.reference_icons)
           : content.reference_icons) || []
       );
-      setImage(content.image_path || null);
+      setImage(import.meta.env.VITE_API_URL + content.image_path || null);
       setCv(content.cv_path || null);
     }
   }, [content]);
