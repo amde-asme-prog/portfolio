@@ -95,11 +95,6 @@ exports.updateLandingContent = async (req, res) => {
       if (cvFile) deleteOldFile(content.cv_path);
     }
 
-    // Prepare file paths
-    const getFilePath = (file, type) => {
-      return file ? `uploads/${type}/${file.filename}` : undefined;
-    };
-
     // Prepare updated data
     const dataToUpdate = {
       greeting,
@@ -112,10 +107,14 @@ exports.updateLandingContent = async (req, res) => {
 
     // Add file paths if files were uploaded
     if (imageFile) {
-      dataToUpdate.image_path = getFilePath(imageFile, "image");
+      dataToUpdate.image_path = imageFile
+        ? `uploads/image/${imageFile.filename}`
+        : undefined;
     }
     if (cvFile) {
-      dataToUpdate.cv_path = getFilePath(cvFile, "cv");
+      dataToUpdate.cv_path = cvFile
+        ? `uploads/cv/${cvFile.fieldname}`
+        : undefined;
     }
 
     // Create or update content

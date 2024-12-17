@@ -5,45 +5,6 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 
 library.add(fas, fab);
 
-// const services = [
-//   {
-//     icon: "mobile-alt",
-//     title: "Native and Cross-Platform Mobile App Development",
-//     description:
-//       "I create high-quality native and cross-platform mobile applications tailored to your design specifications, ensuring seamless performance and user experience.",
-//   },
-//   {
-//     icon: "desktop",
-//     title: "Frontend Web App Development",
-//     description:
-//       "I build dynamic and responsive frontends using React or vanilla JavaScript, translating your designs into interactive and engaging web experiences.",
-//   },
-//   {
-//     icon: "server",
-//     title: "Backend Development",
-//     description:
-//       "I develop robust backend systems using a range of technologies, customized to fit your project's needs and ensure reliable performance.",
-//   },
-//   {
-//     icon: "plug",
-//     title: "API Integration",
-//     description:
-//       "I integrate various APIs into your applications, enabling seamless data exchange and functionality enhancements tailored to your specific requirements.",
-//   },
-//   {
-//     icon: "palette",
-//     title: "UI/UX Design",
-//     description:
-//       "I craft intuitive and visually appealing UI/UX designs tailored to your needs, focusing on user-centered experiences that enhance functionality and aesthetics.",
-//   },
-//   {
-//     icon: "headphones-alt",
-//     title: "Consultation",
-//     description:
-//       "I offer expert consultation to help you define your project requirements, plan your development strategy, and address any technical challenges.",
-//   },
-// ];
-
 const Services = ({ services }) => {
   return (
     <section

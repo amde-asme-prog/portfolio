@@ -26,10 +26,14 @@ const Home = ({ content }) => {
         additional_text: content.additional_text || "",
       });
       setTypewriterTexts(
-        (content.typewriter_texts && JSON.parse(content.typewriter_texts)) || []
+        (typeof content.typewriter_texts == "string"
+          ? JSON.parse(content.typewriter_texts)
+          : content.typewriter_texts) || []
       );
       setReferenceIcons(
-        (content.reference_icons && JSON.parse(content.reference_icons)) || []
+        (typeof content.reference_icons == "string"
+          ? JSON.parse(content.reference_icons)
+          : content.reference_icons) || []
       );
       setImage(content.image_path || null);
       setCv(content.cv_path || null);

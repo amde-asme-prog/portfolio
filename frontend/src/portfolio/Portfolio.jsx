@@ -10,7 +10,6 @@ import Footer from "./sections/Footer";
 import { useLandingContent } from "../hooks/landingContentQuery";
 import { useSkillsQuery } from "../hooks/skillsQuery";
 import { useProjectsQuery } from "../hooks/projectsQuery";
-import { useExperiencesQuery } from "../hooks/experienceQuery";
 import { useServicesQuery } from "../hooks/servicesQuery";
 import { useEffect, useState } from "react";
 import { ErrorMessage, LoadingSpinner } from "./reusables/ErrorResponses";

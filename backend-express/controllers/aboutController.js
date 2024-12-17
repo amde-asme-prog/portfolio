@@ -36,7 +36,6 @@ exports.getAboutContent = async (req, res) => {
         image_path: null,
       });
     }
-
     res.json(content);
   } catch (error) {
     console.error("Error fetching about content:", error);

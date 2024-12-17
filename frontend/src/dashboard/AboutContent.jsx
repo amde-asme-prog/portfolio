@@ -24,10 +24,18 @@ export const AboutContent = () => {
       setImage(import.meta.env.VITE_API_URL + aboutData.image_path);
       setCoreTitle(aboutData.core_title);
       setCoreSubtitle(aboutData.core_subtitle);
-      setCoreValues(aboutData.core_lists);
+      setCoreValues(
+        typeof aboutData.core_lists == "string"
+          ? JSON.parse(aboutData.core_lists)
+          : aboutData.core_lists
+      );
       setInterestTitle(aboutData.interest_title);
       setInterestSubtitle(aboutData.interest_subtitle);
-      setInterestsValues(aboutData.interests_lists);
+      setInterestsValues(
+        typeof aboutData.interests_lists == "string"
+          ? JSON.parse(aboutData.interests_lists)
+          : aboutData.interests_lists
+      );
     }
   }, [aboutData]);
 

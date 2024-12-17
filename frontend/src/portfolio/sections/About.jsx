@@ -22,14 +22,20 @@ const About = ({ about }) => {
           id: "core",
           title: about.core_title,
           subtitle: about.core_subtitle,
-          list: about.core_lists,
+          list:
+            typeof about.core_lists == "string"
+              ? JSON.parse(about.core_lists)
+              : about.core_lists,
           icon: "heart",
         },
         {
           id: "interests",
           title: about.interest_title,
           subtitle: about.interest_subtitle,
-          list: about.interests_lists,
+          list:
+            typeof about.interests_lists == "string"
+              ? JSON.parse(about.interests_lists)
+              : about.interests_lists,
           icon: "compass",
         },
       ]);

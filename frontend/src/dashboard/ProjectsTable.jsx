@@ -105,7 +105,10 @@ const ProjectsTable = () => {
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tools.map((tool, idx) => (
+                    {(typeof project.tools == "string"
+                      ? JSON.parse(project.tools)
+                      : project.tools
+                    ).map((tool, idx) => (
                       <span
                         key={idx}
                         className="text-sm bg-gray-200 dark:bg-gray-600 py-1 px-3 rounded-full text-gray-700 dark:text-gray-300"

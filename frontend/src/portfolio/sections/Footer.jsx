@@ -20,7 +20,10 @@ const Footer = ({ referenceIcons }) => {
         {/* Icon Section */}
         <div className="flex items-center justify-center gap-6 text-lg">
           {referenceIcons &&
-            JSON.parse(referenceIcons).map((item, index) => (
+            (typeof referenceIcons == "string"
+              ? JSON.parse(referenceIcons)
+              : referenceIcons
+            ).map((item, index) => (
               <motion.a
                 key={index}
                 href={item.href}

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import {
   useLandingContent,
@@ -33,10 +34,14 @@ const Landing = () => {
         additional_text: content.additional_text || "",
       });
       setTypewriterTexts(
-        (content.typewriter_texts && JSON.parse(content.typewriter_texts)) || []
+        (typeof content.typewriter_texts == "string"
+          ? JSON.parse(content.typewriter_texts)
+          : content.typewriter_texts) || []
       );
       setReferenceIcons(
-        (content.reference_icons && JSON.parse(content.reference_icons)) || []
+        (typeof content.reference_icons == "string"
+          ? JSON.parse(content.reference_icons)
+          : content.reference_icons) || []
       );
       setImage(import.meta.env.VITE_API_URL + content.image_path || null);
       setPreviewUrl(import.meta.env.VITE_API_URL + content.image_path || null);
@@ -97,7 +102,7 @@ const Landing = () => {
 
       {fetchStatus === "paused" && (
         <div className="text-center py-8 text-red-600 dark:text-red-400">
-          It seems you're offline. Please check your internet connection.
+          It seems you&apos;re offline. Please check your internet connection.
         </div>
       )}
 
@@ -257,13 +262,7 @@ const InputField = ({ label, value, onChange, required }) => (
   </div>
 );
 
-const FileUpload = ({
-  accept,
-  onChange,
-  preview,
-  previewType,
-  currentFile,
-}) => {
+const FileUpload = ({ accept, onChange, preview, currentFile }) => {
   return (
     <div className="space-y-4">
       <input
@@ -348,13 +347,13 @@ const LoadingSpinner = ({ size = "md" }) => (
   </div>
 );
 
-const ErrorMessage = ({ message }) => (
-  <div
-    className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 
-    rounded-lg border border-red-200 dark:border-red-800"
-  >
-    <p>Error: {message}</p>
-  </div>
-);
+// const ErrorMessage = ({ message }) => (
+//   <div
+//     className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400
+//     rounded-lg border border-red-200 dark:border-red-800"
+//   >
+//     <p>Error: {message}</p>
+//   </div>
+// );
 
 export default Landing;
