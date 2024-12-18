@@ -40,7 +40,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="w-full px-12 py-24 bg-gradient-to-b bg-gray-100 dark:bg-stone-900 10"
+      className="w-full px-4  sm:px-8 md:px-12 py-24 bg-gradient-to-b bg-gray-100 dark:bg-stone-900 10"
     >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex flex-col lg:flex-row gap-12 items-start">
@@ -120,7 +120,7 @@ const Contact = () => {
                 Contact Information
               </h3>
 
-              <div className="space-y-6">
+              <div className="space-y-6 ">
                 <ContactItem
                   icon={<MdEmail className="w-6 h-6" />}
                   title="Email"
@@ -162,7 +162,9 @@ const ContactItem = ({ icon, title, value }) => (
       <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400">
         {title}
       </h4>
-      <p className="text-gray-900 dark:text-white font-medium">{value}</p>
+      <p className="overflow-ellipsis text-wrap text-gray-900 dark:text-white font-medium">
+        {value}
+      </p>
     </div>
   </div>
 );

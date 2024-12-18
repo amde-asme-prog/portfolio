@@ -3,7 +3,7 @@ const Projects = ({ projects }) => {
   return (
     <section
       id="projects"
-      className="px-4 sm:px-12 w-full p-10 py-16 bg-gray-100 dark:bg-stone-900 mb-5"
+      className="px-4 sm:px-8 md:px-12 w-full p-10 py-16 bg-gray-100 dark:bg-stone-900 mb-5"
     >
       <div className="max-w-6xl mx-auto text-center mb-16">
         <h2 className="text-blue-600 dark:text-blue-400 font-semibold uppercase text-sm tracking-wider">
@@ -37,7 +37,7 @@ const ProjectCard = ({ project }) => {
   } = project;
 
   return (
-    <div className="relative group h-[400px] overflow-hidden rounded-xl shadow-lg bg-gray-200 dark:bg-gray-800 hover:shadow-2xl transition-shadow duration-300">
+    <div className=" relative group h-[400px] overflow-hidden rounded-xl shadow-lg bg-gray-200 dark:bg-gray-800 hover:shadow-2xl transition-shadow duration-300">
       {/* Image */}
       <img
         src={import.meta.env.VITE_API_URL + image_path}
@@ -53,14 +53,17 @@ const ProjectCard = ({ project }) => {
             <h3 className="text-2xl font-bold text-white">{title}</h3>
             <p className="text-sm text-gray-300 font-medium">{role}</p>
             <div className="flex flex-wrap gap-2">
-              {tools.map((tool, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 text-xs font-medium text-white bg-blue-600/80 rounded-full"
-                >
-                  {tool}
-                </span>
-              ))}
+              {tools &&
+                (Array.isArray(tools) ? tools : JSON.parse(tools)).map(
+                  (tool, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 text-xs font-medium text-white bg-blue-600/80 rounded-full"
+                    >
+                      {tool}
+                    </span>
+                  )
+                )}
             </div>
             <p className="text-sm text-gray-300 line-clamp-3 mt-2">
               {description}

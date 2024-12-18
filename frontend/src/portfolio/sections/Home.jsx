@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useDownloadCv } from "../../hooks/landingContentQuery";
@@ -26,14 +27,16 @@ const Home = ({ content }) => {
         additional_text: content.additional_text || "",
       });
       setTypewriterTexts(
-        (typeof content.typewriter_texts == "string"
-          ? JSON.parse(content.typewriter_texts)
-          : content.typewriter_texts) || []
+        content.typewriter_texts &&
+          (Array.isArray(content.typewriter_texts)
+            ? content.typewriter_texts
+            : JSON.parse(content.typewriter_texts) || [])
       );
       setReferenceIcons(
-        (typeof content.reference_icons == "string"
-          ? JSON.parse(content.reference_icons)
-          : content.reference_icons) || []
+        content.reference_icons &&
+          (Array.isArray(content.reference_icons)
+            ? content.reference_icons
+            : JSON.parse(content.reference_icons) || [])
       );
       setImage(import.meta.env.VITE_API_URL + content.image_path || null);
       setCv(content.cv_path || null);
@@ -45,7 +48,6 @@ const Home = ({ content }) => {
       id="home"
       className="relative min-h-screen flex flex-col lg:flex-row w-full pt-28 pb-20"
     >
-      {/* Enhanced Background Layers */}
       <div
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] 
       from-gray-100 via-white to-gray-200 
@@ -56,7 +58,6 @@ const Home = ({ content }) => {
         <div className="absolute inset-0 backdrop-blur-[1px]" />
       </div>
 
-      {/* Main Content */}
       <div className="relative container mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center">
         <motion.div
           className="flex flex-col gap-y-8 w-full lg:w-2/3 z-10"
@@ -64,8 +65,7 @@ const Home = ({ content }) => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          {/* Text Content */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             <motion.div
               className="text-4xl md:text-5xl lg:text-6xl font-extrabold bg-clip-text text-transparent 
           bg-gradient-to-r from-gray-800 via-gray-600 to-gray-400 dark:from-blue-100 dark:to-blue-300"
@@ -98,7 +98,6 @@ const Home = ({ content }) => {
             </motion.div>
           </div>
 
-          {/* Social Icons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -107,7 +106,6 @@ const Home = ({ content }) => {
             <SocialIcons referenceIcons={referenceIcons} />
           </motion.div>
 
-          {/* Action Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -117,7 +115,6 @@ const Home = ({ content }) => {
           </motion.div>
         </motion.div>
 
-        {/* Image Section */}
         <motion.div
           className="relative w-full lg:w-1/2 mt-12 lg:mt-0"
           initial={{ opacity: 0, scale: 0.8 }}
@@ -149,8 +146,8 @@ const ActionButtons = ({ cv, downloadCv }) => (
       onClick={downloadCv}
       target="_blank"
       className="group relative inline-flex items-center justify-center px-8 py-3 
-      text-lg font-medium text-black darK:text-white bg-transparent overflow-hidden rounded-lg
-      border-2 border-blue-500 hover:border-blue-400 transition-colors duration-300"
+      text-lg font-medium text-dark dark:text-white bg-transparent overflow-hidden rounded-lg
+      border-2 border-blue-500 hover:text-white hover:border-blue-400 transition-colors duration-300"
       whileHover={{ scale: 1.05 }}
       transition={{ type: "spring", stiffness: 400 }}
     >

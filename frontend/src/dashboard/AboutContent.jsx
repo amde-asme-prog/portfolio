@@ -15,7 +15,7 @@ export const AboutContent = () => {
   const [interestSubtitle, setInterestSubtitle] = useState("");
   const [interestsValues, setInterestsValues] = useState([]);
 
-  const { data: aboutData, isLoading, error, status } = useAboutQuery();
+  const { data: aboutData } = useAboutQuery();
   const { mutate: updateAboutData } = useUpdateAboutQuery();
 
   useEffect(() => {
@@ -25,16 +25,16 @@ export const AboutContent = () => {
       setCoreTitle(aboutData.core_title);
       setCoreSubtitle(aboutData.core_subtitle);
       setCoreValues(
-        typeof aboutData.core_lists == "string"
-          ? JSON.parse(aboutData.core_lists)
-          : aboutData.core_lists
+        Array.isArray(aboutData.core_lists)
+          ? aboutData.core_lists
+          : JSON.parse(aboutData.core_lists)
       );
       setInterestTitle(aboutData.interest_title);
       setInterestSubtitle(aboutData.interest_subtitle);
       setInterestsValues(
-        typeof aboutData.interests_lists == "string"
-          ? JSON.parse(aboutData.interests_lists)
-          : aboutData.interests_lists
+        Array.isArray(aboutData.interests_lists)
+          ? aboutData.interests_lists
+          : JSON.parse(aboutData.interests_lists)
       );
     }
   }, [aboutData]);
@@ -72,8 +72,6 @@ export const AboutContent = () => {
       },
     });
   };
-
-  console.log(image);
 
   return (
     <div className="m-5 p-5  text-stone-900 dark:text-stone-100">

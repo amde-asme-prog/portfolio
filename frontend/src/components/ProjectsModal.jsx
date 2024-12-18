@@ -15,7 +15,6 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
   const [demoLink, setDemoLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [image, setImage] = useState(null);
-  const [status, setStatus] = useState(false);
 
   const { mutate: updateProject } = useUpdateProjectMutation();
   const { mutate: addProject } = useAddProjectMutation();
@@ -29,6 +28,7 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
 
   useEffect(() => {
     if (initialData) {
+      console.log(initialData);
       setTitle(initialData.title || "");
       setTools(
         Array.isArray(initialData.tools)
@@ -39,8 +39,7 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
       setDescription(initialData.description || "");
       setDemoLink(initialData.demo_link || "");
       setGithubLink(initialData.github_link || "");
-      setImage(initialData.image_path || null);
-      setStatus(initialData.status || false);
+      setImage(import.meta.env.VITE_API_URL + initialData.image_path);
     }
   }, [initialData]);
 
@@ -60,12 +59,10 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
         tools,
         role,
         description,
-        image_path: image,
         demo_link: demoLink,
         github_link: githubLink,
-        status,
+        image_path: image,
       };
-
       if (initialData) {
         updateProject(
           { id: initialData.id, updatedProject: formData },
@@ -218,7 +215,9 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => {
+              setImage(e.target.files[0]);
+            }}
             className="block w-full text-sm text-gray-500 dark:text-gray-400
         file:mr-4 file:py-2 file:px-4
         file:rounded-full file:border-0
@@ -234,7 +233,9 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
           {image && (
             <img
               src={
-                typeof image === "string" ? image : URL.createObjectURL(image)
+                typeof image === "string"
+                  ? image.replace("public/", "")
+                  : URL.createObjectURL(image).replace("public/", "")
               }
               alt="Preview"
               className="max-w-xs rounded-lg shadow-md dark:shadow-gray-900/50"

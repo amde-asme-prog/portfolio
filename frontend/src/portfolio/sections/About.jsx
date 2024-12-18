@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,9 +11,6 @@ library.add(fab, fas);
 const About = ({ about }) => {
   const [activeSection, setActiveSection] = useState("core");
   const [aboutData, setAboutData] = useState(null);
-  // const { data: aboutData, isLoading, isError } = useAboutQuery();
-  const [core, setCore] = useState(null);
-  const [interests, setInterests] = useState(null);
   const [sections, setSections] = useState([]);
   useEffect(() => {
     if (about) {
@@ -23,9 +21,10 @@ const About = ({ about }) => {
           title: about.core_title,
           subtitle: about.core_subtitle,
           list:
-            typeof about.core_lists == "string"
-              ? JSON.parse(about.core_lists)
-              : about.core_lists,
+            about.core_lists &&
+            (Array.isArray(about.core_lists)
+              ? about.core_lists
+              : JSON.parse(about.core_lists)),
           icon: "heart",
         },
         {
@@ -33,9 +32,10 @@ const About = ({ about }) => {
           title: about.interest_title,
           subtitle: about.interest_subtitle,
           list:
-            typeof about.interests_lists == "string"
-              ? JSON.parse(about.interests_lists)
-              : about.interests_lists,
+            about.interests_lists &&
+            (Array.isArray(about.interests_lists)
+              ? about.interests_lists
+              : JSON.parse(about.interests_lists)),
           icon: "compass",
         },
       ]);
@@ -45,12 +45,12 @@ const About = ({ about }) => {
   return (
     <section
       id="about"
-      className="px-12 min-h-screen w-full py-20 bg-gray-100 dark:bg-stone-900 mb-5"
+      className="px-3  sm:px-8 md:px-12 min-h-screen w-full py-20 bg-gray-100 dark:bg-stone-900 mb-5"
     >
       <p className="text-center text-4xl font-bold text-stone-800 dark:text-stone-400 py-10 pb-20">
         About Me
       </p>
-      <div className="container px-4">
+      <div className="container px-2 sm:px-4">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Profile Image Section */}
           <motion.div
@@ -127,7 +127,7 @@ const About = ({ about }) => {
   );
 };
 
-const ContentDisplay = ({ title, subtitle, list, icon }) => {
+const ContentDisplay = ({ title, subtitle, list }) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div

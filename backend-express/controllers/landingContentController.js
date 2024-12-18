@@ -85,8 +85,12 @@ exports.updateLandingContent = async (req, res) => {
 
     // Handle file deletions
     const deleteOldFile = (filePath) => {
-      if (filePath && fs.existsSync(path.resolve(filePath))) {
-        fs.unlinkSync(path.resolve(filePath));
+      if (filePath) {
+        const absolutePath = path.resolve(__dirname, "../public", filePath); // Properly resolve to the public folder
+        if (fs.existsSync(absolutePath)) {
+          fs.unlinkSync(absolutePath);
+          console.log(`Deleted file: ${absolutePath}`);
+        }
       }
     };
 
@@ -113,7 +117,7 @@ exports.updateLandingContent = async (req, res) => {
     }
     if (cvFile) {
       dataToUpdate.cv_path = cvFile
-        ? `uploads/cv/${cvFile.fieldname}`
+        ? `uploads/cv/${cvFile.filename}`
         : undefined;
     }
 
@@ -138,8 +142,11 @@ exports.downloadCv = async (req, res) => {
       return res.status(404).json({ error: "CV not found." });
     }
 
-    const cvFilePath = path.resolve(content.cv_path);
+    const cvFilePath = path.resolve(__dirname, "../public", content.cv_path);
+    console.log("Resolved File Path:", cvFilePath);
+
     if (!fs.existsSync(cvFilePath)) {
+      console.error("File not found:", cvFilePath);
       return res.status(404).json({ error: "CV file not found." });
     }
 

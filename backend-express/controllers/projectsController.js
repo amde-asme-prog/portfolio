@@ -1,11 +1,17 @@
 const { Project } = require("../models/projectsModel");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs/promises");
+const fsSync = require("fs");
 
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../public/uploads/project"));
+    const uploadDir = path.join(__dirname, "../public/uploads/project");
+    if (!fsSync.existsSync(uploadDir)) {
+      fsSync.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -13,6 +19,20 @@ const storage = multer.diskStorage({
 });
 
 exports.upload = multer({ storage });
+
+// Helper function to delete files
+const deleteFile = async (filePath) => {
+  if (
+    filePath &&
+    fsSync.existsSync(path.resolve(__dirname, `../public/${filePath}`))
+  ) {
+    try {
+      await fs.unlink(path.resolve(__dirname, `../public/${filePath}`));
+    } catch (error) {
+      console.error("Error deleting file:", error);
+    }
+  }
+};
 
 // Get All Projects
 exports.getProjects = async (req, res) => {
@@ -32,8 +52,14 @@ exports.addProject = async (req, res) => {
   try {
     const { title, role, tools, description, github_link, demo_link } =
       req.body;
+    if (!title || !description) {
+      return res
+        .status(400)
+        .json({ error: "Title and description are required." });
+    }
+
     const image_path = req.file
-      ? `/uploads/projects/${req.file.filename}`
+      ? `/uploads/project/${req.file.filename}`
       : null;
 
     const project = await Project.create({
@@ -57,33 +83,21 @@ exports.addProject = async (req, res) => {
 
 // Update an Existing Project
 exports.updateProject = async (req, res) => {
-  const {
-    title,
-    role,
-    tools,
-    description,
-    github_link,
-    demo_link,
-    image_path,
-  } = req.body;
-  const imageFile = req.file;
   try {
+    const { title, role, tools, description, github_link, demo_link } =
+      req.body;
+    const imageFile = req.file;
+
     let existingProject = await Project.findOne({
       where: { id: req.params.id },
     });
 
-    // Delete the old file if a new image is uploaded
-    const deleteOldFile = async (filePath) => {
-      if (
-        filePath &&
-        fsSync.existsSync(path.resolve(__dirname, `../public/${filePath}`))
-      ) {
-        await fs.unlink(path.resolve(__dirname, `../public/${filePath}`));
-      }
-    };
+    if (!existingProject) {
+      return res.status(404).json({ error: "Project not found." });
+    }
 
-    if (existingProject && imageFile) {
-      await deleteOldFile(existingProject.image_path);
+    if (imageFile) {
+      await deleteFile(existingProject.image_path);
     }
 
     const dataToUpdate = {
@@ -92,18 +106,14 @@ exports.updateProject = async (req, res) => {
       tools,
       description,
       image_path: imageFile
-        ? `uploads/projects/${imageFile.filename}`
-        : existingProject?.image_path,
+        ? `uploads/project/${imageFile.filename}`
+        : existingProject.image_path,
       github_link,
       demo_link,
     };
 
-    if (!existingProject) {
-      return res.status(404).json({ error: "Project not found." });
-    } else {
-      await existingProject.update(dataToUpdate);
-      return res.status(200).json(existingProject);
-    }
+    await existingProject.update(dataToUpdate);
+    res.status(200).json(existingProject);
   } catch (error) {
     console.error("Error updating project:", error);
     res
@@ -116,21 +126,15 @@ exports.updateProject = async (req, res) => {
 exports.deleteProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const filePath = await Project.findOne({ where: { id } }).then(
-      (project) => project.image_path
-    );
 
-    if (
-      filePath &&
-      fsSync.existsSync(path.resolve(__dirname, `../public/${filePath}`))
-    ) {
-      await fs.unlink(path.resolve(__dirname, `../public/${filePath}`));
-    }
-    const deleted = await Project.destroy({ where: { id } });
-    if (!deleted) {
+    const project = await Project.findOne({ where: { id } });
+    if (!project) {
       return res.status(404).json({ error: "Project not found." });
     }
 
+    await deleteFile(project.image_path);
+
+    await Project.destroy({ where: { id } });
     res.status(204).send();
   } catch (error) {
     console.error("Error deleting project:", error);

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -15,7 +16,7 @@ const Skills = ({ skills }) => {
   return (
     <section
       id="skills"
-      className="px-12 text-start w-full min-h-screen py-24 bg-gray-100 dark:bg-stone-900 text-stone-900 dark:text-stone-100 mb-5 "
+      className="px-4  sm:px-8 md:px-12 text-start w-full min-h-screen py-24 bg-gray-100 dark:bg-stone-900 text-stone-900 dark:text-stone-100 mb-5 "
     >
       <div className="">
         <motion.div
@@ -43,7 +44,7 @@ const TechnicalSkills = ({ technicalSkills }) => {
   const categories = ["front-end", "back-end", "mobile-app"];
 
   return (
-    <div className="px-10 flex flex-wrap gap-12 w-full">
+    <div className="px-4 sm:px-8 md:px-10 flex flex-wrap gap-12 w-full">
       {categories.map((category, index) => (
         <motion.div
           key={index}

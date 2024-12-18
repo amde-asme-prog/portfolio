@@ -8,18 +8,18 @@ const fsSync = require("fs");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadDir = path.join(__dirname, "../public/uploads/about");
+    if (!fsSync.existsSync(uploadDir)) {
+      fsSync.mkdirSync(uploadDir, { recursive: true });
+    }
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname); // Use timestamp for unique filenames
+    cb(null, file.originalname);
   },
 });
 
 exports.upload = multer({ storage });
 
-// Utility: Safely parse JSON
-
-// Get About Content
 exports.getAboutContent = async (req, res) => {
   try {
     let content = await About.findOne({ where: { id: 1 } });

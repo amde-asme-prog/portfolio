@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -9,7 +10,7 @@ const Services = ({ services }) => {
   return (
     <section
       id="services"
-      className="py-16 px-12 w-full bg-gray-100 dark:bg-stone-900  mb-5"
+      className="py-16 px-4  sm:px-8 md:px-12 w-full bg-gray-100 dark:bg-stone-900  mb-5"
     >
       <div className="mx-auto px-10">
         <h2 className="text-4xl font-bold text-gray-800 dark:text-white text-center mb-12">

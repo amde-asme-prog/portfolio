@@ -34,14 +34,14 @@ const Landing = () => {
         additional_text: content.additional_text || "",
       });
       setTypewriterTexts(
-        (typeof content.typewriter_texts == "string"
-          ? JSON.parse(content.typewriter_texts)
-          : content.typewriter_texts) || []
+        Array.isArray(content.typewriter_texts)
+          ? content.typewriter_texts
+          : JSON.parse(content.typewriter_texts) || []
       );
       setReferenceIcons(
-        (typeof content.reference_icons == "string"
-          ? JSON.parse(content.reference_icons)
-          : content.reference_icons) || []
+        Array.isArray(content.reference_icons)
+          ? content.reference_icons
+          : JSON.parse(content.reference_icons) || []
       );
       setImage(import.meta.env.VITE_API_URL + content.image_path || null);
       setPreviewUrl(import.meta.env.VITE_API_URL + content.image_path || null);
@@ -80,9 +80,6 @@ const Landing = () => {
       handleToast(400, "Please upload an image smaller than 5MB.");
     }
   };
-
-  console.log(image);
-  console.log(typewriterTexts);
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900">

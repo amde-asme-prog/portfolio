@@ -52,15 +52,15 @@ export default function ServicesTable() {
             </div>
           )}
 
-          {error?.response?.status == 404 && (
-            <div className="text-center py-12 text-gray-500 dark:text-gray-300">
-              No services found. Add your first service!
-            </div>
-          )}
-
           {error && (
             <div className="text-center py-8 text-red-500 dark:text-red-400">
               Error fetching data. Please try again later.
+            </div>
+          )}
+
+          {!isLoading && !error && (!services || services.length === 0) && (
+            <div className="text-center py-12 text-gray-500 dark:text-gray-300">
+              No services found. Add your first service!
             </div>
           )}
 
