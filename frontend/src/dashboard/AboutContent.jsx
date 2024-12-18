@@ -157,6 +157,16 @@ export const AboutContent = () => {
                 onChange={(e) => handleCoreValueChange(index, e.target.value)}
                 placeholder={`Core value ${index + 1}`}
               />
+              <button
+                type="button"
+                onClick={() => {
+                  setCoreValues(coreValues.filter((_, i) => i !== index));
+                }}
+                className="px-4 py-2 rounded-md bg-red-500 text-white font-semibold shadow-md 
+                  hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800 transition-colors"
+              >
+                Delete
+              </button>
             </div>
           ))}
           <button
@@ -192,6 +202,18 @@ export const AboutContent = () => {
                 onChange={(e) => handleInterestChange(index, e.target.value)}
                 placeholder={`Interest ${index + 1}`}
               />
+              <button
+                type="button"
+                onClick={() => {
+                  setInterestsValues(
+                    interestsValues.filter((_, i) => i !== index)
+                  );
+                }}
+                className="px-4 py-2 rounded-md bg-red-500 text-white font-semibold shadow-md 
+                hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800 transition-colors"
+              >
+                Delete
+              </button>
             </div>
           ))}
           <button
