@@ -7,6 +7,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 
 library.add(fab, fas);
+const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 
 const About = ({ about }) => {
   const [activeSection, setActiveSection] = useState("core");

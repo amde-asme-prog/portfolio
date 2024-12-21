@@ -174,7 +174,7 @@ const ProjectsTable = () => {
   };
 
   return (
-    <div className="p-6 mx-auto bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="m-5 p-5  text-stone-900 dark:text-stone-100">
       <Toaster position="top-center" invert richColors />
 
       <div className="max-w-7xl mx-auto">

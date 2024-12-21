@@ -40,10 +40,10 @@ const FeedbackTable = () => {
   const columns = ["Name", "Email", "Job", "Rating", "Comment"];
 
   return (
-    <div className="p-6 mx-auto bg-white dark:bg-gray-900 min-h-screen">
+    <div className="m-5 p-5  text-stone-900 dark:text-stone-100">
       <Toaster position="top-center" invert richColors />
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 tracking-tight mb-2">
           Feedback Table
         </h1>
         <button

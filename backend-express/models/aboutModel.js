@@ -10,27 +10,27 @@ const About = sequelize.define(
     },
     core_title: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     core_subtitle: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     core_lists: {
       type: DataTypes.JSON,
-      allowNull: false,
+      allowNull: true,
     },
     interest_title: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     interest_subtitle: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     interests_lists: {
       type: DataTypes.JSON,
-      allowNull: false,
+      allowNull: true,
     },
     image_path: {
       type: DataTypes.STRING,

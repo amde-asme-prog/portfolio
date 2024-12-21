@@ -42,6 +42,7 @@ export const AboutContent = () => {
   const handleCoreValueChange = (index, value) => {
     const updatedValues = [...coreValues];
     updatedValues[index] = value;
+
     setCoreValues(updatedValues);
   };
 
@@ -62,6 +63,8 @@ export const AboutContent = () => {
       interests_lists: interestsValues,
       image_path: image,
     };
+    console.log("formdata", formData);
+    console.log("coreValues while submit", coreValues);
 
     updateAboutData(formData, {
       onSuccess: () => {
@@ -77,7 +80,7 @@ export const AboutContent = () => {
     <div className="m-5 p-5  text-stone-900 dark:text-stone-100">
       <Toaster position="top-center" invert richColors />
       <header className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 tracking-tight mb-2">
           About me Content
         </h2>
 
@@ -144,17 +147,27 @@ export const AboutContent = () => {
           />
           {coreValues.map((value, index) => (
             <div key={index} className="w-full flex justify-center gap-4 mb-3">
-              .{" "}
               <InputField
                 type="text"
                 value={value.title}
-                onChange={(e) => handleCoreValueChange(index, e.target.value)}
+                onChange={(e) => {
+                  const updatedValues = [...coreValues];
+                  updatedValues[index] = { ...value, title: e.target.value };
+                  setCoreValues(updatedValues);
+                }}
                 placeholder={`Core title ${index + 1}`}
               />
               <InputField
                 type="text"
                 value={value.description}
-                onChange={(e) => handleCoreValueChange(index, e.target.value)}
+                onChange={(e) => {
+                  const updatedValues = [...coreValues];
+                  updatedValues[index] = {
+                    ...value,
+                    description: e.target.value,
+                  };
+                  setCoreValues(updatedValues);
+                }}
                 placeholder={`Core value ${index + 1}`}
               />
               <button
@@ -171,7 +184,9 @@ export const AboutContent = () => {
           ))}
           <button
             type="button"
-            onClick={() => setCoreValues([...coreValues, ""])}
+            onClick={() =>
+              setCoreValues([...coreValues, { title: "", description: "" }])
+            }
             className="px-4 py-2 rounded-md bg-blue-500 text-white font-semibold shadow-md 
               hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
           >

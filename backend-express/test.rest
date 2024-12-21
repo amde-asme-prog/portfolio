@@ -79,8 +79,8 @@ content-type: multipart/form-data
 }
 
 ###
-PUT http://127.0.0.1:5000/api/projects/1 HTTP/1.1
-content-type: multipart/form-data
+POST  http://127.0.0.1:5000/api/projects/ HTTP/1.1
+content-type: application/json
 
 {
   "title": "Project 1",
@@ -91,3 +91,6 @@ content-type: multipart/form-data
   "github_link": "https://github.com/amde-asme-prog/project1",
   "demo_link": "https://project1.amdebirhan.com"
 }
+
+###
+GET http://127.0.0.1:5000/api/projects/ HTTP/1.1

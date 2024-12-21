@@ -82,10 +82,10 @@ const Landing = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 space-y-8 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900">
+    <div className="m-5 p-5  text-stone-900 dark:text-stone-100">
       <header className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Landing Page Content
+      <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 tracking-tight mb-2">
+      Landing Page Content
         </h2>
 
         <SaveButton onClick={handleSave} isLoading={isUpdating} />

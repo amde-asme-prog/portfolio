@@ -1,4 +1,5 @@
-import { icon, library } from "@fortawesome/fontawesome-svg-core";
+/* eslint-disable react/prop-types */
+import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
@@ -50,13 +51,13 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {showSideBar && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 md:hidden"
           onClick={() => setShowSideBar(false)}
         />
       )}
@@ -76,7 +77,7 @@ const Dashboard = () => {
             setShowSideBar={setShowSideBar}
             isMobile={isMobile}
           />
-          <MainContent selected={selected} renderSection={renderSection} />
+          {renderSection()}
         </div>
       </div>
     </div>
@@ -96,68 +97,76 @@ const Header = ({ showSideBar, setShowSideBar, isMobile }) => {
   });
 
   return (
-    <header className="sticky top-0 bg-white dark:bg-gray-800 shadow-lg backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90 z-20">
-      <div className="flex items-center justify-between h-14 md:h-16 px-3 md:px-4">
-        {isMobile && (
-          <button
-            onClick={() => setShowSideBar(!showSideBar)}
-            className="p-2 rounded-lg text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            aria-label="Toggle Menu"
-          >
-            <FontAwesomeIcon icon={showSideBar ? "times" : "bars"} size="lg" />
-          </button>
-        )}
+    <header className="sticky top-0 backdrop-blur-lg bg-white/80 dark:bg-gray-800/80 shadow-lg z-20">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center justify-between h-16 px-4">
+          {isMobile && (
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowSideBar(!showSideBar)}
+              className="p-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200 
+                hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            >
+              <FontAwesomeIcon icon={showSideBar ? "times" : "bars"} />
+            </motion.button>
+          )}
 
-        <div className="flex items-center gap-2 md:gap-4">
-          <animated.div style={notificationBounce} className="relative">
-            <button className="p-1.5 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-              <FontAwesomeIcon
-                icon="bell"
-                className="text-gray-600 dark:text-gray-200 text-sm md:text-base"
-              />
-              <span className="absolute -top-1 -right-1 bg-red-500 rounded-full w-3.5 h-3.5 md:w-4 md:h-4 text-[10px] md:text-xs text-white flex items-center justify-center">
-                3
-              </span>
-            </button>
-          </animated.div>
-
-          <div className="flex items-center gap-2 md:gap-3">
-            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-[2px]">
-              <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 flex items-center justify-center">
+          <div className="flex items-center space-x-4">
+            <animated.div style={notificationBounce}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative p-2 rounded-xl bg-gray-100 dark:bg-gray-700 
+                  hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              >
                 <FontAwesomeIcon
-                  icon="user"
-                  className="text-gray-600 dark:text-gray-300 text-sm md:text-base"
+                  icon="bell"
+                  className="text-gray-600 dark:text-gray-200"
+                />
+                <span
+                  className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full text-xs text-white 
+                  flex items-center justify-center border-2 border-white dark:border-gray-800"
+                >
+                  3
+                </span>
+              </motion.button>
+            </animated.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center space-x-3 bg-gray-100 dark:bg-gray-700 
+                rounded-xl p-2 transition-colors hover:bg-gray-200 dark:hover:bg-gray-600"
+            >
+              <div className="relative">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 p-[2px]">
+                  <div
+                    className="w-full h-full rounded-xl bg-white dark:bg-gray-800 
+                    flex items-center justify-center overflow-hidden"
+                  >
+                    <FontAwesomeIcon
+                      icon="user"
+                      className="text-gray-600 dark:text-gray-300"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full 
+                  border-2 border-white dark:border-gray-800"
                 />
               </div>
-            </div>
-            <div className="hidden sm:block">
-              <div className="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-200">
-                Admin
+              <div className="hidden sm:block">
+                <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  Admin
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  admin@example.com
+                </p>
               </div>
-              <div className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400">
-                admin@example.com
-              </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
     </header>
-  );
-};
-
-const MainContent = ({ selected, renderSection }) => {
-  return (
-    <main className="flex-1 relative overflow-y-auto">
-      <motion.div
-        className="container mx-auto px-3 md:px-4 py-4 md:py-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.2 }}
-      >
-        {renderSection()}
-      </motion.div>
-    </main>
   );
 };
 
@@ -169,15 +178,15 @@ const SideBar = ({
   isMobile,
 }) => {
   const sideNavButtons = [
-    { icon: "chart-pie", text: "Home", value: "landing" },
-    { icon: "person", text: "About", value: "about" },
+    { icon: "home", text: "Home", value: "landing" },
+    { icon: "user", text: "About", value: "about" },
     { icon: "briefcase", text: "Experience", value: "experience" },
-    { icon: "clipboard-list", text: "Feedback", value: "feedback" },
-    { icon: "laptop-code", text: "Skills", value: "skills" },
-    { icon: "project-diagram", text: "Projects", value: "projects" },
-    { icon: "box-open", text: "Services", value: "services" },
-    { icon: "comment-dots", text: "Messages", value: "messages" },
-    { icon: "cog", text: "Settings", value: "settings" },
+    { icon: "star", text: "Feedback", value: "feedback" },
+    { icon: "code", text: "Skills", value: "skills" },
+    { icon: "folder-open", text: "Projects", value: "projects" },
+    { icon: "cogs", text: "Services", value: "services" },
+    { icon: "envelope", text: "Messages", value: "messages" },
+    { icon: "sliders-h", text: "Settings", value: "settings" },
     { icon: "sign-out-alt", text: "Sign out", value: "signOut" },
   ];
 
@@ -189,57 +198,69 @@ const SideBar = ({
           animate={{ x: 0 }}
           exit={isMobile ? { x: -320 } : false}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className={`
-            fixed md:sticky top-0 left-0
-            h-screen w-[280px] md:w-64
-            bg-white dark:bg-gray-800 
-            shadow-lg
-            z-40 md:z-0
-          `}
+          className="fixed md:sticky top-0 left-0 h-screen w-72 md:w-64 
+            bg-white dark:bg-gray-800 shadow-xl z-40 md:z-0"
         >
           <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between p-3 md:p-4 border-b dark:border-gray-700">
-              <h1 className="text-lg md:text-xl font-bold text-gray-800 dark:text-white">
-                Dashboard
-              </h1>
+            <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
+              <div className="flex items-center space-x-3">
+                <div
+                  className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 
+                  rounded-lg flex items-center justify-center"
+                >
+                  <FontAwesomeIcon icon="th" className="text-white" />
+                </div>
+                <h1
+                  className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 
+                  text-transparent bg-clip-text"
+                >
+                  Dashboard
+                </h1>
+              </div>
               {isMobile && (
-                <button
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => setShowSideBar(false)}
-                  className="p-2 rounded-lg text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="p-2 rounded-lg text-gray-600 dark:text-gray-200 
+                    hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <FontAwesomeIcon icon="times" />
-                </button>
+                </motion.button>
               )}
             </div>
 
-            <nav className="flex-1 overflow-y-auto py-3 md:py-4">
-              <ul className="space-y-1.5 md:space-y-2 px-2 md:px-3">
+            <nav className="flex-1 overflow-y-auto py-4">
+              <ul className="space-y-1 px-3">
                 {sideNavButtons.map((item, index) => (
-                  <li key={index}>
+                  <motion.li
+                    key={index}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
                     <button
                       onClick={() => {
                         setSelected(item.value);
                         if (isMobile) setShowSideBar(false);
                       }}
                       className={`
-                        w-full flex items-center gap-3 p-2.5 md:p-3 rounded-lg
-                        transition-all duration-200 text-sm md:text-base
+                        w-full flex items-center gap-3 p-3 rounded-xl
+                        transition-all duration-200
                         ${
                           selected === item.value
-                            ? "bg-blue-500 text-white"
+                            ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
                             : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         }
                       `}
                     >
                       <FontAwesomeIcon icon={item.icon} />
-                      <span>{item.text}</span>
+                      <span className="font-medium">{item.text}</span>
                     </button>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </nav>
 
-            <div className="p-3 md:p-4 border-t dark:border-gray-700">
+            <div className="p-4 border-t dark:border-gray-700">
               <ToggleMode />
             </div>
           </div>
@@ -257,12 +278,11 @@ const ToggleMode = () => {
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={toggleDarkMode}
-      className="w-full flex items-center justify-between p-2.5 md:p-3 rounded-lg
-        bg-gray-50 dark:bg-gray-700
+      className="w-full flex items-center justify-between p-3 rounded-xl
+        bg-gray-100 dark:bg-gray-700
         text-gray-600 dark:text-gray-300
-        hover:bg-gray-100 dark:hover:bg-gray-600
-        transition-colors duration-200
-        text-sm md:text-base"
+        hover:bg-gray-200 dark:hover:bg-gray-600
+        transition-colors duration-200"
     >
       <span className="font-medium">Theme</span>
       <motion.div
@@ -271,7 +291,7 @@ const ToggleMode = () => {
       >
         <FontAwesomeIcon
           icon={darkMode ? "sun" : "moon"}
-          className={`text-lg md:text-xl ${
+          className={`text-xl ${
             darkMode ? "text-yellow-400" : "text-blue-600"
           }`}
         />
