@@ -1,0 +1,96 @@
+###
+
+POST http://127.0.0.1:5000/api/landing HTTP/1.1
+content-type: application/json
+
+{
+  "greeting": "Hello  hhh,",
+  "introduction": "This is Amdebirhan, I’m",
+  "name": "Amdebirhan Asmamaw",
+  "additional_text": "A passionate developer always looking for new challenges.",
+  "typewriter_texts": [
+    "A Full Stack Developer",
+    "Mobile App Developer",
+    "A Software Developer"
+  ],
+  "reference_icons": [
+    {
+      "href": "https://github.com/amde-asme-prog",
+      "label": "GitHub",
+      "icon": "github"
+    },
+    {
+      "href": "https://www.linkedin.com/in/amdebirhan-asmamaw",
+      "label": "LinkedIn",
+      "icon": "linkedin"
+    },
+    {
+      "href": "https://twitter.com/amdebirhanasmamaw",
+      "label": "Twitter",
+      "icon": "twitter"
+    },
+    {
+      "href": "https://dribbble.com/amdebirhanasmamaw",
+      "label": "Dribbble",
+      "icon": "dribbble"
+    }
+  ],
+  "image_path": "/assets/undraw_programming.svg",
+  "cv_path": "/assets/amdebirhan_asmamaw-cv.pdf"
+}
+
+###
+
+GET http://127.0.0.1:5000/api/landing HTTP/1.1
+
+
+###
+GET http://127.0.0.1:5000/api/skills HTTP/1.1
+
+###
+GET http://127.0.0.1:5000/api/services HTTP/1.1
+
+###
+POST http://127.0.0.1:5000/api/services HTTP/1.1
+content-type: application/json
+
+{
+  "icon": "github",
+  "title": "GitHub",
+  "description": "GitHub is a web-based hosting service for version control of code using Git. It offers the distributed version control and source code management (SCM) functionality of Git, plus its own features.",
+  "link": "https://github.com/"
+}
+
+###
+GET http://127.0.0.1:5000/api/projects HTTP/1.1
+
+###
+POST http://127.0.0.1:5000/api/projects HTTP/1.1
+content-type: multipart/form-data
+
+{
+  "title": "Project 1",
+  "role": "Frontend Developer",
+  "tools": ["React", "Next.js", "Tailwind CSS"],
+  "description": "This is a project description",
+  "image_path": "/assets/project1.png",
+  "github_link": "https://github.com/amde-asme-prog/project1",
+  "demo_link": "https://project1.amdebirhan.com"
+}
+
+###
+POST  http://127.0.0.1:5000/api/projects/ HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Project 1",
+  "role": "Frontend Developer",
+  "tools": ["React", "Next.js", "Tailwind CSS"],
+  "description": "This is a project description",
+  "image_path": "/assets/project1.png",
+  "github_link": "https://github.com/amde-asme-prog/project1",
+  "demo_link": "https://project1.amdebirhan.com"
+}
+
+###
+GET http://127.0.0.1:5000/api/projects/ HTTP/1.1

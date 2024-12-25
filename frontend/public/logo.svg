@@ -1,0 +1,152 @@
+<svg 
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 800 300"
+  width="800"
+  height="300"
+>
+  <!-- Gradient Definitions -->
+  <defs>
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4A90E2" />
+      <stop offset="50%" stop-color="#8E44AD" />
+      <stop offset="100%" stop-color="#e0d426" />
+    </linearGradient>
+    <radialGradient id="highlightGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4A90E2" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0" />
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+      <feMerge>
+        <feMergeNode in="coloredBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Glow Effect -->
+  <circle cx="250" cy="150" r="100" fill="url(#highlightGradient)" />
+
+  <!-- Title -->
+  <text
+    x="50"
+    y="120"
+    font-family="'Poppins', sans-serif"
+    font-size="62"
+    font-weight="700"
+    fill="url(#mainGradient)"
+    letter-spacing="3"
+    filter="url(#glow)"
+  >
+    AMDEBIRHAN
+  </text>
+
+  <!-- Profession -->
+  <text
+    x="50"
+    y="180"
+    font-family="'Poppins', sans-serif"
+    font-size="36"
+    fill="#b4e432"
+    font-weight="600"
+    text-decoration="underline"
+  >
+    SOFTWARE DEVELOPER
+  </text>
+
+  <!-- Separator Line -->
+  <line
+    x1="50"
+    y1="200"
+    x2="350"
+    y2="200"
+    stroke="url(#mainGradient)"
+    stroke-width="3"
+    stroke-linecap="round"
+  >
+    <animate
+      attributeName="stroke-dasharray"
+      values="0,300;300,0"
+      dur="2s"
+      repeatCount="indefinite"
+    />
+  </line>
+
+  <!-- HTML-Like Tech Icon -->
+  <g transform="translate(500, 80)">
+    <!-- Background Circle -->
+    <circle 
+      cx="50" 
+      cy="50" 
+      r="45" 
+      fill="none" 
+      stroke="url(#mainGradient)" 
+      stroke-width="4"
+    />
+    <!-- Code Text -->
+    <text 
+      x="28" 
+      y="60" 
+      font-family="'Poppins', sans-serif" 
+      font-size="32" 
+      font-weight="700" 
+      fill="#4A90E2"
+    >
+      &lt;/&gt;
+    </text>
+    <!-- Animation -->
+    <circle 
+      cx="50" 
+      cy="50" 
+      r="50" 
+      fill="none" 
+      stroke="#8E44AD" 
+      stroke-width="2"
+    >
+      <animateTransform 
+        attributeName="transform" 
+        type="rotate" 
+        from="0 50 50" 
+        to="360 50 50" 
+        dur="3s" 
+        repeatCount="indefinite"
+      />
+    </circle>
+  </g>
+
+  <!-- Dynamic Sparkles -->
+  <g>
+    <circle cx="300" cy="40" r="4" fill="#4A90E2">
+      <animate
+        attributeName="opacity"
+        values="0;1;0"
+        dur="2s"
+        repeatCount="indefinite"
+      />
+    </circle>
+    <circle cx="200" cy="240" r="5" fill="#8E44AD">
+      <animate
+        attributeName="opacity"
+        values="0;1;0"
+        dur="2.5s"
+        repeatCount="indefinite"
+      />
+    </circle>
+    <circle cx="600" cy="70" r="5" fill="#4A90E2">
+      <animate
+        attributeName="opacity"
+        values="0;1;0"
+        dur="3s"
+        repeatCount="indefinite"
+      />
+    </circle>
+    <circle cx="700" cy="200" r="6" fill="#8E44AD">
+      <animate
+        attributeName="opacity"
+        values="0;1;0"
+        dur="3.5s"
+        repeatCount="indefinite"
+      />
+    </circle>
+  </g>
+</svg>

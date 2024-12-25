@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: laravel-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: your-laravel-app-key
+      - key: DB_HOST
+        value: your-database-host
+      - key: DB_DATABASE
+        value: your-database-name
+      - key: DB_USERNAME
+        value: your-database-username
+      - key: DB_PASSWORD
+        value: your-database-password
