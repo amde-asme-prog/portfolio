@@ -159,7 +159,7 @@ const Header = ({ showSideBar, setShowSideBar, isMobile }) => {
                   Admin
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  admin@example.com
+                  Amdebirhan
                 </p>
               </div>
             </motion.div>
