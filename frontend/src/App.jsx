@@ -5,8 +5,9 @@ import ErrorBoundary from "./common/ErrorBoundary.jsx";
 import Portfolio from "./portfolio/Portfolio.jsx";
 import Login from "./auth/Login.jsx";
 import Register from "./auth/Register.jsx";
-import AuthProvider from "./auth/AuthProvider.jsx";
+import { AuthProvider } from "./auth/AuthProvider.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
+import ForgotPassword from "./auth/forgotPassword.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const routes = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "reset-password",
+    element: <ForgotPassword />,
   },
 ]);
 

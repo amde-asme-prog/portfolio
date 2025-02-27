@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import FormButton from "./FormButton";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -12,6 +12,7 @@ const Login = () => {
   });
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -21,14 +22,25 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = () => {
-    login(formData.email, formData.password);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+    setLoading(true);
+
+    try {
+      await login(formData.email, formData.password);
+      navigate("/dashboard"); // Redirect to dashboard after login
+    } catch (error) {
+      setErrorMessage("Invalid email or password. Please try again.");
+    }
+
+    setLoading(false);
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <div className="w-full max-w-sm bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <h5 className="text-2xl font-medium text-gray-900 dark:text-white">
             Sign in to your account
           </h5>
@@ -103,7 +115,13 @@ const Login = () => {
             </a>
           </div>
 
-          <FormButton text="Login to your account" onclick={handleSubmit} />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login to your account"}
+          </button>
 
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered?{" "}

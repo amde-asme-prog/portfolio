@@ -1,11 +1,22 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
-import { useDownloadCv } from "../../hooks/landingContentQuery";
+import {
+  useDownloadCv,
+  useLandingContent,
+} from "../../hooks/landingContentQuery";
 import { Fragment, useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
+import { ErrorMessage } from "../reusables/ErrorResponses";
+import LandingSkeleton from "../loadingPlaceholder/landingSkeleton";
 
-const Home = ({ content }) => {
+const Home = () => {
+  const {
+    data: contentData,
+    isLoading: isContentLoading,
+    error: contentError,
+  } = useLandingContent();
+
   const { refetch: downloadCv } = useDownloadCv();
   const [introText, setIntroText] = useState({
     greeting: "",
@@ -19,29 +30,38 @@ const Home = ({ content }) => {
   const [cv, setCv] = useState(null);
 
   useEffect(() => {
-    if (content) {
+    if (contentData) {
       setIntroText({
-        greeting: content.greeting || "",
-        introduction: content.introduction || "",
-        name: content.name || "",
-        additional_text: content.additional_text || "",
+        greeting: contentData.greeting || "",
+        introduction: contentData.introduction || "",
+        name: contentData.name || "",
+        additional_text: contentData.additional_text || "",
       });
       setTypewriterTexts(
-        content.typewriter_texts &&
-          (Array.isArray(content.typewriter_texts)
-            ? content.typewriter_texts
-            : JSON.parse(content.typewriter_texts) || [])
+        contentData.typewriter_texts &&
+          (Array.isArray(contentData.typewriter_texts)
+            ? contentData.typewriter_texts
+            : JSON.parse(contentData.typewriter_texts) || [])
       );
       setReferenceIcons(
-        content.reference_icons &&
-          (Array.isArray(content.reference_icons)
-            ? content.reference_icons
-            : JSON.parse(content.reference_icons) || [])
+        contentData.reference_icons &&
+          (Array.isArray(contentData.reference_icons)
+            ? contentData.reference_icons
+            : JSON.parse(contentData.reference_icons) || [])
       );
-      setImage(import.meta.env.VITE_API_URL + content.image_path || null);
-      setCv(content.cv_path || null);
+      setImage(import.meta.env.VITE_API_URL + contentData.image_path || null);
+      setCv(contentData.cv_path || null);
     }
-  }, [content]);
+  }, [contentData]);
+
+  // Show skeleton loading instead of spinner
+  if (isContentLoading) {
+    return <LandingSkeleton />;
+  } else if (contentError) {
+    return <LandingSkeleton />;
+
+    // return <ErrorMessage status={contentError.response?.status} />;
+  }
 
   return (
     <section
@@ -53,7 +73,7 @@ const Home = ({ content }) => {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-300/10 via-transparent to-purple-300/10 dark:from-blue-500/10" />
         <div className="absolute inset-0 backdrop-blur-[1px]" />
       </div>
-      handlebars Copy
+
       <div className="relative container mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center">
         <motion.div
           className="flex flex-col gap-12 w-full lg:w-2/3 z-10"

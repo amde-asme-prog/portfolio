@@ -5,45 +5,60 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
+import { useAboutQuery } from "../../hooks/aboutQuery";
+import { ErrorMessage } from "../reusables/ErrorResponses";
+import AboutSkeleton from "../loadingPlaceholder/aboutSkeleton";
 
 library.add(fab, fas);
-const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 
-const About = ({ about }) => {
+// Skeleton loading component
+
+const About = () => {
   const [activeSection, setActiveSection] = useState("core");
-  const [aboutData, setAboutData] = useState(null);
   const [sections, setSections] = useState([]);
+
+  const {
+    data: aboutData,
+    isLoading: isAboutLoading,
+    error: aboutError,
+  } = useAboutQuery();
+
   useEffect(() => {
-    if (about) {
-      setAboutData(about);
+    if (aboutData) {
       setSections([
         {
           id: "core",
-          title: about.core_title,
-          subtitle: about.core_subtitle,
+          title: aboutData.core_title,
+          subtitle: aboutData.core_subtitle,
           list:
-            about.core_lists &&
-            (Array.isArray(about.core_lists)
-              ? about.core_lists
-              : JSON.parse(about.core_lists)),
+            aboutData.core_lists &&
+            (Array.isArray(aboutData.core_lists)
+              ? aboutData.core_lists
+              : JSON.parse(aboutData.core_lists)),
           icon: "heart",
         },
         {
           id: "interests",
-          title: about.interest_title,
-          subtitle: about.interest_subtitle,
+          title: aboutData.interest_title,
+          subtitle: aboutData.interest_subtitle,
           list:
-            about.interests_lists &&
-            (Array.isArray(about.interests_lists)
-              ? about.interests_lists
-              : JSON.parse(about.interests_lists)),
+            aboutData.interests_lists &&
+            (Array.isArray(aboutData.interests_lists)
+              ? aboutData.interests_lists
+              : JSON.parse(aboutData.interests_lists)),
           icon: "compass",
         },
       ]);
     }
-  }, [about]);
+  }, [aboutData]);
+
+  if (isAboutLoading) {
+    return <AboutSkeleton />;
+  } else if (aboutError) {
+    return <AboutSkeleton />;
+
+    // return <ErrorMessage status={aboutError.response?.status} />;
+  }
 
   return (
     <section
@@ -164,4 +179,5 @@ const ContentDisplay = ({ title, subtitle, list }) => {
     </AnimatePresence>
   );
 };
+
 export default About;

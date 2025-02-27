@@ -1,43 +1,38 @@
 import { createContext, useState, useEffect } from "react";
-import axiosInstance from "../api/baseAPI";
+import {
+  auth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "../config/firebaseConfig";
+
 export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Listen for authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const login = async (email, password) => {
-    const response = await axiosInstance.post("/login", { email, password });
-    localStorage.setItem("authToken", response.data.access_token);
-    setUser({ email });
-  };
-
-  const register = async (name, email, password, password_confirmation) => {
-    await axiosInstance.post("/register", {
-      name,
-      email,
-      password,
-      password_confirmation,
-    });
+    return await signInWithEmailAndPassword(auth, email, password);
   };
 
   const logout = async () => {
-    await axiosInstance.post("/logout", null, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
-    });
-    localStorage.removeItem("authToken");
-    setUser(null);
+    return await signOut(auth);
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) setUser({ email: "placeholder@example.com" }); // Fetch user info here if needed
-  }, []);
-
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
-      {children}
+    <AuthContext.Provider value={{ currentUser, login, logout }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
-
-export default AuthProvider;
