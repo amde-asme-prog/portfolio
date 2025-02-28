@@ -28,7 +28,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <ProtectedRoute>
+        <Register />,
+      </ProtectedRoute>
+    ),
   },
   {
     path: "reset-password",
