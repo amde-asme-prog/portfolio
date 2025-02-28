@@ -1,6 +1,9 @@
 const LandingSkeleton = () => {
   return (
-    <section className="relative min-h-screen flex flex-col lg:flex-row w-full pt-28 pb-20">
+    <section
+      id="home"
+      className="relative min-h-screen flex flex-col lg:flex-row w-full pt-28 pb-20"
+    >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-100 via-white to-gray-200 dark:from-blue-950 dark:via-gray-900 dark:to-stone-950">
         <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-br from-blue-300/10 via-transparent to-purple-300/10 dark:from-blue-500/10" />
