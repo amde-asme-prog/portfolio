@@ -61,24 +61,25 @@ const Services = () => {
           Services
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className="flex items-start gap-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="w-12 h-12 flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg">
-                <FontAwesomeIcon icon={service.icon} size="lg" />
+          {services &&
+            services.map((service, index) => (
+              <div
+                key={index}
+                className="flex items-start gap-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="w-12 h-12 flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg">
+                  <FontAwesomeIcon icon={service.icon} size="lg" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {service.description}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {service.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </section>

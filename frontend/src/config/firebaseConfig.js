@@ -12,13 +12,13 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCtSaDn8Z2wGTC33aXtveYRprNx7HU0dDs",
-  authDomain: "portfolio-445d8.firebaseapp.com",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
   projectId: "portfolio-445d8",
-  storageBucket: "portfolio-445d8.firebasestorage.app",
-  messagingSenderId: "716923746372",
-  appId: "1:716923746372:web:103caf7497aa8645e1a411",
-  measurementId: "G-DZN8Q6DF09",
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

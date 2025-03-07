@@ -54,7 +54,7 @@ const Header = () => {
         className={`${
           activeLink === "home" || activeLink === ""
             ? "hidden"
-            : "  cursor-pointer fixed bottom-10 right-4 z-50 grid place-content-center shadow-xl size-10 rounded-full overflow-hidden backdrop-blur-md bg-opacity-30 text-stone-100 hover:bg-opacity-50 border transition-colors duration-300"
+            : "  cursor-pointer text-black dark:text-white  fixed bottom-10 right-4 z-50 grid place-content-center shadow-xl size-10 rounded-full overflow-hidden backdrop-blur-md bg-opacity-30 text-stone-100 hover:bg-opacity-50 border border-stone-800 dark:border-stone-100 transition-colors duration-300"
         }`}
       >
         <FontAwesomeIcon

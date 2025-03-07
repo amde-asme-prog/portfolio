@@ -24,7 +24,11 @@ const About = () => {
   } = useAboutQuery();
 
   useEffect(() => {
+    console.log("Fetched aboutData:", aboutData);
+
     if (aboutData) {
+      console.log("Fetched aboutData is:", aboutData);
+
       setSections([
         {
           id: "core",
@@ -82,7 +86,11 @@ const About = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient-x"></div>
 
                 <img
-                  src={import.meta.env.VITE_API_URL + aboutData?.image_path}
+                  src={`${
+                    import.meta.env.VITE_SUPABASE_URL
+                  }/storage/v1/object/public/portfolio_files/${
+                    aboutData.image_path
+                  }`}
                   className="absolute inset-[3px] w-[calc(100%-6px)] h-[calc(100%-6px)] object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
                   alt="Amdebirhan Asmamaw"
                 />

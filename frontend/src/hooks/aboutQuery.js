@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAboutData, updateAboutData } from "../api/aboutApi";
+import { getAboutData, updateAboutData, uploadFile } from "../api/aboutApi";
 
 export const useAboutQuery = () => {
+  console.log("about query");
   return useQuery({
     queryKey: ["about"],
     queryFn: getAboutData,
@@ -13,5 +14,11 @@ export const useUpdateAboutQuery = () => {
   return useMutation({
     mutationFn: updateAboutData,
     onSuccess: () => queryClient.invalidateQueries(["about"]),
+  });
+};
+
+export const useUploadFile = () => {
+  return useMutation({
+    mutationFn: uploadFile,
   });
 };
