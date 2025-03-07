@@ -1,12 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { useAboutQuery, useUpdateAboutQuery } from "../hooks/aboutQuery";
+import {
+  useAboutQuery,
+  useUpdateAboutQuery,
+  useUploadFile,
+} from "../hooks/aboutQuery";
 import { handleToast } from "../common/handleToast";
 import { Toaster } from "sonner";
 
 export const AboutContent = () => {
   const [aboutMe, setAboutMe] = useState("");
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [coreTitle, setCoreTitle] = useState("");
   const [coreSubtitle, setCoreSubtitle] = useState("");
   const [coreValues, setCoreValues] = useState([]);
@@ -16,25 +21,34 @@ export const AboutContent = () => {
   const [interestsValues, setInterestsValues] = useState([]);
 
   const { data: aboutData } = useAboutQuery();
-  const { mutate: updateAboutData } = useUpdateAboutQuery();
+  const { mutateAsync: updateAboutData } = useUpdateAboutQuery();
+  const { mutateAsync: uploadFile } = useUploadFile();
 
   useEffect(() => {
     if (aboutData) {
       setAboutMe(aboutData.about_me);
-      setImage(import.meta.env.VITE_API_URL + aboutData.image_path);
+      setImagePreview(
+        `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/storage/v1/object/public/portfolio_files/${aboutData.image_path}`
+      );
       setCoreTitle(aboutData.core_title);
       setCoreSubtitle(aboutData.core_subtitle);
       setCoreValues(
         Array.isArray(aboutData.core_lists)
           ? aboutData.core_lists
-          : JSON.parse(aboutData.core_lists)
+          : aboutData.core_lists
+          ? JSON.parse(aboutData.core_lists)
+          : []
       );
       setInterestTitle(aboutData.interest_title);
       setInterestSubtitle(aboutData.interest_subtitle);
       setInterestsValues(
         Array.isArray(aboutData.interests_lists)
           ? aboutData.interests_lists
-          : JSON.parse(aboutData.interests_lists)
+          : aboutData.interests_lists
+          ? JSON.parse(aboutData.interests_lists)
+          : []
       );
     }
   }, [aboutData]);
@@ -52,7 +66,7 @@ export const AboutContent = () => {
     setInterestsValues(updatedInterests);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formData = {
       about_me: aboutMe,
       core_title: coreTitle,
@@ -61,12 +75,27 @@ export const AboutContent = () => {
       interest_title: interestTitle,
       interest_subtitle: interestSubtitle,
       interests_lists: interestsValues,
-      image_path: image,
+      image_path: aboutData && (aboutData.image_path ?? ""),
     };
-    console.log("formdata", formData);
-    console.log("coreValues while submit", coreValues);
 
-    updateAboutData(formData, {
+    if (image) {
+      await uploadFile(
+        { file: image },
+        {
+          onSuccess: (data) => {
+            if (data && data.path) {
+              handleToast(200, "Image uploaded successfully!");
+              formData.image_path = data.path;
+            }
+          },
+          onError: (error) => {
+            handleToast(500, `Image upload error: ${error.message}`);
+          },
+        }
+      );
+    }
+
+    await updateAboutData(formData, {
       onSuccess: () => {
         handleToast(200, "About me content updated successfully!");
       },
@@ -117,15 +146,14 @@ export const AboutContent = () => {
               dark:file:bg-blue-900/30 dark:file:text-blue-400
               hover:file:bg-blue-100 dark:hover:file:bg-blue-900/40
               transition-colors cursor-pointer mb-4"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => {
+              setImagePreview(URL.createObjectURL(e.target.files[0]));
+              setImage(e.target.files[0]);
+            }}
           />
-          {image && (
+          {imagePreview && (
             <img
-              src={
-                typeof image === "string"
-                  ? image.replace("public/", "")
-                  : URL.createObjectURL(image).replace("public/", "")
-              }
+              src={imagePreview}
               alt="Preview"
               className="max-w-xs rounded-lg shadow-md dark:shadow-gray-900/50"
             />
@@ -145,48 +173,53 @@ export const AboutContent = () => {
             value={coreSubtitle}
             onChange={(e) => setCoreSubtitle(e.target.value)}
           />
-          {coreValues.map((value, index) => (
-            <div key={index} className="w-full flex justify-center gap-4 mb-3">
-              <InputField
-                type="text"
-                value={value.title}
-                onChange={(e) => {
-                  const updatedValues = [...coreValues];
-                  updatedValues[index] = { ...value, title: e.target.value };
-                  setCoreValues(updatedValues);
-                }}
-                placeholder={`Core title ${index + 1}`}
-              />
-              <InputField
-                type="text"
-                value={value.description}
-                onChange={(e) => {
-                  const updatedValues = [...coreValues];
-                  updatedValues[index] = {
-                    ...value,
-                    description: e.target.value,
-                  };
-                  setCoreValues(updatedValues);
-                }}
-                placeholder={`Core value ${index + 1}`}
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  setCoreValues(coreValues.filter((_, i) => i !== index));
-                }}
-                className="px-4 py-2 rounded-md bg-red-500 text-white font-semibold shadow-md 
-                  hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800 transition-colors"
+          {coreValues &&
+            coreValues.map((value, index) => (
+              <div
+                key={index}
+                className="w-full flex justify-center gap-4 mb-3"
               >
-                Delete
-              </button>
-            </div>
-          ))}
+                <InputField
+                  type="text"
+                  value={value.title}
+                  onChange={(e) => {
+                    const updatedValues = [...coreValues];
+                    updatedValues[index] = { ...value, title: e.target.value };
+                    setCoreValues(updatedValues);
+                  }}
+                  placeholder={`Core title ${index + 1}`}
+                />
+                <InputField
+                  type="text"
+                  value={value.description}
+                  onChange={(e) => {
+                    const updatedValues = [...coreValues];
+                    updatedValues[index] = {
+                      ...value,
+                      description: e.target.value,
+                    };
+                    setCoreValues(updatedValues);
+                  }}
+                  placeholder={`Core value ${index + 1}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCoreValues(coreValues.filter((_, i) => i !== index));
+                  }}
+                  className="px-4 py-2 rounded-md bg-red-500 text-white font-semibold shadow-md 
+                  hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800 transition-colors"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
           <button
             type="button"
-            onClick={() =>
-              setCoreValues([...coreValues, { title: "", description: "" }])
-            }
+            onClick={() => {
+              console.log(coreValues);
+              setCoreValues([...coreValues, { title: "", description: "" }]);
+            }}
             className="px-4 py-2 rounded-md bg-blue-500 text-white font-semibold shadow-md 
               hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
           >
@@ -208,29 +241,33 @@ export const AboutContent = () => {
             onChange={(e) => setInterestSubtitle(e.target.value)}
           />
 
-          {interestsValues.map((interest, index) => (
-            <div key={index} className="w-full flex justify-center gap-4 mb-3">
-              .{" "}
-              <InputField
-                type="text"
-                value={interest}
-                onChange={(e) => handleInterestChange(index, e.target.value)}
-                placeholder={`Interest ${index + 1}`}
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  setInterestsValues(
-                    interestsValues.filter((_, i) => i !== index)
-                  );
-                }}
-                className="px-4 py-2 rounded-md bg-red-500 text-white font-semibold shadow-md 
-                hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800 transition-colors"
+          {interestsValues &&
+            interestsValues.map((interest, index) => (
+              <div
+                key={index}
+                className="w-full flex justify-center gap-4 mb-3"
               >
-                Delete
-              </button>
-            </div>
-          ))}
+                .{" "}
+                <InputField
+                  type="text"
+                  value={interest}
+                  onChange={(e) => handleInterestChange(index, e.target.value)}
+                  placeholder={`Interest ${index + 1}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInterestsValues(
+                      interestsValues.filter((_, i) => i !== index)
+                    );
+                  }}
+                  className="px-4 py-2 rounded-md bg-red-500 text-white font-semibold shadow-md 
+                hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800 transition-colors"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
           <button
             type="button"
             onClick={() => setInterestsValues([...interestsValues, ""])}

@@ -17,7 +17,7 @@ const Home = () => {
     error: contentError,
   } = useLandingContent();
 
-  const { refetch: downloadCv } = useDownloadCv();
+  const { mutate: downloadCv, isLoading } = useDownloadCv();
   const [introText, setIntroText] = useState({
     greeting: "",
     introduction: "",
@@ -49,7 +49,11 @@ const Home = () => {
             ? contentData.reference_icons
             : JSON.parse(contentData.reference_icons) || [])
       );
-      setImage(import.meta.env.VITE_API_URL + contentData.image_path || null);
+      setImage(
+        `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/storage/v1/object/public/portfolio_files/${contentData.image_path}`
+      );
       setCv(contentData.cv_path || null);
     }
   }, [contentData]);
@@ -127,7 +131,11 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.1 }}
           >
-            <ActionButtons cv={cv} downloadCv={downloadCv} />
+            <ActionButtons
+              cv={cv}
+              downloadCv={downloadCv}
+              isLoading={isLoading}
+            />
           </motion.div>
         </motion.div>
 
@@ -154,12 +162,12 @@ const Home = () => {
   );
 };
 
-const ActionButtons = ({ cv, downloadCv }) => (
+const ActionButtons = ({ downloadCv, isLoading }) => (
   <div className="flex  gap-4 sm:gap-6 max-sm:pb-10">
-    <motion.a
-      href={cv}
+    <motion.button
+      disabled={isLoading}
       download="amdebirhan_asmamaw_cv.pdf"
-      onClick={downloadCv}
+      onClick={() => downloadCv()}
       target="_blank"
       className="group relative inline-flex items-center justify-center 
         px-6 sm:px-8 py-3 text-base sm:text-lg font-medium
@@ -175,10 +183,10 @@ const ActionButtons = ({ cv, downloadCv }) => (
         group-hover:translate-x-0 transition-transform duration-300"
       />
       <span className="relative flex items-center gap-3">
-        Download CV
+        {isLoading ? "Downloading..." : "Download CV"}
         <FontAwesomeIcon icon={["fas", "download"]} />
       </span>
-    </motion.a>
+    </motion.button>
 
     <motion.a
       href="#contact"
