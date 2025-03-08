@@ -15,6 +15,7 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
   const [demoLink, setDemoLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const { mutate: updateProject } = useUpdateProjectMutation();
   const { mutate: addProject } = useAddProjectMutation();
@@ -39,7 +40,11 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
       setDescription(initialData.description || "");
       setDemoLink(initialData.demo_link || "");
       setGithubLink(initialData.github_link || "");
-      setImage(import.meta.env.VITE_API_URL + initialData.image_path);
+      setImagePreview(
+        `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/storage/v1/object/public/portfolio_files/${initialData.image_path}`
+      );
     }
   }, [initialData]);
 
@@ -61,11 +66,10 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
         description,
         demo_link: demoLink,
         github_link: githubLink,
-        image_path: image,
       };
       if (initialData) {
         updateProject(
-          { id: initialData.id, updatedProject: formData },
+          { id: initialData.id, updatedProject: formData, newImageFile: image },
           {
             onSuccess: () => {
               handleToast(200, "Project updated successfully.");
@@ -80,18 +84,21 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
           }
         );
       } else {
-        addProject(formData, {
-          onSuccess: () => {
-            handleToast(200, "Project added successfully.");
-            onClose();
-          },
-          onError: (error) => {
-            handleToast(
-              error.response?.status || 500,
-              error.response?.data?.message || "Error adding project."
-            );
-          },
-        });
+        addProject(
+          { project: formData, imageFile: image },
+          {
+            onSuccess: () => {
+              handleToast(200, "Project added successfully.");
+              onClose();
+            },
+            onError: (error) => {
+              handleToast(
+                error.response?.status || 500,
+                error.response?.data?.message || "Error adding project."
+              );
+            },
+          }
+        );
       }
     }
   };
@@ -216,6 +223,7 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
             type="file"
             accept="image/*"
             onChange={(e) => {
+              setImagePreview(URL.createObjectURL(e.target.files[0]));
               setImage(e.target.files[0]);
             }}
             className="block w-full text-sm text-gray-500 dark:text-gray-400
@@ -232,11 +240,7 @@ const ProjectModal = ({ isOpen, onClose, initialData }) => {
           )}
           {image && (
             <img
-              src={
-                typeof image === "string"
-                  ? image.replace("public/", "")
-                  : URL.createObjectURL(image).replace("public/", "")
-              }
+              src={imagePreview}
               alt="Preview"
               className="max-w-xs rounded-lg shadow-md dark:shadow-gray-900/50"
             />

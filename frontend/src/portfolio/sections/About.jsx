@@ -89,7 +89,7 @@ const About = () => {
                   src={`${
                     import.meta.env.VITE_SUPABASE_URL
                   }/storage/v1/object/public/portfolio_files/${
-                    aboutData.image_path
+                    aboutData?.image_path
                   }`}
                   className="absolute inset-[3px] w-[calc(100%-6px)] h-[calc(100%-6px)] object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
                   alt="Amdebirhan Asmamaw"
@@ -118,26 +118,27 @@ const About = () => {
           <div className="lg:w-2/3">
             {/* Navigation Buttons */}
             <div className="flex flex-wrap justify-center gap-4 mb-8">
-              {sections.map((section) => (
-                <motion.button
-                  key={section.id}
-                  onClick={() =>
-                    setActiveSection((prev) =>
-                      prev == "core" ? "interests" : "core"
-                    )
-                  }
-                  className={`px-8 py-4 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-3 backdrop-blur-sm ${
-                    activeSection === section.id
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25"
-                      : "bg-white/80 text-gray-700 hover:bg-stone-300 hover:text-stone-800 hover:shadow-md dark:bg-gray-800/80 dark:text-gray-200"
-                  }`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <FontAwesomeIcon icon={section.icon} className="text-lg" />
-                  {section.title}
-                </motion.button>
-              ))}
+              {sections &&
+                sections.map((section) => (
+                  <motion.button
+                    key={section.id}
+                    onClick={() =>
+                      setActiveSection((prev) =>
+                        prev == "core" ? "interests" : "core"
+                      )
+                    }
+                    className={`px-8 py-4 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-3 backdrop-blur-sm ${
+                      activeSection === section.id
+                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25"
+                        : "bg-white/80 text-gray-700 hover:bg-stone-300 hover:text-stone-800 hover:shadow-md dark:bg-gray-800/80 dark:text-gray-200"
+                    }`}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <FontAwesomeIcon icon={section.icon} className="text-lg" />
+                    {section.title}
+                  </motion.button>
+                ))}
             </div>
 
             {/* Content Display */}

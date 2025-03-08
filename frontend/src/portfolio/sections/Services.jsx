@@ -4,7 +4,6 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { useServicesQuery } from "../../hooks/servicesQuery";
-import { ErrorMessage } from "../reusables/ErrorResponses";
 
 library.add(fas, fab);
 
@@ -71,10 +70,10 @@ const Services = () => {
                   <FontAwesomeIcon icon={service.icon} size="lg" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                  <h3 className="font-roboto text-xl font-semibold text-gray-800 dark:text-white mb-2">
                     {service.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className=" font-serif text-gray-600 dark:text-gray-400">
                     {service.description}
                   </p>
                 </div>
