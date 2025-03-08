@@ -10,6 +10,7 @@ import {
 } from "../hooks/servicesQuery";
 import { handleToast } from "../common/handleToast";
 import { Toaster } from "sonner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function ServicesTable() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -78,9 +79,13 @@ export default function ServicesTable() {
                       setModalOpen(true);
                     }}
                   >
-                    <td className="py-2 px-4">{service.icon}</td>
-                    <td className="py-2 px-4">{service.title}</td>
-                    <td className="py-2 px-4">{service.description}</td>
+                    <td className="py-2 px-4">
+                      <FontAwesomeIcon icon={service.icon} size="lg" />
+                    </td>
+                    <td className="py-2 px-4 font-mono">{service.title}</td>
+                    <td className="py-2 px-4 font-serif">
+                      {service.description}
+                    </td>
                   </TableRow>
                 ))}
               </tbody>
@@ -104,21 +109,26 @@ export default function ServicesTable() {
 }
 
 function ModalForm({ initialData, onClose, isOpen }) {
-  const [formData, setFormData] = useState(
-    initialData || { title: "", description: "", icon: "" }
-  );
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [icon, setIcon] = useState("");
+
   const { mutate: addService } = useAddServiceMutation();
   const { mutate: updateService } = useUpdateServiceMutation();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.title || "");
+      setDescription(initialData.description || "");
+      setIcon(initialData.icon || "");
+    }
+  }, [initialData]);
 
   const handleSubmit = () => {
     if (initialData) {
+      console.log(initialData);
       updateService(
-        { id: initialData.id, formData },
+        { id: initialData.id, updatedService: { title, description, icon } },
         {
           onSuccess: () => {
             handleToast(200, "Services updated successfully.");
@@ -133,18 +143,21 @@ function ModalForm({ initialData, onClose, isOpen }) {
         }
       );
     } else {
-      addService(formData, {
-        onSuccess: () => {
-          handleToast(200, "Service updated successfully.");
-          onClose();
-        },
-        onError: (error) => {
-          handleToast(
-            422,
-            error.response?.data?.message || "Error updating service."
-          );
-        },
-      });
+      addService(
+        { title, description, icon },
+        {
+          onSuccess: () => {
+            handleToast(200, "Service updated successfully.");
+            onClose();
+          },
+          onError: (error) => {
+            handleToast(
+              422,
+              error.response?.data?.message || "Error updating service."
+            );
+          },
+        }
+      );
     }
   };
 
@@ -154,7 +167,7 @@ function ModalForm({ initialData, onClose, isOpen }) {
       onClose={onClose}
       className="fixed inset-0 bg-black/35 backdrop-blur-sm transition-colors duration-200 overflow-y-scroll content-center"
     >
-      <DialogPanel className="place-self-center bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg mx-4 md:w-96">
+      <DialogPanel className="place-self-center bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg mx-4 md:w-4/12">
         <h2 className="text-xl font-bold mb-4">
           {initialData ? "Edit Service" : "Add New Service"}
         </h2>
@@ -164,9 +177,9 @@ function ModalForm({ initialData, onClose, isOpen }) {
             <input
               type="text"
               name="icon"
-              value={formData.icon}
-              onChange={handleChange}
-              className="mt-1 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
+              value={icon}
+              onChange={(e) => setIcon(e.target.value)}
+              className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
             />
           </div>
           <div className="mb-4">
@@ -174,18 +187,18 @@ function ModalForm({ initialData, onClose, isOpen }) {
             <input
               type="text"
               name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="mt-1 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
             />
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium">Description</label>
             <textarea
               name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="mt-1 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="mt-1 px-2 py-4 bg-gray-100 dark:bg-gray-700 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-gray-600 dark:text-gray-300"
             />
           </div>
         </form>

@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { BiPhone } from "react-icons/bi";
 import { GoLocation } from "react-icons/go";
-import { MdEmail, MdSend } from "react-icons/md";
+import { MdEmail, MdSend, MdContentCopy } from "react-icons/md";
 import { RiShakeHandsLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -238,11 +238,13 @@ const Contact = () => {
                   icon={<MdEmail className="w-6 h-6" />}
                   title="Email"
                   value="Amdebrhanasmamaw93@gmail.com"
+                  href="mailto:Amdebrhanasmamaw93@gmail.com"
                 />
                 <ContactItem
                   icon={<BiPhone className="w-6 h-6" />}
                   title="Phone"
                   value="(+251) 921-975-184"
+                  href="tel:+251921975184"
                 />
                 <ContactItem
                   icon={<GoLocation className="w-6 h-6" />}
@@ -271,21 +273,36 @@ const Contact = () => {
   );
 };
 
-const ContactItem = ({ icon, title, value }) => (
-  <motion.div
-    whileHover={{ scale: 1.02 }}
-    className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-  >
-    <div className="p-3 bg-blue-500/10 dark:bg-blue-500/20 rounded-xl text-blue-600 dark:text-blue-400">
-      {icon}
-    </div>
-    <div>
-      <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
-        {title}
-      </h4>
-      <p className="text-gray-900 dark:text-white font-medium">{value}</p>
-    </div>
-  </motion.div>
-);
+const ContactItem = ({ icon, title, value, href }) => {
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard!");
+  };
+  return (
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+    >
+      <div className="p-3 bg-blue-500/10 dark:bg-blue-500/20 rounded-xl text-blue-600 dark:text-blue-400">
+        {icon}
+      </div>
+
+      <div>
+        <div className="flex items-center gap-2">
+          <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+            {title}
+          </h4>
+          <MdContentCopy
+            className="cursor-pointer text-gray-500 hover:text-gray-700"
+            onClick={() => copyToClipboard(value)}
+          />
+        </div>
+        <a href={href} className="text-gray-900 dark:text-white font-medium">
+          {value}
+        </a>
+      </div>
+    </motion.div>
+  );
+};
 
 export default Contact;

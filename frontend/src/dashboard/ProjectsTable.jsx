@@ -51,7 +51,9 @@ const ProjectCard = ({ project, onEdit, onDelete }) => {
       <div onClick={() => onEdit(project)} className="cursor-pointer">
         <div className="relative h-64 overflow-hidden">
           <img
-            src={import.meta.env.VITE_API_URL + project.image_path}
+            src={`${
+              import.meta.env.VITE_SUPABASE_URL
+            }/storage/v1/object/public/portfolio_files/${project?.image_path}`}
             alt={project.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
