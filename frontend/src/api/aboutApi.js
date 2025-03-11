@@ -30,7 +30,6 @@ export const uploadFile = async ({ file }) => {
     .upload(filePath, file);
 
   if (response.error) {
-    console.error("Upload Error:", response.error);
     return null;
   }
 
@@ -48,7 +47,6 @@ export const deleteFile = async (filePath) => {
     .remove([filePath]); // Fix: should be an array
 
   if (error) {
-    console.error("Delete Error:", error);
     return null;
   }
 

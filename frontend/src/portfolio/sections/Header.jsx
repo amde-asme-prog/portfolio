@@ -77,7 +77,6 @@ const NavItems = ({ activeLink }) => {
     { href: "#about", label: "About", icon: "user" },
     { href: "#skills", label: "Skills", icon: "cogs" },
     { href: "#projects", label: "Projects", icon: "project-diagram" },
-    { href: "#services", label: "Services", icon: "tools" },
     { href: "#contact", label: "Contact", icon: "envelope" },
   ];
   return (

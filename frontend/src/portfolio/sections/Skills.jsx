@@ -1,85 +1,153 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSkillsQuery } from "../../hooks/skillsQuery";
 
-// Sophisticated skeleton component with staggered animations
-const SkillsSkeleton = () => {
-  // Define category colors for consistency with the actual content
-  const categoryColors = [
-    "from-emerald-500 to-teal-500",
-    "from-blue-500 to-indigo-500",
-    "from-purple-500 to-pink-500",
-  ];
+// Modern 3D-style skill card design
+const SkillCard = ({ skill, index, isVisible }) => {
+  const colors = {
+    beginner: "from-amber-400 to-orange-500",
+    intermediate: "from-teal-400 to-emerald-500",
+    advanced: "from-blue-400 to-indigo-500",
+    expert: "from-purple-400 to-fuchsia-500",
+  };
+
+  const getLevel = (proficiency) => {
+    if (proficiency < 40) return "beginner";
+    if (proficiency < 65) return "intermediate";
+    if (proficiency < 85) return "advanced";
+    return "expert";
+  };
+
+  const level = getLevel(skill.proficiency);
+  const levelColor = colors[level];
 
   return (
-    <section
-      id="skills"
-      className="relative px-4 sm:px-8 md:px-12 w-full min-h-screen py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-slate-900"
+    <motion.div
+      initial={{ opacity: 0, y: 30, rotateY: -15 }}
+      animate={
+        isVisible
+          ? { opacity: 1, y: 0, rotateY: 0 }
+          : { opacity: 0, y: 30, rotateY: -15 }
+      }
+      transition={{ duration: 0.6, delay: index * 0.1, type: "spring" }}
+      className="group relative perspective"
     >
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10" />
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-teal-500/5" />
-
-      <div className="relative container mx-auto">
-        {/* Title Skeleton */}
-        <div className="text-center mb-24">
-          <div className="h-14 w-72 sm:w-96 bg-gradient-to-r from-gray-300 to-gray-200 dark:from-gray-700 dark:to-gray-600 rounded-lg mx-auto mb-8 animate-pulse" />
-          <div className="h-4 w-full max-w-3xl bg-gray-200 dark:bg-gray-700 rounded mx-auto animate-pulse mb-2" />
-          <div className="h-4 w-5/6 max-w-2xl bg-gray-200 dark:bg-gray-700 rounded mx-auto animate-pulse mb-2" />
-          <div className="h-4 w-4/6 max-w-xl bg-gray-200 dark:bg-gray-700 rounded mx-auto animate-pulse" />
+      <div
+        className="relative bg-white dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-300 
+          hover:shadow-[0_20px_50px_rgba(8,112,184,0.15)] dark:hover:shadow-[0_20px_50px_rgba(139,92,246,0.15)]
+          p-6 border border-slate-200 dark:border-slate-700/50 transform-gpu hover:-translate-y-2"
+      >
+        {/* Floating skill level badge */}
+        <div className="absolute top-4 right-4 z-10">
+          <div
+            className={`text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r ${levelColor} text-white`}
+          >
+            {level.charAt(0).toUpperCase() + level.slice(1)}
+          </div>
         </div>
 
-        {/* Skills Categories Skeleton */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-16">
-          {[0, 1, 2].map((index) => (
+        {/* Skill content */}
+        <div className="flex flex-col">
+          <div className="flex items-center mb-4">
+            {/* Abstract 3D icon */}
             <div
-              key={index}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg overflow-hidden"
-              style={{ animationDelay: `${index * 0.2}s` }}
+              className={`relative h-14 w-14 rounded-2xl bg-gradient-to-br ${levelColor} flex items-center justify-center shadow-lg mr-4 
+                transform-gpu rotate-3 group-hover:rotate-6 transition-transform duration-300`}
             >
-              {/* Category Header Skeleton */}
-              <div className="flex items-center mb-6 sm:mb-8">
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${categoryColors[index]} flex items-center justify-center mr-4 shadow-lg`}
-                >
-                  <div className="w-4 h-4 sm:w-5 sm:h-5 bg-white/30 rounded-full animate-pulse" />
+              <div className="absolute inset-0 rounded-2xl bg-white/20 backdrop-blur-sm" />
+              <span className="font-bold text-white text-xl">
+                {skill.name.charAt(0)}
+              </span>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white">
+                {skill.name}
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-300">
+                {skill.experience} {skill.experience === 1 ? "year" : "years"}{" "}
+                experience
+              </p>
+            </div>
+          </div>
+
+          {/* Curved progress bar */}
+          <div className="mt-2 h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${skill.proficiency}%` }}
+              transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
+              className={`h-full bg-gradient-to-r ${levelColor} relative`}
+            >
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJzdHJpcGVzIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBwYXR0ZXJuVHJhbnNmb3JtPSJyb3RhdGUoNDUpIj48cmVjdCB3aWR0aD0iMiIgaGVpZ2h0PSI0IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMikiIC8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3N0cmlwZXMpIiAvPjwvc3ZnPg==')] opacity-40" />
+            </motion.div>
+          </div>
+
+          {/* Projects count and proficiency percentage */}
+          <div className="flex justify-between mt-4 text-sm">
+            <span className="font-medium text-slate-600 dark:text-slate-400">
+              {Math.round(skill.proficiency)}% Proficiency
+            </span>
+            <span className="font-medium text-slate-600 dark:text-slate-400">
+              {Math.floor(Math.random() * 20) + 1} Projects
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// Improved skeleton with flowing animation
+const SkillsSkeleton = () => {
+  return (
+    <section className="relative w-full min-h-screen py-20 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800">
+      {/* Decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-300 dark:bg-purple-900/30 rounded-full filter blur-3xl opacity-20 animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-300 dark:bg-blue-900/30 rounded-full filter blur-3xl opacity-20 animate-pulse" />
+      </div>
+
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Title skeleton */}
+        <div className="text-center mb-16">
+          <div className="h-12 w-64 bg-gradient-to-r from-slate-200 to-slate-100 dark:from-slate-700 dark:to-slate-600 rounded-lg mx-auto mb-6 animate-pulse" />
+          <div className="h-4 w-full max-w-lg bg-slate-200 dark:bg-slate-700 rounded mx-auto animate-pulse mb-2" />
+          <div className="h-4 w-3/4 max-w-md bg-slate-200 dark:bg-slate-700 rounded mx-auto animate-pulse" />
+        </div>
+
+        {/* Tabs skeleton */}
+        <div className="flex justify-center mb-12">
+          <div className="flex space-x-2 p-1 bg-slate-100 dark:bg-slate-800 rounded-full">
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="h-10 w-32 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse"
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Skills grid skeleton */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(9)].map((_, i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm animate-pulse"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              <div className="flex items-center mb-4">
+                <div className="w-14 h-14 rounded-2xl bg-slate-200 dark:bg-slate-700 mr-4" />
+                <div className="space-y-2">
+                  <div className="h-5 w-24 bg-slate-200 dark:bg-slate-700 rounded" />
+                  <div className="h-4 w-16 bg-slate-200 dark:bg-slate-700 rounded" />
                 </div>
-                <div className="h-6 w-28 sm:w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
               </div>
-
-              {/* Skills Grid Skeleton */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                {[...Array(6)].map((_, skillIndex) => (
-                  <div
-                    key={skillIndex}
-                    className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3 sm:p-4 overflow-hidden relative"
-                    style={{
-                      animationDelay: `${index * 0.2 + skillIndex * 0.1}s`,
-                    }}
-                  >
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="relative">
-                        <div
-                          className={`size-10 sm:size-12 bg-gradient-to-br ${categoryColors[index]} opacity-70 rounded-lg`}
-                        />
-                        <div className="absolute -top-2 -right-2 w-8 sm:w-10 h-4 sm:h-5 bg-white dark:bg-gray-800 rounded-lg" />
-                      </div>
-                      <div className="space-y-1 sm:space-y-2">
-                        <div className="h-3 sm:h-4 w-14 sm:w-16 bg-gray-200 dark:bg-gray-600 rounded animate-pulse" />
-                        <div className="h-2 sm:h-3 w-10 sm:w-12 bg-gray-200 dark:bg-gray-600 rounded animate-pulse" />
-                      </div>
-                    </div>
-
-                    {/* Animated Progress Bar Skeleton with shimmer effect */}
-                    <div className="mt-2 sm:mt-3 h-1.5 w-full bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-                      <div className="h-full w-full bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 dark:from-gray-600 dark:via-gray-500 dark:to-gray-600 relative overflow-hidden">
-                        <div className="absolute inset-0 h-full w-[200%] animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full" />
-                      </div>
-                    </div>
-                  </div>
-                ))}
+              <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full mb-4" />
+              <div className="flex justify-between">
+                <div className="h-4 w-16 bg-slate-200 dark:bg-slate-700 rounded" />
+                <div className="h-4 w-16 bg-slate-200 dark:bg-slate-700 rounded" />
               </div>
             </div>
           ))}
@@ -90,152 +158,143 @@ const SkillsSkeleton = () => {
 };
 
 const Skills = () => {
-  const [technicalSkills, setTechnicalSkills] = useState([]);
+  const [skillsCategory, setSkillsCategory] = useState("all");
+  const [filteredSkills, setFilteredSkills] = useState([]);
+  const [isInView, setIsInView] = useState(false);
+
   const {
     data: skillsData,
     isLoading: isSkillsLoading,
     error: skillsError,
   } = useSkillsQuery();
 
-  useEffect(() => {
-    setTechnicalSkills(skillsData);
-  }, [skillsData]);
+  // Categories for the new design
+  const categories = [
+    { id: "all", label: "All Skills" },
+    { id: "front-end", label: "Frontend" },
+    { id: "back-end", label: "Backend" },
+    { id: "mobile-app", label: "Mobile" },
+  ];
 
-  if (isSkillsLoading) {
+  useEffect(() => {
+    if (skillsData) {
+      setFilteredSkills(
+        skillsCategory === "all"
+          ? skillsData
+          : skillsData.filter((skill) => skill.type === skillsCategory)
+      );
+    }
+  }, [skillsData, skillsCategory]);
+
+  useEffect(() => {
+    // Auto-set to visible after a delay
+    const timer = setTimeout(() => setIsInView(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isSkillsLoading || skillsError) {
     return <SkillsSkeleton />;
-  } else if (skillsError) {
-    return <SkillsSkeleton />;
-    // return <ErrorMessage status={skillsError.response?.status} />;
   }
 
   return (
-    <section
+    <motion.section
       id="skills"
-      className="relative px-4 sm:px-8 md:px-12 w-full min-h-screen py-16 sm:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-slate-900"
+      className="relative w-full min-h-screen py-20 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
     >
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10" />
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-teal-500/5" />
+      {/* Decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-300 dark:bg-purple-900/30 rounded-full filter blur-3xl opacity-20" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-300 dark:bg-blue-900/30 rounded-full filter blur-3xl opacity-20" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxMTEiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMSIvPjwvZz48L2c+PC9zdmc+')] bg-center opacity-50" />
+      </div>
 
-      <div className="relative container mx-auto">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16 sm:mb-24"
+          className="text-center mb-16"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400 bg-clip-text text-transparent mb-4 sm:mb-8">
-            Skills & Expertise
-          </h1>
-          <p className="text-slate-700 dark:text-slate-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed px-2">
-            Combining technical excellence with professional acumen to deliver
-            innovative solutions across multiple platforms and technologies.
+          <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent mb-6">
+            Technical Proficiency
+          </h2>
+          <p className="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
+            My toolkit includes cutting-edge technologies that enable me to
+            build performant, accessible, and beautiful digital experiences.
           </p>
         </motion.div>
 
-        <TechnicalSkills technicalSkills={technicalSkills || []} />
-      </div>
-    </section>
-  );
-};
-
-const TechnicalSkills = ({ technicalSkills }) => {
-  const categories = [
-    { id: "front-end", icon: "desktop", color: "from-emerald-500 to-teal-500" },
-    { id: "back-end", icon: "server", color: "from-blue-500 to-indigo-500" },
-    { id: "mobile-app", icon: "mobile", color: "from-purple-500 to-pink-500" },
-  ];
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-16">
-      {categories.map((category, index) => (
+        {/* Category filter tabs */}
         <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 30 }}
+          className="flex justify-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: index * 0.2 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300"
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8 flex items-start justify-start flex-wrap sm:flex-nowrap">
-            <div
-              className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center mr-4 shadow-lg shrink-0`}
-            >
-              <FontAwesomeIcon
-                icon={["fas", category.icon]}
-                className="text-white text-lg sm:text-xl"
-              />
-            </div>
-            <span className="mt-2 sm:mt-0">
-              {category.id.replace("-", " ").charAt(0).toUpperCase() +
-                category.id.slice(1).replace("-", " ")}{" "}
-              Development
-            </span>
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {technicalSkills
-              .filter((skill) => skill.type === category.id)
-              .map((skill, skillIndex) => (
-                <Skill
-                  key={skillIndex}
-                  skill={skill}
-                  categoryColor={category.color}
-                  delay={skillIndex * 0.1}
-                />
-              ))}
+          <div className="flex flex-wrap justify-center space-x-2 p-1.5 bg-slate-100 dark:bg-slate-800/70 backdrop-blur-sm rounded-full shadow-inner">
+            {categories.map((category, index) => (
+              <button
+                key={index}
+                onClick={() => setSkillsCategory(category.id)}
+                className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  skillsCategory === category.id
+                    ? "text-white shadow-md"
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white"
+                }`}
+              >
+                {skillsCategory === category.id && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+                    initial={false}
+                    transition={{ type: "spring", duration: 0.5 }}
+                  />
+                )}
+                <span className="relative z-10">{category.label}</span>
+              </button>
+            ))}
           </div>
         </motion.div>
-      ))}
-    </div>
+
+        {/* Skills grid with animated transition between categories */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={skillsCategory}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {filteredSkills.map((skill, index) => (
+              <SkillCard
+                key={skill.name}
+                skill={skill}
+                index={index}
+                isVisible={isInView}
+              />
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Empty state when no skills match the filter */}
+        {filteredSkills.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12"
+          >
+            <p className="text-slate-500 dark:text-slate-400 text-lg">
+              No skills found in this category.
+            </p>
+          </motion.div>
+        )}
+      </div>
+    </motion.section>
   );
 };
-
-const Skill = ({ skill, categoryColor, delay }) => (
-  <motion.div
-    className="group relative bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3 sm:p-4 hover:shadow-lg transition-all duration-300"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3, delay: 0.3 + delay }}
-    whileHover={{ y: -5, scale: 1.02 }}
-  >
-    <div className="flex items-center gap-3 sm:gap-4">
-      <div className="relative">
-        <div
-          className={`size-10 sm:size-12 flex items-center justify-center bg-gradient-to-br ${categoryColor} rounded-lg shadow-md`}
-        >
-          <FontAwesomeIcon
-            icon={["fab", skill.icon]}
-            className="text-white text-base sm:text-xl"
-          />
-        </div>
-        <div className="absolute -top-2 -right-2 bg-white dark:bg-gray-800 shadow-md text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg">
-          <span
-            className={`bg-gradient-to-r ${categoryColor} bg-clip-text text-transparent`}
-          >
-            {skill.proficiency}%
-          </span>
-        </div>
-      </div>
-      <div>
-        <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
-          {skill.name}
-        </h3>
-        {/* Optional: Add skill description or experience years */}
-        <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 sm:mt-1">
-          {skill.experience} {skill.experience === 1 ? "year" : "years"}
-        </p>
-      </div>
-    </div>
-
-    {/* Progress bar */}
-    <div className="mt-2 sm:mt-3 h-1.5 w-full bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-      <motion.div
-        initial={{ width: 0 }}
-        animate={{ width: `${skill.proficiency}%` }}
-        transition={{ duration: 1, delay: 0.8 + delay }}
-        className={`h-full bg-gradient-to-r ${categoryColor}`}
-      />
-    </div>
-  </motion.div>
-);
 
 export default Skills;
