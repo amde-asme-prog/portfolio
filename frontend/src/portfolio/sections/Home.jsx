@@ -19,9 +19,8 @@ const Home = () => {
 
   const { mutate: downloadCv, isLoading } = useDownloadCv();
   const [introText, setIntroText] = useState({
-    greeting: "",
+    introduction: "",
     name: "",
-    additional_text: "",
   });
   const [typewriterTexts, setTypewriterTexts] = useState([]);
   const [referenceIcons, setReferenceIcons] = useState([]);
@@ -33,9 +32,8 @@ const Home = () => {
   useEffect(() => {
     if (contentData) {
       setIntroText({
-        greeting: contentData.greeting || "",
         name: contentData.name || "",
-        additional_text: contentData.additional_text || "",
+        introduction: contentData.introduction || "",
       });
       setTypewriterTexts(
         contentData.typewriter_texts &&
@@ -117,7 +115,7 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              {introText.greeting + " " + introText.additional_text}{" "}
+              Hello I&apos;m{" "}
               <span className="relative inline-block">
                 <span className="relative z-10 text-blue-600 dark:text-blue-400 font-roboto">
                   {introText.name}
@@ -126,11 +124,7 @@ const Home = () => {
             </motion.div>
 
             <motion.div className="text-gray-600 dark:text-gray-400 text-base md:text-lg lg:text-xl font-serif">
-              <p className="font-mono">
-                Passionate and detail-oriented Flutter Developer with expertise
-                in building scalable, high-performance mobile applications
-                following Clean Architecture principles.
-              </p>
+              <p className="font-mono">{introText.introduction}</p>
             </motion.div>
           </div>
 

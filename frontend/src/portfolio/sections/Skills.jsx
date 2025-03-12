@@ -2,6 +2,12 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSkillsQuery } from "../../hooks/skillsQuery";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+library.add(fas, fab);
 
 // Modern 3D-style skill card design
 const SkillCard = ({ skill, index, isVisible }) => {
@@ -14,8 +20,9 @@ const SkillCard = ({ skill, index, isVisible }) => {
 
   const getLevel = (proficiency) => {
     if (proficiency < 40) return "beginner";
-    if (proficiency < 65) return "intermediate";
-    if (proficiency < 85) return "advanced";
+    if (proficiency < 60) return "intermediate";
+    if (proficiency < 80) return "advanced";
+    if (proficiency < 100) return "expert";
     return "expert";
   };
 
@@ -55,10 +62,11 @@ const SkillCard = ({ skill, index, isVisible }) => {
               className={`relative h-14 w-14 rounded-2xl bg-gradient-to-br ${levelColor} flex items-center justify-center shadow-lg mr-4 
                 transform-gpu rotate-3 group-hover:rotate-6 transition-transform duration-300`}
             >
-              <div className="absolute inset-0 rounded-2xl bg-white/20 backdrop-blur-sm" />
-              <span className="font-bold text-white text-xl">
-                {skill.name.charAt(0)}
-              </span>
+              <div className="absolute inset-0 rounded-2xl bg-white/4" />
+              <FontAwesomeIcon
+                icon={["fab", skill.icon]}
+                className=" text-white text-3xl"
+              />
             </div>
 
             <div>
@@ -89,9 +97,9 @@ const SkillCard = ({ skill, index, isVisible }) => {
             <span className="font-medium text-slate-600 dark:text-slate-400">
               {Math.round(skill.proficiency)}% Proficiency
             </span>
-            <span className="font-medium text-slate-600 dark:text-slate-400">
+            {/* <span className="font-medium text-slate-600 dark:text-slate-400">
               {Math.floor(Math.random() * 20) + 1} Projects
-            </span>
+            </span> */}
           </div>
         </div>
       </div>
@@ -170,10 +178,10 @@ const Skills = () => {
 
   // Categories for the new design
   const categories = [
-    { id: "all", label: "All Skills" },
     { id: "front-end", label: "Frontend" },
     { id: "back-end", label: "Backend" },
     { id: "mobile-app", label: "Mobile" },
+    { id: "all", label: "All Skills" },
   ];
 
   useEffect(() => {
@@ -243,7 +251,7 @@ const Skills = () => {
                   skillsCategory === category.id
                     ? "text-white shadow-md"
                     : "text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white"
-                }`}
+                } ${category.id === "all" ? "hidden lg:block" : ""}`}
               >
                 {skillsCategory === category.id && (
                   <motion.div

@@ -46,9 +46,8 @@ const About = () => {
 
   const tabs = [
     { id: "about", label: "About Me", icon: "user" },
-    { id: "skills", label: "Skills", icon: "code" },
+
     { id: "services", label: "Services", icon: "cogs" },
-    { id: "journey", label: "Journey", icon: "road" },
   ];
 
   return (
@@ -142,7 +141,7 @@ const About = () => {
                       {aboutData?.name || "Amdebirhan Asmamaw"}
                     </h2>
                     <p className="text-sm text-gray-200 line-clamp-4">
-                      {aboutData?.about_me ||
+                      {aboutData?.about_me[0] ||
                         "I'm a passionate developer dedicated to creating beautiful and functional web experiences."}
                     </p>
                   </div>
@@ -160,7 +159,7 @@ const About = () => {
               >
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 text-center w-36 backdrop-blur-sm border border-gray-100 dark:border-gray-700">
                   <span className="block text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
-                    5+
+                    2+
                   </span>
                   <span className="text-xs text-gray-600 dark:text-gray-400">
                     Years Experience
@@ -174,7 +173,7 @@ const About = () => {
               >
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 text-center w-36 backdrop-blur-sm border border-gray-100 dark:border-gray-700">
                   <span className="block text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400">
-                    50+
+                    10+
                   </span>
                   <span className="text-xs text-gray-600 dark:text-gray-400">
                     Projects Completed
@@ -215,11 +214,10 @@ const About = () => {
             {/* Content Display */}
             <div className="relative min-h-[400px]">
               {activeTab === "about" && <AboutContent aboutData={aboutData} />}
-              {activeTab === "skills" && <SkillsContent />}
+
               {activeTab === "services" && (
                 <ServicesContent services={services} />
               )}
-              {activeTab === "journey" && <JourneyContent />}
             </div>
           </motion.div>
         </div>
@@ -240,20 +238,9 @@ const AboutContent = ({ aboutData }) => {
         </h3>
 
         <div className="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed">
-          <p>
-            I'm a dedicated software developer with expertise in building modern
-            web applications using React.js and Next.js. My skill set includes
-            crafting responsive and scalable front-end designs with Tailwind CSS
-            and developing robust back-end systems with Laravel.
-          </p>
-
-          <p>
-            I also have a keen eye for design, using Figma to create intuitive
-            and user-friendly interfaces that bring ideas to life. As a
-            certified React Native developer, I develop cross-platform mobile
-            applications that meet the current world market demands.
-          </p>
-
+          {aboutData.about_me.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}{" "}
           <div className="flex flex-wrap gap-3 mt-6">
             <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs font-medium">
               React.js
@@ -262,13 +249,10 @@ const AboutContent = ({ aboutData }) => {
               Next.js
             </span>
             <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-xs font-medium">
-              Tailwind CSS
+              Flutter
             </span>
             <span className="px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-full text-xs font-medium">
               Laravel
-            </span>
-            <span className="px-3 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400 rounded-full text-xs font-medium">
-              React Native
             </span>
           </div>
         </div>
@@ -286,84 +270,7 @@ const AboutContent = ({ aboutData }) => {
               <FontAwesomeIcon icon="paper-plane" />
               Let's Connect
             </a>
-            <a
-              href="#portfolio"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-gray-300 dark:border-gray-600 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
-            >
-              <FontAwesomeIcon icon="eye" />
-              View Portfolio
-            </a>
           </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-const SkillsContent = () => {
-  const skills = [
-    { name: "React.js", level: 90, color: "from-blue-500 to-cyan-500" },
-    { name: "Next.js", level: 85, color: "from-gray-700 to-gray-900" },
-    { name: "Tailwind CSS", level: 95, color: "from-cyan-500 to-blue-500" },
-    { name: "Laravel", level: 80, color: "from-red-500 to-pink-500" },
-    { name: "React Native", level: 85, color: "from-blue-500 to-indigo-500" },
-    { name: "JavaScript", level: 90, color: "from-yellow-400 to-yellow-600" },
-    { name: "TypeScript", level: 85, color: "from-blue-600 to-blue-800" },
-    { name: "UI/UX Design", level: 75, color: "from-purple-500 to-pink-500" },
-  ];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
-      className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 backdrop-blur-sm border border-gray-100 dark:border-gray-700 relative overflow-hidden"
-    >
-      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-purple-500 to-pink-600 opacity-5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-
-      <div className="relative">
-        <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600">
-          Technical Skills
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="relative"
-            >
-              <div className="flex justify-between mb-1">
-                <span className="font-medium text-gray-700 dark:text-gray-300">
-                  {skill.name}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {skill.level}%
-                </span>
-              </div>
-              <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <motion.div
-                  className={`h-full bg-gradient-to-r ${skill.color} rounded-full`}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${skill.level}%` }}
-                  transition={{ duration: 1, delay: 0.3 + index * 0.1 }}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="mt-8 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-100 dark:border-gray-700">
-          <h4 className="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">
-            Continuous Learning
-          </h4>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            I'm constantly expanding my skill set. Currently learning advanced
-            state management patterns and WebGL for immersive web experiences.
-          </p>
         </div>
       </div>
     </motion.div>
@@ -410,90 +317,6 @@ const ServicesContent = ({ services }) => {
   );
 };
 
-const JourneyContent = () => {
-  const timeline = [
-    {
-      year: "2018",
-      title: "Started Coding Journey",
-      description:
-        "Began learning web development with HTML, CSS, and JavaScript.",
-    },
-    {
-      year: "2019",
-      title: "First Professional Role",
-      description:
-        "Joined a startup as a Junior Frontend Developer working with React.js.",
-    },
-    {
-      year: "2021",
-      title: "Fullstack Transition",
-      description:
-        "Expanded my skills to backend development with Laravel and Node.js.",
-    },
-    {
-      year: "2022",
-      title: "React Native Certification",
-      description:
-        "Became certified in React Native development for mobile applications.",
-    },
-    {
-      year: "2023",
-      title: "Lead Developer",
-      description:
-        "Promoted to Lead Developer, managing projects and mentoring junior developers.",
-    },
-    {
-      year: "Present",
-      title: "Freelance & Consulting",
-      description:
-        "Working on freelance projects while offering technical consulting services.",
-    },
-  ];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
-      className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 backdrop-blur-sm border border-gray-100 dark:border-gray-700 relative overflow-hidden"
-    >
-      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-amber-500 to-orange-600 opacity-5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-
-      <div className="relative">
-        <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">
-          My Professional Journey
-        </h3>
-
-        <div className="relative border-l-2 border-blue-500 dark:border-blue-400 ml-3 pl-8 space-y-10">
-          {timeline.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative"
-            >
-              <div className="absolute -left-[41px] w-6 h-6 rounded-full bg-blue-500 dark:bg-blue-400 border-4 border-white dark:border-gray-800 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-white"></div>
-              </div>
-              <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs font-medium mb-2">
-                {item.year}
-              </span>
-              <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-1">
-                {item.title}
-              </h4>
-              <p className="text-gray-600 dark:text-gray-400">
-                {item.description}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
 const ServiceCard = ({ service, index }) => {
   return (
     <motion.div
@@ -523,16 +346,6 @@ const ServiceCard = ({ service, index }) => {
                 {tech}
               </span>
             ))}
-          {!service.technologies && (
-            <>
-              <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded text-xs">
-                React
-              </span>
-              <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded text-xs">
-                Tailwind
-              </span>
-            </>
-          )}
         </div>
       </div>
     </motion.div>
