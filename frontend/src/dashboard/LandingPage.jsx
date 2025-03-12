@@ -16,10 +16,8 @@ const Landing = () => {
   const { mutateAsync: uploadFile, isLoading: isUploading } = useUploadFile();
 
   const [introText, setIntroText] = useState({
-    greeting: "",
-    introduction: "",
     name: "",
-    additional_text: "",
+    introduction: "",
   });
   const [typewriterTexts, setTypewriterTexts] = useState([]);
   const [referenceIcons, setReferenceIcons] = useState([]);
@@ -35,10 +33,8 @@ const Landing = () => {
   useEffect(() => {
     if (content) {
       setIntroText({
-        greeting: content.greeting || "",
         introduction: content.introduction || "",
         name: content.name || "",
-        additional_text: content.additional_text || "",
       });
       setTypewriterTexts(
         Array.isArray(content.typewriter_texts)
@@ -213,19 +209,44 @@ const Landing = () => {
       )}
 
       <div className="grid gap-8">
-        <Section title="Introduction">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {Object.keys(introText).map((key) => (
-              <InputField
-                key={key}
-                label={key.replace("_", " ")}
-                value={introText[key]}
+        <Section title="main content">
+          <div className="grid grid-cols-1 md:grid-rows-2">
+            <div>
+              <label className="block text-sm font-medium mb-1 capitalize text-gray-700 dark:text-gray-200">
+                Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                value={introText.name}
                 onChange={(e) =>
-                  setIntroText({ ...introText, [key]: e.target.value })
+                  setIntroText({ ...introText, name: e.target.value })
                 }
-                required={key === "greeting" || key === "name"}
+                required
+                className="w-full p-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 
+        dark:border-gray-600 text-gray-900 dark:text-gray-100
+        focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent
+        placeholder-gray-400 dark:placeholder-gray-500"
+                placeholder="Enter name"
               />
-            ))}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1 capitalize text-gray-700 dark:text-gray-200">
+                Introduction <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                className="w-full p-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 
+                dark:border-gray-600 text-gray-900 dark:text-gray-100
+                focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+                placeholder="Enter introduction"
+                value={introText.introduction}
+                onChange={(e) =>
+                  setIntroText({ ...introText, introduction: e.target.value })
+                }
+                required
+                rows={3}
+              />
+            </div>
           </div>
         </Section>
 
@@ -411,13 +432,13 @@ const Section = ({ title, children }) => (
   </section>
 );
 
-const InputField = ({ label, value, onChange, required }) => (
+const InputField = ({ label, value, onChange, required, multiline }) => (
   <div>
     <label className="block text-sm font-medium mb-1 capitalize text-gray-700 dark:text-gray-200">
       {label} {required && <span className="text-red-500">*</span>}
     </label>
     <input
-      type="text"
+      type={multiline ? "textarea" : "text"}
       value={value}
       onChange={onChange}
       className="w-full p-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-300 

@@ -2,7 +2,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAboutData, updateAboutData, uploadFile } from "../api/aboutApi";
 
 export const useAboutQuery = () => {
-  console.log("about query");
   return useQuery({
     queryKey: ["about"],
     queryFn: getAboutData,

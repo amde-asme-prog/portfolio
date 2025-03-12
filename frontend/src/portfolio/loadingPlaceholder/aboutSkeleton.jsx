@@ -4,6 +4,13 @@ const AboutSkeleton = () => {
       id="about"
       className="px-3 sm:px-8 md:px-12 min-h-screen w-full py-20 bg-gray-100 dark:bg-stone-900 mb-5"
     >
+      <div className="mx-auto px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {[...Array(4)].map((_, index) => (
+            <ShimmerCard key={index} />
+          ))}
+        </div>
+      </div>
       {/* Title skeleton */}
       <div className="flex justify-center py-10 pb-20">
         <div className="h-10 w-40 bg-gray-300 dark:bg-gray-700 rounded-lg animate-pulse"></div>
@@ -67,4 +74,16 @@ const AboutSkeleton = () => {
   );
 };
 
+const ShimmerCard = () => {
+  return (
+    <div className="flex items-start gap-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md animate-pulse">
+      <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+      <div className="flex-1">
+        <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2" />
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-1" />
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6" />
+      </div>
+    </div>
+  );
+};
 export default AboutSkeleton;
