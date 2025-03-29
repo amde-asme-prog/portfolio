@@ -238,9 +238,10 @@ const AboutContent = ({ aboutData }) => {
         </h3>
 
         <div className="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed">
-          {aboutData.about_me.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}{" "}
+          {aboutData.about_me &&
+            aboutData.about_me.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}{" "}
           <div className="flex flex-wrap gap-3 mt-6">
             <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs font-medium">
               React.js
