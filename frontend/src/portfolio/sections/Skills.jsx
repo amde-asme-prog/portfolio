@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
+import { use } from "react";
 
 library.add(fas, fab);
 
@@ -176,13 +177,31 @@ const Skills = () => {
     error: skillsError,
   } = useSkillsQuery();
 
-  // Categories for the new design
-  const categories = [
+  const categoriesData = [
+    { id: "all", label: "All Skills" },
     { id: "front-end", label: "Frontend" },
     { id: "back-end", label: "Backend" },
     { id: "mobile-app", label: "Mobile" },
-    { id: "all", label: "All Skills" },
   ];
+
+  const [categories, setCategories] = useState([]);
+
+  const updateCategories = () => {
+    const isMobile = window.innerWidth <= 768; // Adjust breakpoint as needed
+    const filtereCategories = isMobile
+      ? categoriesData.filter((category) => category.id !== "all")
+      : categoriesData;
+    setCategories(filtereCategories);
+    setSkillsCategory(filtereCategories[0].id);
+  };
+  useEffect(() => {
+    updateCategories(); // Set initial state
+    window.addEventListener("resize", updateCategories);
+
+    return () => {
+      window.removeEventListener("resize", updateCategories);
+    };
+  }, []);
 
   useEffect(() => {
     if (skillsData) {

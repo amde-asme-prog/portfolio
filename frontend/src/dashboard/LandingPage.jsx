@@ -61,7 +61,7 @@ const Landing = () => {
   }, [content]);
 
   const handleSave = async () => {
-    if (!introText.greeting || !introText.name) {
+    if (!introText.introduction || !introText.name) {
       handleToast(400, "Please fill in all required fields.");
       return;
     }

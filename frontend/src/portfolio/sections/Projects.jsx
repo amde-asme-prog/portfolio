@@ -208,7 +208,7 @@ const ProjectsShimmer = () => {
         <div className="mt-2 h-4 w-5/6 max-w-lg mx-auto bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
       </div>
 
-      {/* Featured Project Shimmer */}
+      {/* z Project Shimmer */}
       <div className="max-w-6xl mx-auto mb-20">
         <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl animate-pulse">
           <div className="flex flex-col lg:flex-row">
